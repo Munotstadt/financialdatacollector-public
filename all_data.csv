@@ -1,4 +1,5 @@
 ValueDate,ValueDefinitionID,AmountLC,ValueComment,SourceComments,MainID,DateAdded
+10.07.2026 17:35:01,Prices,191.500000,,Yahoo Finance,iShares Swiss Dividend ETF (CHDVD),11.07.2026 12:10:36
 10.07.2026 16:00:00,Prices,0.922300,,frankfurter.app,EUR/CHF,11.07.2026 06:48:57
 11.07.2026 00:00:00,Prices,1.540000,,RB Winterthur,Raiffeisen Winterthur Hypothek 1 Jahr Zinssatz,11.07.2026 07:18:12
 11.07.2026 00:00:00,Prices,1.690000,,RB Winterthur,Raiffeisen Winterthur Hypothek 5 Jahr Zinssatz,11.07.2026 07:18:12
@@ -11,6 +12,10 @@ ValueDate,ValueDefinitionID,AmountLC,ValueComment,SourceComments,MainID,DateAdde
 11.07.2026 07:18:08,Prices,62.800000,,CoinGecko,SOL - Solana,11.07.2026 07:18:08
 11.07.2026 11:42:34,Prices,63.000000,,CoinGecko,SOL - Solana,11.07.2026 11:42:34
 11.07.2026 11:55:42,Prices,62.910000,,CoinGecko,SOL - Solana,11.07.2026 11:55:42
+11.07.2026 12:10:29,Prices,62.870000,,CoinGecko,SOL - Solana,11.07.2026 12:10:29
 11.07.2026 23:00:00,Prices,16949.550000,,Yahoo Finance,S&P 500 Total Return,11.07.2026 11:55:48
+10.07.2026 23:28:30,Prices,16949.550000,,Yahoo Finance,S&P 500 Total Return,11.07.2026 12:10:34
 11.07.2026 23:00:00,Prices,1633.560000,,onvista,STOXX Europe 600 EUR NR,11.07.2026 11:55:49
+10.07.2026 17:50:00,Prices,1633.560000,,onvista,STOXX Europe 600 EUR NR,11.07.2026 12:10:35
 10.07.2026 16:00:00,Prices,0.806910,,frankfurter.app,USD/CHF,11.07.2026 06:48:56
+10.07.2026 19:40:36,Prices,145.920000,,Yahoo Finance,Vanguard S&P 500 UCITS ETF (VUAA),11.07.2026 12:10:36
