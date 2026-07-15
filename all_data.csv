@@ -1,9 +1,9 @@
 ValueDate,ValueDefinitionID,AmountLC,ValueComment,SourceComments,MainID,DateAdded
+15.07.2026 08:24:36,Prices,64970.000000,,CoinGecko,BTC - Bitcoin,15.07.2026 08:24:36
 10.07.2026 17:35:01,Prices,191.500000,,Yahoo Finance,iShares Swiss Dividend ETF (CHDVD),11.07.2026 12:10:36
 13.07.2026 11:16:22,Prices,191.560000,,Yahoo Finance,iShares Swiss Dividend ETF (CHDVD),13.07.2026 11:32:17
 14.07.2026 09:46:41,Prices,190.100000,,Yahoo Finance,iShares Swiss Dividend ETF (CHDVD),14.07.2026 10:10:34
-14.07.2026 17:36:30,Prices,190.900000,,Yahoo Finance,iShares Swiss Dividend ETF (CHDVD),15.07.2026 07:16:11
-14.07.2026 17:56:37,Prices,53.690000,,Yahoo Finance,iShares Core MSCI EM IMI UCITS ETF (EIMI),15.07.2026 07:52:19
+15.07.2026 08:24:35,Prices,1885.550000,,CoinGecko,ETH - Ethereum,15.07.2026 08:24:35
 10.07.2026 16:00:00,Prices,0.922300,,frankfurter.app,EUR/CHF,11.07.2026 06:48:57
 13.07.2026 16:00:00,Prices,0.925300,,frankfurter.app,EUR/CHF,14.07.2026 10:10:29
 14.07.2026 16:00:00,Prices,0.925700,,frankfurter.app,EUR/CHF,15.07.2026 07:16:06
@@ -27,8 +27,6 @@ ValueDate,ValueDefinitionID,AmountLC,ValueComment,SourceComments,MainID,DateAdde
 15.07.2026 00:00:00,Prices,1.710000,,RB Winterthur,Raiffeisen Winterthur Hypothek 5 Jahr Zinssatz,15.07.2026 07:16:09
 15.07.2026 00:00:00,Prices,2.080000,,RB Winterthur,Raiffeisen Winterthur Hypothek 10 Jahr Zinssatz,15.07.2026 07:16:09
 15.07.2026 00:00:00,Prices,2.510000,,RB Winterthur,Raiffeisen Winterthur Hypothek 15 Jahr Zinssatz,15.07.2026 07:16:09
-14.07.2026 17:31:48,Prices,37317.650000,,Yahoo Finance,SMI Total Return,15.07.2026 07:16:12
-14.07.2026 17:36:30,Prices,321.500000,,Yahoo Finance,UBS ETF (CH) SMIM (SMMCHA),15.07.2026 07:52:19
 10.07.2026 13:02:23,Prices,0.440000,,SNB,Rendite Bundesobligationen Eidgenossenschaft 10 Jahre (%),11.07.2026 07:18:11
 13.07.2026 13:00:53,Prices,0.467000,,SNB,Rendite Bundesobligationen Eidgenossenschaft 10 Jahre (%),14.07.2026 10:10:31
 14.07.2026 12:56:52,Prices,0.485000,,SNB,Rendite Bundesobligationen Eidgenossenschaft 10 Jahre (%),15.07.2026 07:16:08
@@ -44,10 +42,10 @@ ValueDate,ValueDefinitionID,AmountLC,ValueComment,SourceComments,MainID,DateAdde
 14.07.2026 10:10:28,Prices,60.900000,,CoinGecko,SOL - Solana,14.07.2026 10:10:28
 15.07.2026 07:16:04,Prices,62.940000,,CoinGecko,SOL - Solana,15.07.2026 07:16:04
 15.07.2026 07:52:18,Prices,77.860000,,CoinGecko,SOL - Solana,15.07.2026 07:52:18
+15.07.2026 08:24:35,Prices,78.340000,,CoinGecko,SOL - Solana,15.07.2026 08:24:35
 11.07.2026 23:00:00,Prices,16949.550000,,Yahoo Finance,S&P 500 Total Return,11.07.2026 11:55:48
 10.07.2026 23:28:30,Prices,16949.550000,,Yahoo Finance,S&P 500 Total Return,11.07.2026 12:10:34
 13.07.2026 23:19:12,Prices,16815.210000,,Yahoo Finance,S&P 500 Total Return,14.07.2026 10:10:33
-14.07.2026 22:56:36,Prices,16878.410000,,Yahoo Finance,S&P 500 Total Return,15.07.2026 07:16:10
 11.07.2026 23:00:00,Prices,1633.560000,,onvista,STOXX Europe 600 EUR NR,11.07.2026 11:55:49
 10.07.2026 17:50:00,Prices,1633.560000,,onvista,STOXX Europe 600 EUR NR,11.07.2026 12:10:35
 13.07.2026 11:17:15,Prices,1631.930000,,onvista,STOXX Europe 600 EUR NR,13.07.2026 11:32:17
@@ -59,4 +57,16 @@ ValueDate,ValueDefinitionID,AmountLC,ValueComment,SourceComments,MainID,DateAdde
 10.07.2026 19:40:36,Prices,145.920000,,Yahoo Finance,Vanguard S&P 500 UCITS ETF (VUAA),11.07.2026 12:10:36
 13.07.2026 11:17:16,Prices,145.840000,,Yahoo Finance,Vanguard S&P 500 UCITS ETF (VUAA),13.07.2026 11:32:18
 14.07.2026 09:55:26,Prices,145.120000,,Yahoo Finance,Vanguard S&P 500 UCITS ETF (VUAA),14.07.2026 10:10:35
-14.07.2026 18:33:18,Prices,145.720000,,Yahoo Finance,Vanguard S&P 500 UCITS ETF (VUAA),15.07.2026 07:16:12
+14.07.2026 18:33:18,Prices,145.720000,,Yahoo Finance,Vanguard S&P 500 UCITS ETF (VUAA),15.07.2026 08:24:34
+14.07.2026 17:36:30,Prices,115.520000,,Yahoo Finance,Vanguard S&P 500 UCITS ETF (VUSA),15.07.2026 08:24:34
+14.07.2026 17:31:48,Prices,37317.650000,,Yahoo Finance,SMI Total Return,15.07.2026 08:24:34
+14.07.2026 17:36:30,Prices,321.500000,,Yahoo Finance,UBS ETF (CH) SMIM (SMMCHA),15.07.2026 08:24:34
+14.07.2026 17:56:37,Prices,53.690000,,Yahoo Finance,iShares Core MSCI EM IMI UCITS ETF (EIMI),15.07.2026 08:24:34
+14.07.2026 17:36:30,Prices,190.900000,,Yahoo Finance,iShares Swiss Dividend ETF (CHDVD),15.07.2026 08:24:34
+14.07.2026 22:56:36,Prices,16878.410000,,Yahoo Finance,S&P 500 Total Return,15.07.2026 08:24:34
+14.07.2026 22:00:01,Prices,384.930000,,Yahoo Finance,Microsoft,15.07.2026 08:24:34
+14.07.2026 22:00:01,Prices,314.860000,,Yahoo Finance,Apple,15.07.2026 08:24:34
+14.07.2026 22:00:01,Prices,247.490000,,Yahoo Finance,Amazon,15.07.2026 08:24:34
+14.07.2026 22:00:00,Prices,211.800000,,Yahoo Finance,Nvidia,15.07.2026 08:24:34
+14.07.2026 22:00:01,Prices,357.330000,,Yahoo Finance,Alphabet (Google Class C),15.07.2026 08:24:34
+14.07.2026 22:00:01,Prices,136.080000,,Yahoo Finance,SpaceX,15.07.2026 08:24:34
