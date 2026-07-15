@@ -304,6 +304,42 @@
   .detail-chg.up{ color: var(--gain); background: rgba(31,138,110,0.10); }
   .detail-chg.down{ color: var(--loss); background: rgba(192,41,61,0.10); }
 
+  .detail-returns{
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 16px;
+  }
+
+  .return-box{
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 10px 14px;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    min-width: 88px;
+  }
+
+  .return-label{
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .return-value{
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 15px;
+    font-weight: 600;
+  }
+
+  .return-value.up{ color: var(--gain); }
+  .return-value.down{ color: var(--loss); }
+  .return-value.flat{ color: var(--muted); }
+
   .detail-meta{
     font-family: 'IBM Plex Mono', monospace;
     font-size: 12px;
@@ -394,7 +430,13 @@
     <h2 id="detailName">—</h2>
     <div class="detail-stats">
       <span class="detail-price" id="detailPrice">—</span>
-      <span class="detail-chg" id="detailChg">—</span>
+    </div>
+    <div class="detail-returns" id="detailReturns">
+      <div class="return-box"><span class="return-label">Vortag</span><span class="return-value" id="retDay">—</span></div>
+      <div class="return-box"><span class="return-label">Woche</span><span class="return-value" id="retWeek">—</span></div>
+      <div class="return-box"><span class="return-label">Monat</span><span class="return-value" id="retMonth">—</span></div>
+      <div class="return-box"><span class="return-label">YtD</span><span class="return-value" id="retYtd">—</span></div>
+      <div class="return-box"><span class="return-label">12 Monate</span><span class="return-value" id="ret1y">—</span></div>
     </div>
     <div class="detail-meta" id="detailMeta">—</div>
   </div>
@@ -483,6 +525,7 @@
       valueDate: header.indexOf('ValueDate'),
       amount: header.indexOf('AmountLC'),
       mainId: header.indexOf('MainID'),
+      mainNameLocal: header.indexOf('MainNameLocal'),
       source: header.indexOf('SourceComments'),
     };
     const out = [];
@@ -490,11 +533,13 @@
       const row = rows[r];
       if (row.length < header.length) continue;
       const mainId = row[idx.mainId];
+      // fall back to MainID if MainNameLocal column is missing/empty (older rows)
+      const mainNameLocal = (idx.mainNameLocal >= 0 && row[idx.mainNameLocal]) || mainId;
       const amount = parseFloat(row[idx.amount]);
       const dt = parseValueDate(row[idx.valueDate]);
       const source = row[idx.source] || '';
       if (!mainId || isNaN(amount) || !dt) continue;
-      out.push({ mainId, amount, dt, source });
+      out.push({ mainId, mainNameLocal, amount, dt, source });
     }
     return out;
   }
@@ -519,6 +564,11 @@
 
   // --- Reference dates for Week / Month / YTD comparisons ---
 
+  // --- Reference dates for Vortag / Week / Month / YtD / 12M comparisons ---
+  // All reference dates are set to END of day (23:59:59.999), not start of
+  // day, so a data point recorded later that same day (e.g. "31.12.2025
+  // 16:00:00") still correctly counts as "on or before" that calendar date.
+
   function lastFriday(fromDate) {
     // Most recent Friday strictly before fromDate (walks back day by day)
     const d = new Date(fromDate);
@@ -526,19 +576,25 @@
     while (d.getDay() !== 5) { // 5 = Friday
       d.setDate(d.getDate() - 1);
     }
-    d.setHours(0, 0, 0, 0);
+    d.setHours(23, 59, 59, 999);
     return d;
   }
 
   function lastDayOfPreviousMonth(fromDate) {
     const d = new Date(fromDate.getFullYear(), fromDate.getMonth(), 0);
-    d.setHours(0, 0, 0, 0);
+    d.setHours(23, 59, 59, 999);
     return d;
   }
 
   function lastDayOfPreviousYear(fromDate) {
     const d = new Date(fromDate.getFullYear() - 1, 11, 31);
-    d.setHours(0, 0, 0, 0);
+    d.setHours(23, 59, 59, 999);
+    return d;
+  }
+
+  function oneYearAgo(fromDate) {
+    const d = new Date(fromDate.getFullYear() - 1, fromDate.getMonth(), fromDate.getDate());
+    d.setHours(23, 59, 59, 999);
     return d;
   }
 
@@ -593,15 +649,16 @@
         const last = daily[daily.length - 1];
         const prev = daily.length >= 2 ? daily[daily.length - 2] : null;
         const change = prev ? ((last.amount - prev.amount) / prev.amount) * 100 : null;
-        securities.push({ mainId, last, change, daily });
+        const mainNameLocal = obs[obs.length - 1].mainNameLocal || mainId;
+        securities.push({ mainId, mainNameLocal, last, change, daily });
       }
 
-      securities.sort((a, b) => a.mainId.localeCompare(b.mainId));
+      securities.sort((a, b) => a.mainNameLocal.localeCompare(b.mainNameLocal));
 
       // group into categories, in the fixed CATEGORY_ORDER
       const groups = new Map();
       for (const s of securities) {
-        const cat = categorize(s.mainId);
+        const cat = categorize(s.mainNameLocal);
         if (!groups.has(cat)) groups.set(cat, []);
         groups.get(cat).push(s);
       }
@@ -646,7 +703,7 @@
 
             return `
               <tr class="${dir}" style="animation-delay:${rowIndex * 25}ms">
-                <td class="name"><a href="${href}">${s.mainId}</a></td>
+                <td class="name"><a href="${href}">${s.mainNameLocal}</a></td>
                 <td class="price">${fmtPrice(s.last.amount)}</td>
                 <td class="chg ${dir}">${changeText}</td>
                 <td class="chg ${week.dir}">${week.text}</td>
@@ -738,7 +795,7 @@
   }
 
   async function loadDetail(mainId) {
-    document.getElementById('detailName').textContent = mainId;
+    document.getElementById('detailName').textContent = mainId; // placeholder until data loads
     document.title = `${mainId} — financialdatacollector`;
 
     try {
@@ -751,17 +808,36 @@
         return;
       }
 
+      const mainNameLocal = rows[rows.length - 1].mainNameLocal || mainId;
+      document.getElementById('detailName').textContent = mainNameLocal;
+      document.title = `${mainNameLocal} — financialdatacollector`;
+
       const daily = collapseToDaily(rows);
       const last = daily[daily.length - 1];
-      const prev = daily.length >= 2 ? daily[daily.length - 2] : null;
-      const change = prev ? ((last.amount - prev.amount) / prev.amount) * 100 : null;
-      const dir = change === null ? 'flat' : change > 0 ? 'up' : change < 0 ? 'down' : 'flat';
-      const changeText = change === null ? 'n/a' : `${change > 0 ? '+' : ''}${change.toFixed(2)}%`;
 
       document.getElementById('detailPrice').textContent = fmtPrice(last.amount);
-      const chgEl = document.getElementById('detailChg');
-      chgEl.textContent = changeText;
-      chgEl.className = `detail-chg ${dir}`;
+
+      const now = new Date();
+      const prev = daily.length >= 2 ? daily[daily.length - 2] : null;
+      const refWeek = findOnOrBefore(daily, lastFriday(now));
+      const refMonth = findOnOrBefore(daily, lastDayOfPreviousMonth(now));
+      const refYtd = findOnOrBefore(daily, lastDayOfPreviousYear(now));
+      const ref1y = findOnOrBefore(daily, oneYearAgo(now));
+
+      const setReturn = (elId, reference) => {
+        const chg = pctChange(last.amount, reference);
+        const el = document.getElementById(elId);
+        const dir = chg === null ? 'flat' : chg > 0 ? 'up' : chg < 0 ? 'down' : 'flat';
+        el.textContent = chg === null ? '—' : `${chg > 0 ? '+' : ''}${chg.toFixed(2)}%`;
+        el.className = `return-value ${dir}`;
+      };
+
+      setReturn('retDay', prev);
+      setReturn('retWeek', refWeek);
+      setReturn('retMonth', refMonth);
+      setReturn('retYtd', refYtd);
+      setReturn('ret1y', ref1y);
+
       document.getElementById('detailMeta').textContent =
         `Last updated ${fmtFullDateTime(last.dt)} · Source: ${last.source || '—'} · ${rows.length} data point(s)`;
 
