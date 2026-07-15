@@ -340,6 +340,12 @@
   .return-value.down{ color: var(--loss); }
   .return-value.flat{ color: var(--muted); }
 
+  .return-abs{
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+  }
+
   .detail-meta{
     font-family: 'IBM Plex Mono', monospace;
     font-size: 12px;
@@ -432,11 +438,11 @@
       <span class="detail-price" id="detailPrice">—</span>
     </div>
     <div class="detail-returns" id="detailReturns">
-      <div class="return-box"><span class="return-label">Vortag</span><span class="return-value" id="retDay">—</span></div>
-      <div class="return-box"><span class="return-label">Woche</span><span class="return-value" id="retWeek">—</span></div>
-      <div class="return-box"><span class="return-label">Monat</span><span class="return-value" id="retMonth">—</span></div>
-      <div class="return-box"><span class="return-label">YtD</span><span class="return-value" id="retYtd">—</span></div>
-      <div class="return-box"><span class="return-label">12 Monate</span><span class="return-value" id="ret1y">—</span></div>
+      <div class="return-box"><span class="return-label">Vortag</span><span class="return-value" id="retDay">—</span><span class="return-abs" id="retDayAbs"></span></div>
+      <div class="return-box"><span class="return-label">Woche</span><span class="return-value" id="retWeek">—</span><span class="return-abs" id="retWeekAbs"></span></div>
+      <div class="return-box"><span class="return-label">Monat</span><span class="return-value" id="retMonth">—</span><span class="return-abs" id="retMonthAbs"></span></div>
+      <div class="return-box"><span class="return-label">YtD</span><span class="return-value" id="retYtd">—</span><span class="return-abs" id="retYtdAbs"></span></div>
+      <div class="return-box"><span class="return-label">12 Monate</span><span class="return-value" id="ret1y">—</span><span class="return-abs" id="ret1yAbs"></span></div>
     </div>
     <div class="detail-meta" id="detailMeta">—</div>
   </div>
@@ -827,9 +833,17 @@
       const setReturn = (elId, reference) => {
         const chg = pctChange(last.amount, reference);
         const el = document.getElementById(elId);
+        const absEl = document.getElementById(elId + 'Abs');
         const dir = chg === null ? 'flat' : chg > 0 ? 'up' : chg < 0 ? 'down' : 'flat';
         el.textContent = chg === null ? '—' : `${chg > 0 ? '+' : ''}${chg.toFixed(2)}%`;
         el.className = `return-value ${dir}`;
+
+        if (reference && absEl) {
+          const absDiff = last.amount - reference.amount;
+          absEl.textContent = `${absDiff > 0 ? '+' : ''}${fmtPrice(absDiff)}`;
+        } else if (absEl) {
+          absEl.textContent = '';
+        }
       };
 
       setReturn('retDay', prev);
@@ -882,4 +896,3 @@
 
 </body>
 </html>
-p
