@@ -337,9 +337,14 @@
     margin: 32px 0 6px;
   }
 
+  @media (max-width: 700px){
+    #boardTable thead th:nth-child(4), #boardTable tbody td:nth-child(4),
+    #boardTable thead th:nth-child(5), #boardTable tbody td:nth-child(5) { display: none; } /* hide Week/Month deltas on narrow screens, keep Δ prev./YtD/Time */
+  }
+
   @media (max-width: 560px){
     .detail-price{ font-size: 24px; }
-    thead th:nth-child(3), tbody td:nth-child(3) { display: none; } /* hide source col on small screens in history table */
+    #historyTable thead th:nth-child(2), #historyTable tbody td:nth-child(2) { display: none; } /* hide source col on small screens in history table */
   }
 </style>
 </head>
@@ -364,11 +369,14 @@
         <th>Security</th>
         <th class="num">Last</th>
         <th class="num">Δ vs. prev.</th>
+        <th class="num">Δ Week</th>
+        <th class="num">Δ Month</th>
+        <th class="num">Δ YtD</th>
         <th class="num">Time</th>
       </tr>
     </thead>
     <tbody id="boardBody">
-      <tr><td colspan="4" class="empty">Loading…</td></tr>
+      <tr><td colspan="7" class="empty">Loading…</td></tr>
     </tbody>
   </table>
 
@@ -396,7 +404,7 @@
   </div>
 
   <div class="history-title">Full price history</div>
-  <table>
+  <table id="historyTable">
     <thead>
       <tr>
         <th>Date/Time</th>
@@ -509,9 +517,49 @@
     return [...byDay.values()].sort((a, b) => a.dt - b.dt);
   }
 
+  // --- Reference dates for Week / Month / YTD comparisons ---
+
+  function lastFriday(fromDate) {
+    // Most recent Friday strictly before fromDate (walks back day by day)
+    const d = new Date(fromDate);
+    d.setDate(d.getDate() - 1);
+    while (d.getDay() !== 5) { // 5 = Friday
+      d.setDate(d.getDate() - 1);
+    }
+    d.setHours(0, 0, 0, 0);
+    return d;
+  }
+
+  function lastDayOfPreviousMonth(fromDate) {
+    const d = new Date(fromDate.getFullYear(), fromDate.getMonth(), 0);
+    d.setHours(0, 0, 0, 0);
+    return d;
+  }
+
+  function lastDayOfPreviousYear(fromDate) {
+    const d = new Date(fromDate.getFullYear() - 1, 11, 31);
+    d.setHours(0, 0, 0, 0);
+    return d;
+  }
+
+  function findOnOrBefore(dailyAsc, targetDate) {
+    // dailyAsc: array sorted ascending by dt. Returns the latest entry with dt <= targetDate, or null.
+    let result = null;
+    for (const o of dailyAsc) {
+      if (o.dt <= targetDate) result = o;
+      else break;
+    }
+    return result;
+  }
+
+  function pctChange(current, reference) {
+    if (!reference || !reference.amount) return null;
+    return ((current - reference.amount) / reference.amount) * 100;
+  }
+
   // Category order controls the section order on the board.
   // Add new keyword rules here as new collector types are introduced.
-  const CATEGORY_ORDER = ['Indizes', 'ETFs', 'FX', 'Zinssätze', 'Krypto', 'Andere'];
+  const CATEGORY_ORDER = ['Indizes', 'ETFs', 'Aktien', 'FX', 'Zinssätze', 'Krypto'];
 
   function categorize(mainId) {
     const id = mainId.toLowerCase();
@@ -519,8 +567,8 @@
     if (id.includes('etf')) return 'ETFs';
     if (/^[a-z]{3}\/[a-z]{3}$/i.test(mainId.trim())) return 'FX';
     if (id.includes('hypothek') || id.includes('rendite') || id.includes('zinssatz')) return 'Zinssätze';
-    if (id.includes('solana') || id.includes('bitcoin') || id.includes('btc') || id.includes('sol -')) return 'Krypto';
-    return 'Andere';
+    if (id.includes('solana') || id.includes('bitcoin') || id.includes('btc') || id.includes('ethereum') || id.includes('sol -')) return 'Krypto';
+    return 'Aktien';
   }
 
   // ---------------- BOARD VIEW ----------------
@@ -545,7 +593,7 @@
         const last = daily[daily.length - 1];
         const prev = daily.length >= 2 ? daily[daily.length - 2] : null;
         const change = prev ? ((last.amount - prev.amount) / prev.amount) * 100 : null;
-        securities.push({ mainId, last, change });
+        securities.push({ mainId, last, change, daily });
       }
 
       securities.sort((a, b) => a.mainId.localeCompare(b.mainId));
@@ -559,24 +607,51 @@
       }
 
       if (securities.length === 0) {
-        body.innerHTML = '<tr><td colspan="4" class="empty">No data found.</td></tr>';
+        body.innerHTML = '<tr><td colspan="7" class="empty">No data found.</td></tr>';
       } else {
+        const now = new Date();
+        const refWeek = lastFriday(now);
+        const refMonth = lastDayOfPreviousMonth(now);
+        const refYtd = lastDayOfPreviousYear(now);
+
         let html = '';
         let rowIndex = 0;
         for (const cat of CATEGORY_ORDER) {
           const items = groups.get(cat);
           if (!items || items.length === 0) continue;
-          html += `<tr class="section-row"><td colspan="4">${cat}</td></tr>`;
+          html += `<tr class="section-row"><td colspan="7">${cat}</td></tr>`;
           html += items.map((s) => {
             const dir = s.change === null ? 'flat' : s.change > 0 ? 'up' : s.change < 0 ? 'down' : 'flat';
             const changeText = s.change === null ? '—' : `${s.change > 0 ? '+' : ''}${s.change.toFixed(2)}%`;
             const href = `?security=${encodeURIComponent(s.mainId)}`;
             rowIndex++;
+
+            const weekRef = findOnOrBefore(s.daily, refWeek);
+            const monthRef = findOnOrBefore(s.daily, refMonth);
+            const ytdRef = findOnOrBefore(s.daily, refYtd);
+            const weekChg = pctChange(s.last.amount, weekRef);
+            const monthChg = pctChange(s.last.amount, monthRef);
+            const ytdChg = pctChange(s.last.amount, ytdRef);
+
+            const fmtChg = (v) => {
+              if (v === null) return { text: '—', dir: 'flat' };
+              return {
+                text: `${v > 0 ? '+' : ''}${v.toFixed(2)}%`,
+                dir: v > 0 ? 'up' : v < 0 ? 'down' : 'flat',
+              };
+            };
+            const week = fmtChg(weekChg);
+            const month = fmtChg(monthChg);
+            const ytd = fmtChg(ytdChg);
+
             return `
               <tr class="${dir}" style="animation-delay:${rowIndex * 25}ms">
                 <td class="name"><a href="${href}">${s.mainId}</a></td>
                 <td class="price">${fmtPrice(s.last.amount)}</td>
                 <td class="chg ${dir}">${changeText}</td>
+                <td class="chg ${week.dir}">${week.text}</td>
+                <td class="chg ${month.dir}">${month.text}</td>
+                <td class="chg ${ytd.dir}">${ytd.text}</td>
                 <td class="time">${fmtTime(s.last.dt)}</td>
               </tr>`;
           }).join('');
@@ -591,7 +666,7 @@
     } catch (err) {
       dot.classList.add('stale');
       statusText.textContent = 'connection failed';
-      body.innerHTML = `<tr><td colspan="4" class="error">Could not load data: ${err.message}</td></tr>`;
+      body.innerHTML = `<tr><td colspan="7" class="error">Could not load data: ${err.message}</td></tr>`;
     }
   }
 
