@@ -2,9 +2,11 @@ ValueDate,ValueDefinitionID,AmountLC,ValueComment,SourceComments,MainID,MainName
 15.07.2026 10:16:46,Prices,64538.000000,Low,CoinGecko,18789194,BTC - Bitcoin,15.07.2026 10:16:46
 15.07.2026 17:56:36,Prices,65371.000000,High,CoinGecko,18789194,BTC - Bitcoin,15.07.2026 17:56:36
 15.07.2026 23:52:26,Prices,64767.000000,Last,CoinGecko,18789194,BTC - Bitcoin,15.07.2026 23:52:26
+16.07.2026 00:52:51,Prices,64869.000000,,CoinGecko,18789194,BTC - Bitcoin,16.07.2026 00:52:51
 15.07.2026 09:24:00,Prices,1869.310000,Low,CoinGecko,40149561,ETH - Ethereum,15.07.2026 09:24:00
 15.07.2026 17:56:35,Prices,1931.600000,High,CoinGecko,40149561,ETH - Ethereum,15.07.2026 17:56:35
 15.07.2026 23:52:26,Prices,1919.350000,Last,CoinGecko,40149561,ETH - Ethereum,15.07.2026 23:52:26
+16.07.2026 00:52:50,Prices,1923.510000,,CoinGecko,40149561,ETH - Ethereum,16.07.2026 00:52:50
 11.07.2026 00:00:00,Prices,1.540000,,RB Winterthur,Raiffeisen Winterthur Hypothek 1 Jahr Zinssatz,Raiffeisen Winterthur Hypothek 1 Jahr Zinssatz,11.07.2026 07:18:12
 11.07.2026 00:00:00,Prices,1.690000,,RB Winterthur,Raiffeisen Winterthur Hypothek 5 Jahr Zinssatz,Raiffeisen Winterthur Hypothek 5 Jahr Zinssatz,11.07.2026 07:18:12
 11.07.2026 00:00:00,Prices,2.060000,,RB Winterthur,Raiffeisen Winterthur Hypothek 10 Jahr Zinssatz,Raiffeisen Winterthur Hypothek 10 Jahr Zinssatz,11.07.2026 07:18:12
@@ -25,6 +27,10 @@ ValueDate,ValueDefinitionID,AmountLC,ValueComment,SourceComments,MainID,MainName
 15.07.2026 00:00:00,Prices,1.710000,,RB Winterthur,Raiffeisen Winterthur Hypothek 5 Jahr Zinssatz,Raiffeisen Winterthur Hypothek 5 Jahr Zinssatz,15.07.2026 07:16:09
 15.07.2026 00:00:00,Prices,2.080000,,RB Winterthur,Raiffeisen Winterthur Hypothek 10 Jahr Zinssatz,Raiffeisen Winterthur Hypothek 10 Jahr Zinssatz,15.07.2026 07:16:09
 15.07.2026 00:00:00,Prices,2.510000,,RB Winterthur,Raiffeisen Winterthur Hypothek 15 Jahr Zinssatz,Raiffeisen Winterthur Hypothek 15 Jahr Zinssatz,15.07.2026 07:16:09
+16.07.2026 00:00:00,Prices,1.560000,,RB Winterthur,Raiffeisen Winterthur Hypothek 1 Jahr Zinssatz,Raiffeisen Winterthur Hypothek 1 Jahr Zinssatz,16.07.2026 00:52:55
+16.07.2026 00:00:00,Prices,1.720000,,RB Winterthur,Raiffeisen Winterthur Hypothek 5 Jahr Zinssatz,Raiffeisen Winterthur Hypothek 5 Jahr Zinssatz,16.07.2026 00:52:55
+16.07.2026 00:00:00,Prices,2.090000,,RB Winterthur,Raiffeisen Winterthur Hypothek 10 Jahr Zinssatz,Raiffeisen Winterthur Hypothek 10 Jahr Zinssatz,16.07.2026 00:52:55
+16.07.2026 00:00:00,Prices,2.510000,,RB Winterthur,Raiffeisen Winterthur Hypothek 15 Jahr Zinssatz,Raiffeisen Winterthur Hypothek 15 Jahr Zinssatz,16.07.2026 00:52:55
 10.07.2026 13:02:23,Prices,0.440000,,SNB,Rendite Bundesobligationen Eidgenossenschaft 10 Jahre (%),Rendite Bundesobligationen Eidgenossenschaft 10 Jahre (%),11.07.2026 07:18:11
 13.07.2026 13:00:53,Prices,0.467000,,SNB,Rendite Bundesobligationen Eidgenossenschaft 10 Jahre (%),Rendite Bundesobligationen Eidgenossenschaft 10 Jahre (%),14.07.2026 10:10:31
 14.07.2026 12:56:52,Prices,0.485000,,SNB,Rendite Bundesobligationen Eidgenossenschaft 10 Jahre (%),Rendite Bundesobligationen Eidgenossenschaft 10 Jahre (%),15.07.2026 07:16:08
@@ -32,6 +38,7 @@ ValueDate,ValueDefinitionID,AmountLC,ValueComment,SourceComments,MainID,MainName
 15.07.2026 15:48:20,Prices,78.370000,High,CoinGecko,22000,SOL - Solana,15.07.2026 15:48:20
 15.07.2026 22:03:27,Prices,77.140000,Low,CoinGecko,22000,SOL - Solana,15.07.2026 22:03:27
 15.07.2026 23:52:25,Prices,77.300000,Last,CoinGecko,22000,SOL - Solana,15.07.2026 23:52:25
+16.07.2026 00:52:50,Prices,77.500000,,CoinGecko,22000,SOL - Solana,16.07.2026 00:52:50
 10.07.2026 17:50:00,Prices,1633.560000,,onvista,31008,STOXX Europe 600 EUR NR,11.07.2026 12:10:35
 11.07.2026 23:00:00,Prices,1633.560000,,onvista,31008,STOXX Europe 600 EUR NR,11.07.2026 11:55:49
 13.07.2026 11:17:15,Prices,1631.930000,,onvista,31008,STOXX Europe 600 EUR NR,13.07.2026 11:32:17
@@ -154,3 +161,5 @@ ValueDate,ValueDefinitionID,AmountLC,ValueComment,SourceComments,MainID,MainName
 14.07.2026 22:00:00,Prices,211.800000,,Yahoo Finance,994529,Nvidia,15.07.2026 08:24:34
 15.07.2026 17:56:30,Prices,208.540000,Low,Yahoo Finance,994529,Nvidia,15.07.2026 17:56:34
 15.07.2026 22:00:00,Prices,212.500000,"Last, High",Yahoo Finance,994529,Nvidia,15.07.2026 22:03:26
+16.07.2026 00:52:47,Prices,0.923000,,Yahoo Finance,897789,EUR/CHF,16.07.2026 00:52:49
+16.07.2026 00:52:46,Prices,0.804900,,Yahoo Finance,275000,USD/CHF,16.07.2026 00:52:49
