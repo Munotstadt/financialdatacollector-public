@@ -1,10 +1,10 @@
 ValueDate,ValueDefinitionID,AmountLC,ValueComment,SourceComments,MainID,MainNameLocal,DateAdded
 15.07.2026 10:16:46,Prices,64538.000000,Low,CoinGecko,18789194,BTC - Bitcoin,15.07.2026 10:16:46
 15.07.2026 17:56:36,Prices,65371.000000,High,CoinGecko,18789194,BTC - Bitcoin,15.07.2026 17:56:36
-15.07.2026 22:03:28,Prices,64899.000000,Last,CoinGecko,18789194,BTC - Bitcoin,15.07.2026 22:03:28
+15.07.2026 22:52:28,Prices,64935.000000,Last,CoinGecko,18789194,BTC - Bitcoin,15.07.2026 22:52:28
 15.07.2026 09:24:00,Prices,1869.310000,Low,CoinGecko,40149561,ETH - Ethereum,15.07.2026 09:24:00
 15.07.2026 17:56:35,Prices,1931.600000,High,CoinGecko,40149561,ETH - Ethereum,15.07.2026 17:56:35
-15.07.2026 22:03:27,Prices,1921.670000,Last,CoinGecko,40149561,ETH - Ethereum,15.07.2026 22:03:27
+15.07.2026 22:52:27,Prices,1923.450000,Last,CoinGecko,40149561,ETH - Ethereum,15.07.2026 22:52:27
 11.07.2026 00:00:00,Prices,1.540000,,RB Winterthur,Raiffeisen Winterthur Hypothek 1 Jahr Zinssatz,Raiffeisen Winterthur Hypothek 1 Jahr Zinssatz,11.07.2026 07:18:12
 11.07.2026 00:00:00,Prices,1.690000,,RB Winterthur,Raiffeisen Winterthur Hypothek 5 Jahr Zinssatz,Raiffeisen Winterthur Hypothek 5 Jahr Zinssatz,11.07.2026 07:18:12
 11.07.2026 00:00:00,Prices,2.060000,,RB Winterthur,Raiffeisen Winterthur Hypothek 10 Jahr Zinssatz,Raiffeisen Winterthur Hypothek 10 Jahr Zinssatz,11.07.2026 07:18:12
@@ -31,6 +31,7 @@ ValueDate,ValueDefinitionID,AmountLC,ValueComment,SourceComments,MainID,MainName
 15.07.2026 13:00:03,Prices,0.473000,,SNB,Rendite Bundesobligationen Eidgenossenschaft 10 Jahre (%),Rendite Bundesobligationen Eidgenossenschaft 10 Jahre (%),15.07.2026 13:06:41
 15.07.2026 15:48:20,Prices,78.370000,High,CoinGecko,22000,SOL - Solana,15.07.2026 15:48:20
 15.07.2026 22:03:27,Prices,77.140000,"Last, Low",CoinGecko,22000,SOL - Solana,15.07.2026 22:03:27
+15.07.2026 22:52:27,Prices,77.390000,,CoinGecko,22000,SOL - Solana,15.07.2026 22:52:27
 10.07.2026 17:50:00,Prices,1633.560000,,onvista,31008,STOXX Europe 600 EUR NR,11.07.2026 12:10:35
 11.07.2026 23:00:00,Prices,1633.560000,,onvista,31008,STOXX Europe 600 EUR NR,11.07.2026 11:55:49
 13.07.2026 11:17:15,Prices,1631.930000,,onvista,31008,STOXX Europe 600 EUR NR,13.07.2026 11:32:17
@@ -61,7 +62,8 @@ ValueDate,ValueDefinitionID,AmountLC,ValueComment,SourceComments,MainID,MainName
 13.07.2026 23:19:12,Prices,16815.210000,,Yahoo Finance,12007,S&P 500 Total Return,14.07.2026 10:10:33
 14.07.2026 22:56:36,Prices,16878.410000,,Yahoo Finance,12007,S&P 500 Total Return,15.07.2026 12:25:24
 15.07.2026 17:56:27,Prices,16893.430000,Low,Yahoo Finance,12007,S&P 500 Total Return,15.07.2026 17:56:34
-15.07.2026 22:03:17,Prices,16944.150000,"Last, High",Yahoo Finance,12007,S&P 500 Total Return,15.07.2026 22:03:26
+15.07.2026 22:03:17,Prices,16944.150000,High,Yahoo Finance,12007,S&P 500 Total Return,15.07.2026 22:03:26
+15.07.2026 22:20:02,Prices,16944.070000,Last,Yahoo Finance,12007,S&P 500 Total Return,15.07.2026 22:52:26
 15.07.2026 15:33:15,Prices,577.600000,Low,Yahoo Finance,1384101,Lonza Group AG,15.07.2026 15:48:20
 15.07.2026 17:31:23,Prices,581.400000,"Last, High",Yahoo Finance,1384101,Lonza Group AG,15.07.2026 17:56:34
 14.07.2026 22:00:01,Prices,136.080000,,Yahoo Finance,156888148,SpaceX,15.07.2026 08:24:34
@@ -123,7 +125,8 @@ ValueDate,ValueDefinitionID,AmountLC,ValueComment,SourceComments,MainID,MainName
 13.07.2026 16:00:00,Prices,0.809960,,frankfurter.app,275000,USD/CHF,14.07.2026 10:10:28
 14.07.2026 16:00:00,Prices,0.811660,,frankfurter.app,275000,USD/CHF,15.07.2026 12:25:26
 15.07.2026 14:39:52,Prices,0.810200,High,Yahoo Finance,275000,USD/CHF,15.07.2026 14:39:53
-15.07.2026 22:03:23,Prices,0.805100,"Last, Low",Yahoo Finance,275000,USD/CHF,15.07.2026 22:03:26
+15.07.2026 22:03:23,Prices,0.805100,Low,Yahoo Finance,275000,USD/CHF,15.07.2026 22:03:26
+15.07.2026 22:52:13,Prices,0.805200,Last,Yahoo Finance,275000,USD/CHF,15.07.2026 22:52:26
 14.07.2026 22:00:01,Prices,357.330000,,Yahoo Finance,29798540,Alphabet (Google Class C),15.07.2026 08:24:34
 15.07.2026 15:48:16,Prices,362.195000,Low,Yahoo Finance,29798540,Alphabet (Google Class C),15.07.2026 15:48:20
 15.07.2026 22:00:01,Prices,370.210000,"Last, High",Yahoo Finance,29798540,Alphabet (Google Class C),15.07.2026 22:03:26
@@ -141,7 +144,7 @@ ValueDate,ValueDefinitionID,AmountLC,ValueComment,SourceComments,MainID,MainName
 14.07.2026 16:00:00,Prices,0.925700,,frankfurter.app,897789,EUR/CHF,15.07.2026 07:16:06
 15.07.2026 14:39:52,Prices,0.925300,High,Yahoo Finance,897789,EUR/CHF,15.07.2026 14:39:53
 15.07.2026 17:56:33,Prices,0.922500,Low,Yahoo Finance,897789,EUR/CHF,15.07.2026 17:56:34
-15.07.2026 22:03:24,Prices,0.922900,Last,Yahoo Finance,897789,EUR/CHF,15.07.2026 22:03:26
+15.07.2026 22:52:24,Prices,0.923100,Last,Yahoo Finance,897789,EUR/CHF,15.07.2026 22:52:26
 14.07.2026 22:00:01,Prices,314.860000,,Yahoo Finance,908440,Apple,15.07.2026 08:24:34
 15.07.2026 15:48:16,Prices,320.560000,Low,Yahoo Finance,908440,Apple,15.07.2026 15:48:20
 15.07.2026 22:00:00,Prices,327.500000,"Last, High",Yahoo Finance,908440,Apple,15.07.2026 22:03:26
