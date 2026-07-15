@@ -1,11 +1,13 @@
 ValueDate,ValueDefinitionID,AmountLC,ValueComment,SourceComments,MainID,DateAdded
 15.07.2026 08:24:36,Prices,64970.000000,,CoinGecko,BTC - Bitcoin,15.07.2026 08:24:36
 15.07.2026 09:24:01,Prices,64660.000000,,CoinGecko,BTC - Bitcoin,15.07.2026 09:24:01
+15.07.2026 10:16:46,Prices,64538.000000,,CoinGecko,BTC - Bitcoin,15.07.2026 10:16:46
 10.07.2026 17:35:01,Prices,191.500000,,Yahoo Finance,iShares Swiss Dividend ETF (CHDVD),11.07.2026 12:10:36
 13.07.2026 11:16:22,Prices,191.560000,,Yahoo Finance,iShares Swiss Dividend ETF (CHDVD),13.07.2026 11:32:17
 14.07.2026 09:46:41,Prices,190.100000,,Yahoo Finance,iShares Swiss Dividend ETF (CHDVD),14.07.2026 10:10:34
 15.07.2026 08:24:35,Prices,1885.550000,,CoinGecko,ETH - Ethereum,15.07.2026 08:24:35
 15.07.2026 09:24:00,Prices,1869.310000,,CoinGecko,ETH - Ethereum,15.07.2026 09:24:00
+15.07.2026 10:16:46,Prices,1872.500000,,CoinGecko,ETH - Ethereum,15.07.2026 10:16:46
 10.07.2026 16:00:00,Prices,0.922300,,frankfurter.app,EUR/CHF,11.07.2026 06:48:57
 13.07.2026 16:00:00,Prices,0.925300,,frankfurter.app,EUR/CHF,14.07.2026 10:10:29
 14.07.2026 16:00:00,Prices,0.925700,,frankfurter.app,EUR/CHF,15.07.2026 07:16:06
@@ -35,6 +37,7 @@ ValueDate,ValueDefinitionID,AmountLC,ValueComment,SourceComments,MainID,DateAdde
 15.07.2026 07:52:18,Prices,77.860000,,CoinGecko,SOL - Solana,15.07.2026 07:52:18
 15.07.2026 08:24:35,Prices,78.340000,,CoinGecko,SOL - Solana,15.07.2026 08:24:35
 15.07.2026 09:24:00,Prices,77.850000,,CoinGecko,SOL - Solana,15.07.2026 09:24:00
+15.07.2026 10:16:45,Prices,77.350000,,CoinGecko,SOL - Solana,15.07.2026 10:16:45
 11.07.2026 23:00:00,Prices,16949.550000,,Yahoo Finance,S&P 500 Total Return,11.07.2026 11:55:48
 10.07.2026 23:28:30,Prices,16949.550000,,Yahoo Finance,S&P 500 Total Return,11.07.2026 12:10:34
 13.07.2026 23:19:12,Prices,16815.210000,,Yahoo Finance,S&P 500 Total Return,14.07.2026 10:10:33
@@ -44,6 +47,7 @@ ValueDate,ValueDefinitionID,AmountLC,ValueComment,SourceComments,MainID,DateAdde
 14.07.2026 09:55:30,Prices,1621.840000,,onvista,STOXX Europe 600 EUR NR,14.07.2026 10:10:34
 14.07.2026 17:50:00,Prices,1636.130000,,onvista,STOXX Europe 600 EUR NR,15.07.2026 07:16:11
 15.07.2026 09:09:00,Prices,1633.400000,,onvista,STOXX Europe 600 EUR NR,15.07.2026 09:24:07
+15.07.2026 10:01:45,Prices,1633.860000,,onvista,STOXX Europe 600 EUR NR,15.07.2026 10:16:51
 10.07.2026 16:00:00,Prices,0.806910,,frankfurter.app,USD/CHF,11.07.2026 06:48:56
 13.07.2026 16:00:00,Prices,0.809960,,frankfurter.app,USD/CHF,14.07.2026 10:10:28
 14.07.2026 16:00:00,Prices,0.811660,,frankfurter.app,USD/CHF,15.07.2026 07:16:05
@@ -78,3 +82,17 @@ ValueDate,ValueDefinitionID,AmountLC,ValueComment,SourceComments,MainID,DateAdde
 15.07.2026 09:08:43,Prices,580.800000,,Yahoo Finance,Lonza Group AG,15.07.2026 09:23:59
 15.07.2026 09:08:32,Prices,82.700000,,Yahoo Finance,Nestlé SA,15.07.2026 09:23:59
 15.07.2026 09:08:33,Prices,81.430000,,Yahoo Finance,iShares Core MSCI Japan IMI UCITS ETF (SJPA/IJPA),15.07.2026 09:23:59
+15.07.2026 10:01:24,Prices,145.960000,,Yahoo Finance,Vanguard S&P 500 UCITS ETF (VUAA),15.07.2026 10:16:45
+15.07.2026 10:01:41,Prices,37231.720000,,Yahoo Finance,SMI Total Return,15.07.2026 10:16:45
+15.07.2026 09:53:24,Prices,320.850000,,Yahoo Finance,UBS ETF (CH) SMIM (SMMCHA),15.07.2026 10:16:45
+15.07.2026 10:00:31,Prices,54.040000,,Yahoo Finance,iShares Core MSCI EM IMI UCITS ETF (EIMI),15.07.2026 10:16:45
+15.07.2026 10:01:35,Prices,189.580000,,Yahoo Finance,iShares Swiss Dividend ETF (CHDVD),15.07.2026 10:16:45
+15.07.2026 10:00:14,Prices,118.690000,,Yahoo Finance,Xtrackers S&P 500 Equal Weight UCITS ETF (XDEW),15.07.2026 10:16:45
+15.07.2026 09:43:11,Prices,128.540000,,Yahoo Finance,UBS Gold ETF (AUUSI),15.07.2026 10:16:45
+15.07.2026 09:43:09,Prices,362.200000,,Yahoo Finance,iShares MSCI EMU Small Cap ETF (CSEMUS),15.07.2026 10:16:45
+15.07.2026 09:28:03,Prices,57.260000,,Yahoo Finance,VanEck S&P Global Mining UCITS ETF (GDIG),15.07.2026 10:16:45
+15.07.2026 09:59:59,Prices,20.890000,,Yahoo Finance,Vonovia,15.07.2026 10:16:45
+15.07.2026 10:01:32,Prices,43.480000,,Yahoo Finance,UBS Group AG,15.07.2026 10:16:45
+15.07.2026 10:01:36,Prices,578.800000,,Yahoo Finance,Lonza Group AG,15.07.2026 10:16:45
+15.07.2026 10:01:17,Prices,82.870000,,Yahoo Finance,Nestlé SA,15.07.2026 10:16:45
+15.07.2026 10:00:18,Prices,81.170000,,Yahoo Finance,iShares Core MSCI Japan IMI UCITS ETF (SJPA/IJPA),15.07.2026 10:16:45
