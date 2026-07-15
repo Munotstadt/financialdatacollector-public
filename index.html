@@ -148,6 +148,27 @@
     padding-left: 12px !important;
   }
 
+  tbody tr.section-row{
+    opacity: 1;
+    transform: none;
+    animation: none;
+    background: transparent;
+  }
+
+  .section-row td{
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: transparent;
+    padding: 20px 10px 6px !important;
+    border-bottom: 1px solid var(--line);
+    font-weight: 600;
+  }
+
+  .section-row:first-child td{ padding-top: 8px !important; }
+
   tr.up .name{ border-left-color: var(--gain); }
   tr.down .name{ border-left-color: var(--loss); }
 
@@ -488,6 +509,20 @@
     return [...byDay.values()].sort((a, b) => a.dt - b.dt);
   }
 
+  // Category order controls the section order on the board.
+  // Add new keyword rules here as new collector types are introduced.
+  const CATEGORY_ORDER = ['Indizes', 'ETFs', 'FX', 'Zinssätze', 'Krypto', 'Andere'];
+
+  function categorize(mainId) {
+    const id = mainId.toLowerCase();
+    if (id.includes('total return') || id.includes(' tr') || id.includes('nr')) return 'Indizes';
+    if (id.includes('etf')) return 'ETFs';
+    if (/^[a-z]{3}\/[a-z]{3}$/i.test(mainId.trim())) return 'FX';
+    if (id.includes('hypothek') || id.includes('rendite') || id.includes('zinssatz')) return 'Zinssätze';
+    if (id.includes('solana') || id.includes('bitcoin') || id.includes('btc') || id.includes('sol -')) return 'Krypto';
+    return 'Andere';
+  }
+
   // ---------------- BOARD VIEW ----------------
 
   async function loadBoard() {
@@ -515,21 +550,38 @@
 
       securities.sort((a, b) => a.mainId.localeCompare(b.mainId));
 
+      // group into categories, in the fixed CATEGORY_ORDER
+      const groups = new Map();
+      for (const s of securities) {
+        const cat = categorize(s.mainId);
+        if (!groups.has(cat)) groups.set(cat, []);
+        groups.get(cat).push(s);
+      }
+
       if (securities.length === 0) {
         body.innerHTML = '<tr><td colspan="4" class="empty">No data found.</td></tr>';
       } else {
-        body.innerHTML = securities.map((s, i) => {
-          const dir = s.change === null ? 'flat' : s.change > 0 ? 'up' : s.change < 0 ? 'down' : 'flat';
-          const changeText = s.change === null ? '—' : `${s.change > 0 ? '+' : ''}${s.change.toFixed(2)}%`;
-          const href = `?security=${encodeURIComponent(s.mainId)}`;
-          return `
-            <tr class="${dir}" style="animation-delay:${i * 35}ms">
-              <td class="name"><a href="${href}">${s.mainId}</a></td>
-              <td class="price">${fmtPrice(s.last.amount)}</td>
-              <td class="chg ${dir}">${changeText}</td>
-              <td class="time">${fmtTime(s.last.dt)}</td>
-            </tr>`;
-        }).join('');
+        let html = '';
+        let rowIndex = 0;
+        for (const cat of CATEGORY_ORDER) {
+          const items = groups.get(cat);
+          if (!items || items.length === 0) continue;
+          html += `<tr class="section-row"><td colspan="4">${cat}</td></tr>`;
+          html += items.map((s) => {
+            const dir = s.change === null ? 'flat' : s.change > 0 ? 'up' : s.change < 0 ? 'down' : 'flat';
+            const changeText = s.change === null ? '—' : `${s.change > 0 ? '+' : ''}${s.change.toFixed(2)}%`;
+            const href = `?security=${encodeURIComponent(s.mainId)}`;
+            rowIndex++;
+            return `
+              <tr class="${dir}" style="animation-delay:${rowIndex * 25}ms">
+                <td class="name"><a href="${href}">${s.mainId}</a></td>
+                <td class="price">${fmtPrice(s.last.amount)}</td>
+                <td class="chg ${dir}">${changeText}</td>
+                <td class="time">${fmtTime(s.last.dt)}</td>
+              </tr>`;
+          }).join('');
+        }
+        body.innerHTML = html;
       }
 
       dot.classList.remove('stale');
