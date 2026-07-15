@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>financialdatacollector — Board</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0E1116;
+    --panel: #171B22;
+    --line: #262B34;
+    --text: #E7EAEE;
+    --muted: #838C99;
+    --accent: #E30613;     /* Swiss red, used sparingly */
+    --gain: #3FA796;
+    --loss: #D1495B;
+    --radius: 3px;
+  }
+
+  * { box-sizing: border-box; }
+
+  body{
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', system-ui, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 48px 20px 80px;
+  }
+
+  .board{
+    width: 100%;
+    max-width: 880px;
+  }
+
+  .eyebrow{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 18px;
+    margin-bottom: 0;
+    border-bottom: 2px solid var(--accent);
+  }
+
+  .brand{
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+  }
+
+  .brand h1{
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    letter-spacing: 0.02em;
+    margin: 0;
+    text-transform: uppercase;
+  }
+
+  .brand span.sub{
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  .status{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  .dot{
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--gain);
+    box-shadow: 0 0 0 3px rgba(63,167,150,0.15);
+    animation: pulse 2.4s ease-in-out infinite;
+  }
+
+  .dot.stale{ background: var(--muted); box-shadow: none; animation: none; }
+
+  @media (prefers-reduced-motion: reduce){
+    .dot{ animation: none; }
+  }
+
+  @keyframes pulse{
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.45; }
+  }
+
+  table{
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 4px;
+  }
+
+  thead th{
+    text-align: left;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 500;
+    padding: 14px 10px 10px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  thead th.num{ text-align: right; }
+
+  tbody td{
+    padding: 14px 10px;
+    border-bottom: 1px solid var(--line);
+    font-size: 14px;
+    vertical-align: middle;
+  }
+
+  tbody tr{
+    background: var(--panel);
+    opacity: 0;
+    transform: translateY(4px);
+    animation: reveal 0.4s ease forwards;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    tbody tr{ animation: none; opacity: 1; transform: none; }
+  }
+
+  @keyframes reveal{
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .name{
+    font-weight: 500;
+    border-left: 3px solid transparent;
+    padding-left: 12px !important;
+  }
+
+  tr.up .name{ border-left-color: var(--gain); }
+  tr.down .name{ border-left-color: var(--loss); }
+
+  .price, .time{
+    font-family: 'IBM Plex Mono', monospace;
+    text-align: right;
+    color: var(--text);
+    white-space: nowrap;
+  }
+
+  .time{ color: var(--muted); font-size: 13px; }
+
+  .chg{
+    font-family: 'IBM Plex Mono', monospace;
+    text-align: right;
+    white-space: nowrap;
+    font-size: 13px;
+  }
+
+  .chg.up{ color: var(--gain); }
+  .chg.down{ color: var(--loss); }
+  .chg.flat{ color: var(--muted); }
+
+  .footer{
+    margin-top: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  .footer button{
+    background: none;
+    border: 1px solid var(--line);
+    color: var(--muted);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    padding: 6px 12px;
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: border-color 0.15s ease, color 0.15s ease;
+  }
+
+  .footer button:hover{
+    border-color: var(--muted);
+    color: var(--text);
+  }
+
+  .footer button:focus-visible{
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  .empty, .error{
+    padding: 40px 10px;
+    text-align: center;
+    color: var(--muted);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+  }
+
+  .error{ color: var(--loss); }
+</style>
+</head>
+<body>
+
+<div class="board">
+  <div class="eyebrow">
+    <div class="brand">
+      <h1>financialdatacollector</h1>
+      <span class="sub">/ board</span>
+    </div>
+    <div class="status">
+      <span class="dot" id="statusDot"></span>
+      <span id="statusText">connecting…</span>
+    </div>
+  </div>
+
+  <table id="boardTable">
+    <thead>
+      <tr>
+        <th>Security</th>
+        <th class="num">Last</th>
+        <th class="num">Δ vs. prev.</th>
+        <th class="num">Time</th>
+      </tr>
+    </thead>
+    <tbody id="boardBody">
+      <tr><td colspan="4" class="empty">Loading…</td></tr>
+    </tbody>
+  </table>
+
+  <div class="footer">
+    <span id="lastSynced">—</span>
+    <button id="refreshBtn" type="button">Refresh</button>
+  </div>
+</div>
+
+<script>
+  const CSV_URL = "https://raw.githubusercontent.com/Munotstadt/financialdatacollector-public/main/all_data.csv";
+  const REFRESH_MS = 5 * 60 * 1000; // auto-refresh every 5 minutes
+
+  function parseCSV(text) {
+    // Minimal RFC4180-ish parser: handles quoted fields containing commas.
+    const rows = [];
+    let row = [], field = "", inQuotes = false;
+    for (let i = 0; i < text.length; i++) {
+      const c = text[i];
+      if (inQuotes) {
+        if (c === '"') {
+          if (text[i + 1] === '"') { field += '"'; i++; }
+          else inQuotes = false;
+        } else field += c;
+      } else {
+        if (c === '"') inQuotes = true;
+        else if (c === ',') { row.push(field); field = ""; }
+        else if (c === '\n') {
+          row.push(field); field = "";
+          if (row.length > 1 || row[0] !== "") rows.push(row);
+          row = [];
+        } else if (c === '\r') { /* skip */ }
+        else field += c;
+      }
+    }
+    if (field.length || row.length) { row.push(field); rows.push(row); }
+    return rows;
+  }
+
+  function parseValueDate(s) {
+    // "DD.MM.YYYY HH:MM:SS" -> Date
+    const m = s.trim().match(/^(\d{2})\.(\d{2})\.(\d{4})\s+(\d{2}):(\d{2}):(\d{2})$/);
+    if (!m) return null;
+    const [, d, mo, y, h, mi, se] = m;
+    return new Date(`${y}-${mo}-${d}T${h}:${mi}:${se}`);
+  }
+
+  function fmtPrice(n) {
+    return n.toLocaleString('de-CH', { minimumFractionDigits: 2, maximumFractionDigits: 4 });
+  }
+
+  function fmtTime(date) {
+    const dd = String(date.getDate()).padStart(2, '0');
+    const mm = String(date.getMonth() + 1).padStart(2, '0');
+    return `${dd}.${mm} ${String(date.getHours()).padStart(2,'0')}:${String(date.getMinutes()).padStart(2,'0')}`;
+  }
+
+  async function loadBoard() {
+    const dot = document.getElementById('statusDot');
+    const statusText = document.getElementById('statusText');
+    const body = document.getElementById('boardBody');
+    const lastSynced = document.getElementById('lastSynced');
+
+    dot.classList.remove('stale');
+    statusText.textContent = 'syncing…';
+
+    try {
+      const res = await fetch(CSV_URL, { cache: 'no-store' });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const text = await res.text();
+      const rows = parseCSV(text);
+      const header = rows[0].map(h => h.trim());
+      const idx = {
+        valueDate: header.indexOf('ValueDate'),
+        amount: header.indexOf('AmountLC'),
+        mainId: header.indexOf('MainID'),
+      };
+
+      // group by MainID, keep every observation per day for delta calc
+      const bySecurity = new Map();
+      for (let r = 1; r < rows.length; r++) {
+        const row = rows[r];
+        if (row.length < header.length) continue;
+        const mainId = row[idx.mainId];
+        const amount = parseFloat(row[idx.amount]);
+        const dt = parseValueDate(row[idx.valueDate]);
+        if (!mainId || isNaN(amount) || !dt) continue;
+        if (!bySecurity.has(mainId)) bySecurity.set(mainId, []);
+        bySecurity.get(mainId).push({ dt, amount });
+      }
+
+      const securities = [];
+      for (const [mainId, obs] of bySecurity) {
+        obs.sort((a, b) => a.dt - b.dt);
+        // collapse to one observation per calendar day (latest wins)
+        const byDay = new Map();
+        for (const o of obs) {
+          const dayKey = o.dt
