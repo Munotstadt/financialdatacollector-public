@@ -23,6 +23,10 @@ ValueDate,ValueDefinitionID,AmountLC,ValueComment,SourceComments,MainID,MainName
 16.07.2026 00:00:00,Prices,1.720000,,RB Winterthur,Raiffeisen Winterthur Hypothek 5 Jahr Zinssatz,Raiffeisen Winterthur Hypothek 5 Jahr Zinssatz,16.07.2026 00:52:55
 16.07.2026 00:00:00,Prices,2.090000,,RB Winterthur,Raiffeisen Winterthur Hypothek 10 Jahr Zinssatz,Raiffeisen Winterthur Hypothek 10 Jahr Zinssatz,16.07.2026 00:52:55
 16.07.2026 00:00:00,Prices,2.510000,,RB Winterthur,Raiffeisen Winterthur Hypothek 15 Jahr Zinssatz,Raiffeisen Winterthur Hypothek 15 Jahr Zinssatz,16.07.2026 00:52:55
+17.07.2026 00:00:00,Prices,1.570000,,RB Winterthur,Raiffeisen Winterthur Hypothek 1 Jahr Zinssatz,Raiffeisen Winterthur Hypothek 1 Jahr Zinssatz,17.07.2026 00:16:17
+17.07.2026 00:00:00,Prices,1.730000,,RB Winterthur,Raiffeisen Winterthur Hypothek 5 Jahr Zinssatz,Raiffeisen Winterthur Hypothek 5 Jahr Zinssatz,17.07.2026 00:16:17
+17.07.2026 00:00:00,Prices,2.090000,,RB Winterthur,Raiffeisen Winterthur Hypothek 10 Jahr Zinssatz,Raiffeisen Winterthur Hypothek 10 Jahr Zinssatz,17.07.2026 00:16:17
+17.07.2026 00:00:00,Prices,2.520000,,RB Winterthur,Raiffeisen Winterthur Hypothek 15 Jahr Zinssatz,Raiffeisen Winterthur Hypothek 15 Jahr Zinssatz,17.07.2026 00:16:17
 10.07.2026 13:02:23,Prices,0.440000,,SNB,Rendite Bundesobligationen Eidgenossenschaft 10 Jahre (%),Rendite Bundesobligationen Eidgenossenschaft 10 Jahre (%),11.07.2026 07:18:11
 13.07.2026 13:00:53,Prices,0.467000,,SNB,Rendite Bundesobligationen Eidgenossenschaft 10 Jahre (%),Rendite Bundesobligationen Eidgenossenschaft 10 Jahre (%),14.07.2026 10:10:31
 14.07.2026 12:56:52,Prices,0.485000,,SNB,Rendite Bundesobligationen Eidgenossenschaft 10 Jahre (%),Rendite Bundesobligationen Eidgenossenschaft 10 Jahre (%),15.07.2026 07:16:08
@@ -270,3 +274,15 @@ ValueDate,ValueDefinitionID,AmountLC,ValueComment,SourceComments,MainID,MainName
 15.07.2026 17:35:16,Prices,1025.400000,,Yahoo Finance,iShares Core FTSE 100 (GBp),iShares Core FTSE 100 (GBp),16.07.2026 08:20:26
 16.07.2026 10:20:45,Prices,1020.800000,Low,Yahoo Finance,iShares Core FTSE 100 (GBp),iShares Core FTSE 100 (GBp),16.07.2026 10:36:32
 16.07.2026 17:35:29,Prices,1030.600000,"Last, High",Yahoo Finance,iShares Core FTSE 100 (GBp),iShares Core FTSE 100 (GBp),16.07.2026 18:41:26
+16.07.2026 23:33:58,Prices,16857.630000,,Yahoo Finance,12007,S&P 500 Total Return,17.07.2026 00:16:14
+17.07.2026 00:16:09,Prices,0.925200,,Yahoo Finance,897789,EUR/CHF,17.07.2026 00:16:14
+17.07.2026 00:16:10,Prices,0.808400,,Yahoo Finance,275000,USD/CHF,17.07.2026 00:16:14
+17.07.2026 00:16:11,Prices,1.089300,,Yahoo Finance,GBP/CHF,GBP/CHF,17.07.2026 00:16:14
+17.07.2026 00:15:56,Prices,0.005000,,Yahoo Finance,JPY/CHF,JPY/CHF,17.07.2026 00:16:14
+17.07.2026 00:08:10,Prices,4854.420000,,Yahoo Finance,MSCI World,MSCI World,17.07.2026 00:16:14
+17.07.2026 00:07:53,Prices,1664.010000,,Yahoo Finance,MSCI ACWI - Emerging Markets (USD),MSCI ACWI - Emerging Markets (USD),17.07.2026 00:16:14
+17.07.2026 00:06:11,Prices,3980.700000,,Yahoo Finance,Gold (USD/oz),Gold (USD/oz),17.07.2026 00:16:14
+17.07.2026 00:05:59,Prices,55.815000,,Yahoo Finance,Silver (USD/oz),Silver (USD/oz),17.07.2026 00:16:14
+17.07.2026 00:16:10,Prices,75.870000,,Yahoo Finance,22000,SOL - Solana,17.07.2026 00:16:14
+17.07.2026 00:16:02,Prices,1878.040000,,Yahoo Finance,40149561,ETH - Ethereum,17.07.2026 00:16:14
+17.07.2026 00:16:11,Prices,64126.690000,,Yahoo Finance,18789194,BTC - Bitcoin,17.07.2026 00:16:14
