@@ -792,7 +792,10 @@
       cutoff = new Date(now);
       cutoff.setDate(cutoff.getDate() - 30);
     } else if (range === 'YTD') {
-      cutoff = new Date(now.getFullYear(), 0, 1);
+      // Same anchor point as the YtD return calculation: Dec 31 of the
+      // previous year, so the chart's starting point matches what "YtD"
+      // is actually measured against.
+      cutoff = new Date(now.getFullYear() - 1, 11, 31);
     } else if (range === '12M') {
       cutoff = new Date(now.getFullYear() - 1, now.getMonth(), now.getDate());
     } else {
