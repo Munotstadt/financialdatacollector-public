@@ -153,7 +153,7 @@ ValueDate,ValueDefinitionID,AmountLC,ValueComment,SourceComments,MainID,MainName
 17.07.2026 08:27:05,Prices,62815.650000,Low,Yahoo Finance,18789194,BTC - Bitcoin,17.07.2026 08:27:11
 17.07.2026 23:07:25,Prices,64128.910000,"Last, High",Yahoo Finance,18789194,BTC - Bitcoin,17.07.2026 23:07:27
 18.07.2026 02:08:47,Prices,63868.800000,Low,Yahoo Finance,18789194,BTC - Bitcoin,18.07.2026 02:08:52
-18.07.2026 20:07:42,Prices,64436.790000,"Last, High",Yahoo Finance,18789194,BTC - Bitcoin,18.07.2026 20:07:45
+18.07.2026 23:05:48,Prices,64661.710000,"Last, High",Yahoo Finance,18789194,BTC - Bitcoin,18.07.2026 23:06:00
 15.07.2026 17:31:23,Prices,195.600000,"Last, Low, High",Yahoo Finance,21048333,Richemont SA,15.07.2026 22:03:26
 16.07.2026 14:35:03,Prices,195.250000,Low,Yahoo Finance,21048333,Richemont SA,16.07.2026 14:51:08
 16.07.2026 17:31:59,Prices,197.400000,"Last, High",Yahoo Finance,21048333,Richemont SA,16.07.2026 18:41:26
@@ -177,7 +177,7 @@ ValueDate,ValueDefinitionID,AmountLC,ValueComment,SourceComments,MainID,MainName
 17.07.2026 16:02:20,Prices,74.360000,Low,Yahoo Finance,22000,SOL - Solana,17.07.2026 16:02:23
 17.07.2026 23:07:21,Prices,75.140000,Last,Yahoo Finance,22000,SOL - Solana,17.07.2026 23:07:27
 18.07.2026 15:47:49,Prices,74.660000,Low,Yahoo Finance,22000,SOL - Solana,18.07.2026 15:47:55
-18.07.2026 20:07:40,Prices,75.290000,"Last, High",Yahoo Finance,22000,SOL - Solana,18.07.2026 20:07:45
+18.07.2026 23:05:42,Prices,75.460000,"Last, High",Yahoo Finance,22000,SOL - Solana,18.07.2026 23:06:00
 14.07.2026 17:31:48,Prices,37317.650000,,Yahoo Finance,222130,SMI Total Return,15.07.2026 07:16:12
 15.07.2026 09:08:55,Prices,37214.060000,Low,Yahoo Finance,222130,SMI Total Return,15.07.2026 09:23:59
 15.07.2026 17:31:23,Prices,37489.380000,"Last, High",Yahoo Finance,222130,SMI Total Return,15.07.2026 17:56:34
@@ -288,7 +288,7 @@ ValueDate,ValueDefinitionID,AmountLC,ValueComment,SourceComments,MainID,MainName
 17.07.2026 17:38:45,Prices,1824.330000,Low,Yahoo Finance,40149561,ETH - Ethereum,17.07.2026 17:38:47
 17.07.2026 23:07:24,Prices,1843.910000,Last,Yahoo Finance,40149561,ETH - Ethereum,17.07.2026 23:07:27
 18.07.2026 01:07:24,Prices,1836.150000,Low,Yahoo Finance,40149561,ETH - Ethereum,18.07.2026 01:07:27
-18.07.2026 20:07:40,Prices,1849.970000,"Last, High",Yahoo Finance,40149561,ETH - Ethereum,18.07.2026 20:07:45
+18.07.2026 23:05:44,Prices,1856.880000,"Last, High",Yahoo Finance,40149561,ETH - Ethereum,18.07.2026 23:06:00
 15.07.2026 09:28:03,Prices,57.260000,Low,Yahoo Finance,41125207,VanEck S&P Global Mining UCITS ETF (GDIG),15.07.2026 10:16:45
 15.07.2026 14:54:13,Prices,58.060000,High,Yahoo Finance,41125207,VanEck S&P Global Mining UCITS ETF (GDIG),15.07.2026 15:48:20
 15.07.2026 19:21:53,Prices,57.440000,Last,Yahoo Finance,41125207,VanEck S&P Global Mining UCITS ETF (GDIG),15.07.2026 22:03:26
@@ -385,7 +385,7 @@ ValueDate,ValueDefinitionID,AmountLC,ValueComment,SourceComments,MainID,MainName
 17.07.2026 22:52:56,Prices,1620.660000,Last,Yahoo Finance,MSCI ACWI - Emerging Markets (USD),MSCI ACWI - Emerging Markets (USD),17.07.2026 23:07:27
 17.07.2026 23:52:56,Prices,1620.660000,,Yahoo Finance,MSCI ACWI - Emerging Markets (USD),MSCI ACWI - Emerging Markets (USD),18.07.2026 00:06:18
 18.07.2026 00:52:56,Prices,1620.660000,"Low, High",Yahoo Finance,MSCI ACWI - Emerging Markets (USD),MSCI ACWI - Emerging Markets (USD),18.07.2026 01:07:27
-18.07.2026 19:52:52,Prices,1620.660000,Last,Yahoo Finance,MSCI ACWI - Emerging Markets (USD),MSCI ACWI - Emerging Markets (USD),18.07.2026 20:07:45
+18.07.2026 22:52:52,Prices,1620.660000,Last,Yahoo Finance,MSCI ACWI - Emerging Markets (USD),MSCI ACWI - Emerging Markets (USD),18.07.2026 23:06:00
 16.07.2026 08:20:00,Prices,4873.980000,High,Yahoo Finance,MSCI World,MSCI World,16.07.2026 08:20:26
 16.07.2026 22:18:00,Prices,4853.880000,Low,Yahoo Finance,MSCI World,MSCI World,16.07.2026 22:18:16
 16.07.2026 23:08:10,Prices,4854.420000,Last,Yahoo Finance,MSCI World,MSCI World,16.07.2026 23:15:29
@@ -394,7 +394,7 @@ ValueDate,ValueDefinitionID,AmountLC,ValueComment,SourceComments,MainID,MainName
 17.07.2026 22:53:13,Prices,4807.710000,Last,Yahoo Finance,MSCI World,MSCI World,17.07.2026 23:07:27
 17.07.2026 23:53:13,Prices,4807.710000,,Yahoo Finance,MSCI World,MSCI World,18.07.2026 00:06:18
 18.07.2026 00:53:13,Prices,4807.710000,"Low, High",Yahoo Finance,MSCI World,MSCI World,18.07.2026 01:07:27
-18.07.2026 19:53:09,Prices,4807.710000,Last,Yahoo Finance,MSCI World,MSCI World,18.07.2026 20:07:45
+18.07.2026 22:53:09,Prices,4807.710000,Last,Yahoo Finance,MSCI World,MSCI World,18.07.2026 23:06:00
 16.07.2026 08:10:15,Prices,57.715000,High,Yahoo Finance,Silver (USD/oz),Silver (USD/oz),16.07.2026 08:20:26
 16.07.2026 22:34:07,Prices,55.765000,Low,Yahoo Finance,Silver (USD/oz),Silver (USD/oz),16.07.2026 22:44:21
 16.07.2026 22:59:55,Prices,55.765000,Last,Yahoo Finance,Silver (USD/oz),Silver (USD/oz),16.07.2026 23:15:29
@@ -412,8 +412,3 @@ ValueDate,ValueDefinitionID,AmountLC,ValueComment,SourceComments,MainID,MainName
 16.07.2026 17:35:29,Prices,1030.600000,"Last, High",Yahoo Finance,iShares Core FTSE 100 (GBp),iShares Core FTSE 100 (GBp),16.07.2026 18:41:26
 17.07.2026 11:05:44,Prices,1029.400000,Low,Yahoo Finance,iShares Core FTSE 100 (GBp),iShares Core FTSE 100 (GBp),17.07.2026 11:21:09
 17.07.2026 17:35:20,Prices,1033.000000,"Last, High",Yahoo Finance,iShares Core FTSE 100 (GBp),iShares Core FTSE 100 (GBp),17.07.2026 19:30:42
-18.07.2026 21:23:09,Prices,4807.710000,,Yahoo Finance,MSCI World,MSCI World,18.07.2026 21:30:16
-18.07.2026 21:22:52,Prices,1620.660000,,Yahoo Finance,MSCI ACWI - Emerging Markets (USD),MSCI ACWI - Emerging Markets (USD),18.07.2026 21:30:16
-18.07.2026 21:30:14,Prices,75.220000,,Yahoo Finance,22000,SOL - Solana,18.07.2026 21:30:16
-18.07.2026 21:30:09,Prices,1855.820000,,Yahoo Finance,40149561,ETH - Ethereum,18.07.2026 21:30:16
-18.07.2026 21:30:12,Prices,64449.990000,,Yahoo Finance,18789194,BTC - Bitcoin,18.07.2026 21:30:16
