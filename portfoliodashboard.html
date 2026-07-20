@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #FFFFFF;
+    --panel: #F7F8FA;
+    --line: #E3E6EA;
+    --text: #1A1D22;
+    --muted: #767E8A;
+    --accent: #E30613;
+    --gain: #1F8A6E;
+    --loss: #C0293D;
+    --radius: 3px;
+  }
+
+  * { box-sizing: border-box; }
+
+  body{
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', system-ui, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 48px 20px 80px;
+  }
+
+  .wrap{ width: 100%; max-width: 1000px; }
+  .hidden{ display: none !important; }
+
+  /* ---- Password gate ---- */
+  .gate{
+    max-width: 340px;
+    margin: 120px auto;
+    text-align: center;
+  }
+  .gate h1{
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 18px;
+    margin-bottom: 16px;
+  }
+  .gate input{
+    width: 100%;
+    padding: 10px 12px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 14px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    margin-bottom: 10px;
+  }
+  .gate button{
+    width: 100%;
+    padding: 10px 12px;
+    background: var(--text);
+    color: var(--bg);
+    border: none;
+    border-radius: var(--radius);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    cursor: pointer;
+  }
+  .gate .err{ color: var(--loss); font-size: 12px; margin-top: 8px; font-family: 'IBM Plex Mono', monospace; }
+
+  /* ---- Shared ---- */
+  .eyebrow{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 18px;
+    border-bottom: 2px solid var(--accent);
+    margin-bottom: 24px;
+  }
+  .brand h1{
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    margin: 0;
+    text-transform: uppercase;
+  }
+  .brand span.sub{
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .status{
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  .summary-row{
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 28px;
+  }
+  .summary-box{
+    flex: 1;
+    min-width: 130px;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+  }
+  .summary-label{
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 6px;
+    display: block;
+  }
+  .summary-value{
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 18px;
+    font-weight: 600;
+  }
+  .summary-value.up{ color: var(--gain); }
+  .summary-value.down{ color: var(--loss); }
+
+  h2.section-title{
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 32px 0 12px;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 8px;
+  }
+
+  table{ width: 100%; border-collapse: collapse; font-size: 13px; }
+  thead th{
+    text-align: left;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 500;
+    padding: 10px 8px;
+    border-bottom: 1px solid var(--line);
+    white-space: nowrap;
+  }
+  thead th.num{ text-align: right; }
+  tbody td{
+    padding: 10px 8px;
+    border-bottom: 1px solid var(--line);
+    white-space: nowrap;
+  }
+  tbody tr:hover{ background: var(--panel); }
+  .num{ font-family: 'IBM Plex Mono', monospace; text-align: right; }
+  .up{ color: var(--gain); }
+  .down{ color: var(--loss); }
+  .flat{ color: var(--muted); }
+  .name-cell{ font-weight: 500; }
+  .currency-tag{
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    margin-left: 4px;
+  }
+
+  .table-scroll{ overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+  .range-selector{ display: flex; gap: 6px; margin-bottom: 14px; flex-wrap: wrap; }
+  .range-btn{
+    background: none;
+    border: 1px solid var(--line);
+    color: var(--muted);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    padding: 6px 12px;
+    border-radius: var(--radius);
+    cursor: pointer;
+  }
+  .range-btn.active{ background: var(--text); border-color: var(--text); color: var(--bg); font-weight: 600; }
+
+  /* ---- Heatmap ---- */
+  .heatmap{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 6px;
+  }
+  .heat-tile{
+    padding: 12px;
+    border-radius: var(--radius);
+    color: #fff;
+  }
+  .heat-name{
+    font-size: 11px;
+    font-weight: 500;
+    margin-bottom: 6px;
+    line-height: 1.3;
+  }
+  .heat-value{
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 15px;
+    font-weight: 700;
+  }
+  .heat-sub{
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    opacity: 0.85;
+    margin-top: 3px;
+  }
+
+  .empty, .error{
+    padding: 30px 10px;
+    text-align: center;
+    color: var(--muted);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+  }
+  .error{ color: var(--loss); }
+
+  .note{
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 8px;
+    line-height: 1.5;
+  }
+
+  @media (max-width: 700px){
+    table { font-size: 12px; }
+    thead th, tbody td { padding: 8px 6px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="gate" id="gate">
+  <h1>PORTFOLIO DASHBOARD</h1>
+  <input type="password" id="pwInput" placeholder="Passwort" autocomplete="off">
+  <button type="button" id="pwSubmit">Entsperren</button>
+  <div class="err hidden" id="pwErr">Falsches Passwort.</div>
+</div>
+
+<div class="wrap hidden" id="app">
+  <div class="eyebrow">
+    <div class="brand">
+      <h1>Portfolio</h1>
+      <span class="sub">/ dashboard</span>
+    </div>
+    <div class="status" id="statusText">lädt…</div>
+  </div>
+
+  <div class="summary-row" id="summaryRow"></div>
+
+  <h2 class="section-title">Positionen</h2>
+  <div class="table-scroll">
+    <table id="holdingsTable">
+      <thead>
+        <tr>
+          <th>Security</th>
+          <th class="num">Qty</th>
+          <th class="num">Kurs</th>
+          <th class="num">Wert LC</th>
+          <th class="num">Wert CHF</th>
+          <th class="num">Δ Vortag</th>
+          <th class="num">Δ Woche</th>
+          <th class="num">Δ Monat</th>
+          <th class="num">Δ YtD</th>
+          <th class="num">Δ 12M</th>
+        </tr>
+      </thead>
+      <tbody id="holdingsBody">
+        <tr><td colspan="10" class="empty">Lädt…</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 class="section-title">Performance-Beitrag (Heatmap)</h2>
+  <div class="range-selector" id="heatmapRangeSelector">
+    <button type="button" class="range-btn active" data-range="prev">Vortag</button>
+    <button type="button" class="range-btn" data-range="week">Woche</button>
+    <button type="button" class="range-btn" data-range="month">Monat</button>
+    <button type="button" class="range-btn" data-range="ytd">YtD</button>
+    <button type="button" class="range-btn" data-range="12m">12 Monate</button>
+  </div>
+  <div class="heatmap" id="heatmap"></div>
+  <div class="note">Grösse und Farbintensität = Beitrag zur Portfolio-Wertveränderung in CHF (nicht Prozent). Grün = positiver, Rot = negativer Beitrag.</div>
+
+  <h2 class="section-title">FX-Effekt auf die Performance</h2>
+  <div class="table-scroll">
+    <table id="fxTable">
+      <thead>
+        <tr>
+          <th>Security</th>
+          <th>Währung</th>
+          <th class="num">Δ Kurs (LC)</th>
+          <th class="num">Δ FX-Effekt (CHF)</th>
+          <th class="num">Δ Total (CHF)</th>
+        </tr>
+      </thead>
+      <tbody id="fxBody">
+        <tr><td colspan="5" class="empty">Lädt…</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="note">FX-Effekt = Wertveränderung, die allein durch Wechselkursbewegung entsteht (aktuelle Menge/Kurs, alter vs. neuer FX-Kurs). Näherungsweise Zerlegung, keine exakte Attribution.</div>
+</div>
+
+<script>
+  // ===== CONFIG =====
+  const DATA_URL = "https://raw.githubusercontent.com/Munotstadt/financialdatacollector-public/main/all_data.csv";
+  const HOLDINGS_URL = "https://raw.githubusercontent.com/Munotstadt/financialdatacollector-public/main/portfolio_holdings.csv";
+
+  // SHA-256 hash of the access password. Change the password by hashing a
+  // new string the same way and replacing this constant - ask Claude to
+  // generate a fresh hash if needed.
+  const PW_HASH = "4e51b921248735423b6b3b7f2f33e59e7026e9ae029ce2c1d68c895b4b3ec857";
+
+  const FX_NAMES = { CHF: null, USD: "USD/CHF", EUR: "EUR/CHF", GBp: "GBP/CHF", GBP: "GBP/CHF", JPY: "JPY/CHF" };
+
+  // ===== Password gate =====
+  async function sha256(text) {
+    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text));
+    return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+  }
+
+  async function tryUnlock() {
+    const val = document.getElementById('pwInput').value;
+    const hash = await sha256(val);
+    if (hash === PW_HASH) {
+      document.getElementById('gate').classList.add('hidden');
+      document.getElementById('app').classList.remove('hidden');
+      sessionStorage.setItem('pf_unlocked', '1');
+      init();
+    } else {
+      document.getElementById('pwErr').classList.remove('hidden');
+    }
+  }
+
+  document.getElementById('pwSubmit').addEventListener('click', tryUnlock);
+  document.getElementById('pwInput').addEventListener('keydown', e => { if (e.key === 'Enter') tryUnlock(); });
+
+  if (sessionStorage.getItem('pf_unlocked') === '1') {
+    document.getElementById('gate').classList.add('hidden');
+    document.getElementById('app').classList.remove('hidden');
+    init();
+  }
+
+  // ===== CSV / date helpers (same conventions as index.html) =====
+  function parseCSV(text) {
+    const rows = [];
+    let row = [], field = "", inQuotes = false;
+    for (let i = 0; i < text.length; i++) {
+      const c = text[i];
+      if (inQuotes) {
+        if (c === '"') { if (text[i + 1] === '"') { field += '"'; i++; } else inQuotes = false; }
+        else field += c;
+      } else {
+        if (c === '"') inQuotes = true;
+        else if (c === ',') { row.push(field); field = ""; }
+        else if (c === '\n') { row.push(field); field = ""; if (row.length > 1 || row[0] !== "") rows.push(row); row = []; }
+        else if (c === '\r') { /* skip */ }
+        else field += c;
+      }
+    }
+    if (field.length || row.length) { row.push(field); rows.push(row); }
+    return rows;
+  }
+
+  function parseValueDate(s) {
+    const m = s.trim().match(/^(\d{2})\.(\d{2})\.(\d{4})\s+(\d{2}):(\d{2}):(\d{2})$/);
+    if (!m) return null;
+    const [, d, mo, y, h, mi, se] = m;
+    return new Date(`${y}-${mo}-${d}T${h}:${mi}:${se}`);
+  }
+
+  function fmtPrice(n, decimals = 2) {
+    return n.toLocaleString('de-CH', { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
+  }
+
+  function fmtChf(n) {
+    return n.toLocaleString('de-CH', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+  }
+
+  function collapseToDaily(obsSortedAsc) {
+    const byDay = new Map();
+    for (const o of obsSortedAsc) byDay.set(o.dt.toISOString().slice(0, 10), o);
+    return [...byDay.values()].sort((a, b) => a.dt - b.dt);
+  }
+
+  function lastFriday(fromDate) {
+    const d = new Date(fromDate);
+    d.setDate(d.getDate() - 1);
+    while (d.getDay() !== 5) d.setDate(d.getDate() - 1);
+    d.setHours(23, 59, 59, 999);
+    return d;
+  }
+  function lastDayOfPreviousMonth(fromDate) {
+    const d = new Date(fromDate.getFullYear(), fromDate.getMonth(), 0);
+    d.setHours(23, 59, 59, 999);
+    return d;
+  }
+  function lastDayOfPreviousYear(fromDate) {
+    const d = new Date(fromDate.getFullYear() - 1, 11, 31);
+    d.setHours(23, 59, 59, 999);
+    return d;
+  }
+  function oneYearAgo(fromDate) {
+    const d = new Date(fromDate.getFullYear() - 1, fromDate.getMonth(), fromDate.getDate());
+    d.setHours(23, 59, 59, 999);
+    return d;
+  }
+  function findOnOrBefore(dailyAsc, targetDate) {
+    let result = null;
+    for (const o of dailyAsc) { if (o.dt <= targetDate) result = o; else break; }
+    return result;
+  }
+
+  // ===== Data fetching =====
+  async function fetchAllRows() {
+    const res = await fetch(DATA_URL, { cache: 'no-store' });
+    if (!res.ok) throw new Error(`HTTP ${res.status} (all_data.csv)`);
+    const rows = parseCSV(await res.text());
+    const header = rows[0].map(h => h.trim());
+    const idx = {
+      valueDate: header.indexOf('ValueDate'),
+      amount: header.indexOf('AmountLC'),
+      mainId: header.indexOf('MainID'),
+      mainNameLocal: header.indexOf('MainNameLocal'),
+    };
+    const out = [];
+    for (let r = 1; r < rows.length; r++) {
+      const row = rows[r];
+      if (row.length < header.length) continue;
+      const mainId = row[idx.mainId];
+      const mainNameLocal = (idx.mainNameLocal >= 0 && row[idx.mainNameLocal]) || mainId;
+      const amount = parseFloat(row[idx.amount]);
+      const dt = parseValueDate(row[idx.valueDate]);
+      if (!mainId || isNaN(amount) || !dt) continue;
+      out.push({ mainId, mainNameLocal, amount, dt });
+    }
+    return out;
+  }
+
+  async function fetchSimpleCSV(url, keyCol, valCol) {
+    const res = await fetch(url, { cache: 'no-store' });
+    if (!res.ok) throw new Error(`HTTP ${res.status} (${url})`);
+    const rows = parseCSV(await res.text());
+    const header = rows[0].map(h => h.trim());
+    const ki = header.indexOf(keyCol), vi = header.indexOf(valCol);
+    const map = new Map();
+    for (let r = 1; r < rows.length; r++) {
+      const row = rows[r];
+      if (row.length <= Math.max(ki, vi)) continue;
+      map.set(row[ki].trim(), row[vi].trim());
+    }
+    return map;
+  }
+
+  async function fetchHoldingsCSV(url) {
+    const res = await fetch(url, { cache: 'no-store' });
+    if (!res.ok) throw new Error(`HTTP ${res.status} (${url})`);
+    const rows = parseCSV(await res.text());
+    const header = rows[0].map(h => h.trim());
+    const ni = header.indexOf('MainNameLocal'), qi = header.indexOf('Quantity'), ci = header.indexOf('Currency');
+    const map = new Map();
+    for (let r = 1; r < rows.length; r++) {
+      const row = rows[r];
+      if (row.length <= Math.max(ni, qi, ci)) continue;
+      map.set(row[ni].trim(), { qty: parseFloat(row[qi]), currency: (row[ci] || 'CHF').trim() });
+    }
+    return map;
+  }
+
+  function groupByName(allRows) {
+    const map = new Map();
+    for (const r of allRows) {
+      if (!map.has(r.mainNameLocal)) map.set(r.mainNameLocal, []);
+      map.get(r.mainNameLocal).push(r);
+    }
+    for (const [k, v] of map) v.sort((a, b) => a.dt - b.dt);
+    const daily = new Map();
+    for (const [k, v] of map) daily.set(k, collapseToDaily(v));
+    return daily;
+  }
+
+  // ===== FX helpers =====
+  function fxRateAt(fxSeriesByName, currency, targetDate) {
+    if (currency === 'CHF' || !currency) return 1;
+    const fxName = FX_NAMES[currency];
+    if (!fxName) return null; // unknown currency, can't convert
+    const series = fxSeriesByName.get(fxName);
+    if (!series) return null;
+    const point = findOnOrBefore(series, targetDate);
+    return point ? point.amount : null;
+  }
+
+  function toCHF(amountLC, currency, fxRate) {
+    if (fxRate === null || fxRate === undefined) return null;
+    if (currency === 'GBp') return (amountLC / 100) * fxRate;
+    return amountLC * fxRate;
+  }
+
+  // ===== Main =====
+  async function init() {
+    const statusText = document.getElementById('statusText');
+    try {
+      statusText.textContent = 'lädt…';
+      const [allRows, holdings] = await Promise.all([
+        fetchAllRows(),
+        fetchHoldingsCSV(HOLDINGS_URL),
+      ]);
+
+      const seriesByName = groupByName(allRows);
+      const now = new Date();
+      const refs = {
+        prev: null, // handled specially (second-to-last daily point)
+        week: lastFriday(now),
+        month: lastDayOfPreviousMonth(now),
+        ytd: lastDayOfPreviousYear(now),
+        '12m': oneYearAgo(now),
+      };
+
+      // Only consider holdings with quantity != 0
+      const activeHoldings = [];
+      for (const [name, h] of holdings) {
+        if (!h.qty) continue;
+        const daily = seriesByName.get(name);
+        if (!daily || daily.length === 0) continue;
+        activeHoldings.push({ name, qty: h.qty, daily, currency: h.currency || 'CHF' });
+      }
+
+      if (activeHoldings.length === 0) {
+        document.getElementById('holdingsBody').innerHTML =
+          '<tr><td colspan="10" class="empty">Keine Positionen mit Quantity &gt; 0 in portfolio_holdings.csv gefunden.</td></tr>';
+        statusText.textContent = 'keine Daten';
+        return;
+      }
+
+      // Compute per-holding figures
+      const computed = activeHoldings.map(h => {
+        const last = h.daily[h.daily.length - 1];
+        const prev = h.daily.length >= 2 ? h.daily[h.daily.length - 2] : null;
+
+        const fxNow = fxRateAt(seriesByName, h.currency, last.dt);
+        const valueLC = h.qty * last.amount;
+        const valueCHF = toCHF(valueLC, h.currency, fxNow);
+
+        const periods = {};
+        const refPoints = { prev, week: findOnOrBefore(h.daily, refs.week), month: findOnOrBefore(h.daily, refs.month),
+                             ytd: findOnOrBefore(h.daily, refs.ytd), '12m': findOnOrBefore(h.daily, refs['12m']) };
+
+        for (const key of ['prev', 'week', 'month', 'ytd', '12m']) {
+          const refPoint = refPoints[key];
+          if (!refPoint) { periods[key] = null; continue; }
+          const fxRef = fxRateAt(seriesByName, h.currency, refPoint.dt);
+          const refValueLC = h.qty * refPoint.amount;
+          const refValueCHF = toCHF(refValueLC, h.currency, fxRef);
+          const deltaLC = valueLC - refValueLC;
+          const deltaCHF = (valueCHF !== null && refValueCHF !== null) ? valueCHF - refValueCHF : null;
+          const pctCHF = (refValueCHF && deltaCHF !== null) ? (deltaCHF / refValueCHF) * 100 : null;
+          // FX effect: value change from FX movement alone, holding current LC value fixed
+          const fxEffectCHF = (fxNow !== null && fxRef !== null && h.currency !== 'CHF')
+            ? toCHF(valueLC, h.currency, fxNow) - toCHF(valueLC, h.currency, fxRef)
+            : 0;
+          periods[key] = { deltaLC, deltaCHF, pctCHF, fxEffectCHF, refPoint };
+        }
+
+        return { ...h, last, valueLC, valueCHF, fxNow, periods };
+      });
+
+      renderSummary(computed);
+      renderHoldingsTable(computed);
+      renderHeatmap(computed, 'prev');
+      renderFxTable(computed, 'prev');
+
+      document.querySelectorAll('#heatmapRangeSelector .range-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('#heatmapRangeSelector .range-btn').forEach(b => b.classList.toggle('active', b === btn));
+          renderHeatmap(computed, btn.dataset.range);
+          renderFxTable(computed, btn.dataset.range);
+        });
+      });
+
+      statusText.textContent = `live · ${new Date().toLocaleTimeString('de-CH')}`;
+    } catch (err) {
+      statusText.textContent = 'Fehler';
+      document.getElementById('holdingsBody').innerHTML = `<tr><td colspan="10" class="error">Fehler: ${err.message}</td></tr>`;
+    }
+  }
+
+  function fmtPct(v) {
+    if (v === null || v === undefined) return { text: '—', dir: 'flat' };
+    return { text: `${v > 0 ? '+' : ''}${v.toFixed(2)}%`, dir: v > 0 ? 'up' : v < 0 ? 'down' : 'flat' };
+  }
+
+  function renderSummary(computed) {
+    const totalCHF = computed.reduce((s, h) => s + (h.valueCHF || 0), 0);
+    const totalPrevCHF = computed.reduce((s, h) => {
+      const p = h.periods.prev;
+      const ref = p ? (h.valueCHF - p.deltaCHF) : h.valueCHF;
+      return s + (ref || 0);
+    }, 0);
+    const deltaPrevCHF = totalCHF - totalPrevCHF;
+    const deltaPrevPct = totalPrevCHF ? (deltaPrevCHF / totalPrevCHF) * 100 : null;
+    const dir = deltaPrevPct === null ? 'flat' : deltaPrevPct > 0 ? 'up' : deltaPrevPct < 0 ? 'down' : 'flat';
+
+    document.getElementById('summaryRow').innerHTML = `
+      <div class="summary-box">
+        <span class="summary-label">Portfoliowert</span>
+        <span class="summary-value">CHF ${fmtChf(totalCHF)}</span>
+      </div>
+      <div class="summary-box">
+        <span class="summary-label">Δ Vortag</span>
+        <span class="summary-value ${dir}">${deltaPrevPct === null ? '—' : (deltaPrevPct > 0 ? '+' : '') + deltaPrevPct.toFixed(2) + '%'}</span>
+      </div>
+      <div class="summary-box">
+        <span class="summary-label">Δ Vortag (CHF)</span>
+        <span class="summary-value ${dir}">${deltaPrevCHF >= 0 ? '+' : ''}${fmtChf(deltaPrevCHF)}</span>
+      </div>
+      <div class="summary-box">
+        <span class="summary-label">Positionen</span>
+        <span class="summary-value">${computed.length}</span>
+      </div>`;
+  }
+
+  function renderHoldingsTable(computed) {
+    const sorted = [...computed].sort((a, b) => (b.valueCHF || 0) - (a.valueCHF || 0));
+    document.getElementById('holdingsBody').innerHTML = sorted.map(h => {
+      const p = h.periods;
+      const cell = (key) => {
+        const period = p[key];
+        const f = fmtPct(period ? period.pctCHF : null);
+        return `<td class="num ${f.dir}">${f.text}</td>`;
+      };
+      return `
+        <tr>
+          <td class="name-cell">${h.name}<span class="currency-tag">${h.currency}</span></td>
+          <td class="num">${h.qty}</td>
+          <td class="num">${fmtPrice(h.last.amount, 4)}</td>
+          <td class="num">${fmtPrice(h.valueLC, 0)}</td>
+          <td class="num">${h.valueCHF !== null ? fmtChf(h.valueCHF) : '—'}</td>
+          ${cell('prev')}${cell('week')}${cell('month')}${cell('ytd')}${cell('12m')}
+        </tr>`;
+    }).join('');
+  }
+
+  function renderHeatmap(computed, rangeKey) {
+    const items = computed
+      .map(h => ({ name: h.name, deltaCHF: h.periods[rangeKey] ? h.periods[rangeKey].deltaCHF : null }))
+      .filter(i => i.deltaCHF !== null)
+      .sort((a, b) => Math.abs(b.deltaCHF) - Math.abs(a.deltaCHF));
+
+    if (items.length === 0) {
+      document.getElementById('heatmap').innerHTML = '<div class="empty">Keine Daten für diesen Zeitraum.</div>';
+      return;
+    }
+
+    const maxAbs = Math.max(...items.map(i => Math.abs(i.deltaCHF)), 1);
+    document.getElementById('heatmap').innerHTML = items.map(i => {
+      const intensity = Math.min(Math.abs(i.deltaCHF) / maxAbs, 1);
+      const isGain = i.deltaCHF >= 0;
+      const base = isGain ? [31, 138, 110] : [192, 41, 61];
+      const bg = `rgba(${base[0]},${base[1]},${base[2]},${0.35 + intensity * 0.65})`;
+      return `
+        <div class="heat-tile" style="background:${bg}">
+          <div class="heat-name">${i.name}</div>
+          <div class="heat-value">${i.deltaCHF >= 0 ? '+' : ''}${fmtChf(i.deltaCHF)}</div>
+          <div class="heat-sub">CHF</div>
+        </div>`;
+    }).join('');
+  }
+
+  function renderFxTable(computed, rangeKey) {
+    const rows = computed
+      .filter(h => h.currency !== 'CHF')
+      .map(h => {
+        const p = h.periods[rangeKey];
+        if (!p) return null;
+        return `
+          <tr>
+            <td class="name-cell">${h.name}</td>
+            <td class="num">${h.currency}</td>
+            <td class="num">${p.deltaLC >= 0 ? '+' : ''}${fmtPrice(p.deltaLC, 2)}</td>
+            <td class="num ${p.fxEffectCHF > 0 ? 'up' : p.fxEffectCHF < 0 ? 'down' : 'flat'}">${p.fxEffectCHF >= 0 ? '+' : ''}${fmtChf(p.fxEffectCHF)}</td>
+            <td class="num ${p.deltaCHF > 0 ? 'up' : p.deltaCHF < 0 ? 'down' : 'flat'}">${p.deltaCHF >= 0 ? '+' : ''}${fmtChf(p.deltaCHF)}</td>
+          </tr>`;
+      })
+      .filter(Boolean);
+
+    document.getElementById('fxBody').innerHTML = rows.length
+      ? rows.join('')
+      : '<tr><td colspan="5" class="empty">Keine Fremdwährungspositionen.</td></tr>';
+  }
+</script>
+
+</body>
+</html>

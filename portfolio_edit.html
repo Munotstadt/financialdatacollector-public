@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bestände bearbeiten</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #FFFFFF;
+    --panel: #F7F8FA;
+    --line: #E3E6EA;
+    --text: #1A1D22;
+    --muted: #767E8A;
+    --accent: #E30613;
+    --gain: #1F8A6E;
+    --loss: #C0293D;
+    --radius: 3px;
+  }
+  * { box-sizing: border-box; }
+  body{
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', system-ui, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 48px 20px 100px;
+  }
+  .wrap{ width: 100%; max-width: 760px; }
+  .hidden{ display: none !important; }
+
+  .gate{ max-width: 340px; margin: 120px auto; text-align: center; }
+  .gate h1{ font-family: 'Space Grotesk', sans-serif; font-size: 18px; margin-bottom: 16px; }
+  .gate input{
+    width: 100%; padding: 10px 12px; font-family: 'IBM Plex Mono', monospace; font-size: 14px;
+    border: 1px solid var(--line); border-radius: var(--radius); margin-bottom: 10px;
+  }
+  .gate button{
+    width: 100%; padding: 10px 12px; background: var(--text); color: var(--bg); border: none;
+    border-radius: var(--radius); font-family: 'IBM Plex Mono', monospace; font-size: 13px; cursor: pointer;
+  }
+  .gate .err{ color: var(--loss); font-size: 12px; margin-top: 8px; font-family: 'IBM Plex Mono', monospace; }
+
+  .eyebrow{
+    display: flex; align-items: center; justify-content: space-between;
+    padding-bottom: 18px; border-bottom: 2px solid var(--accent); margin-bottom: 20px;
+  }
+  .brand h1{ font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 20px; margin: 0; text-transform: uppercase; }
+  .brand span.sub{ font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--muted); }
+
+  .token-box{
+    background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 14px 16px; margin-bottom: 20px; font-family: 'IBM Plex Mono', monospace; font-size: 12px;
+  }
+  .token-box.ok{ color: var(--gain); }
+  .token-box input{
+    width: 100%; padding: 8px 10px; font-family: 'IBM Plex Mono', monospace; font-size: 13px;
+    border: 1px solid var(--line); border-radius: var(--radius); margin: 8px 0;
+  }
+  .token-box button{
+    padding: 7px 14px; background: var(--text); color: var(--bg); border: none;
+    border-radius: var(--radius); font-family: 'IBM Plex Mono', monospace; font-size: 12px; cursor: pointer;
+  }
+  .token-box a{ color: var(--text); }
+
+  table{ width: 100%; border-collapse: collapse; font-size: 13px; }
+  thead th{
+    text-align: left; font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.06em;
+    text-transform: uppercase; color: var(--muted); font-weight: 500; padding: 10px 8px; border-bottom: 1px solid var(--line);
+  }
+  thead th.num{ text-align: right; }
+  tbody td{ padding: 8px; border-bottom: 1px solid var(--line); }
+  .name-cell{ font-weight: 500; }
+  .price-cell{ font-family: 'IBM Plex Mono', monospace; text-align: right; color: var(--muted); white-space: nowrap; }
+
+  input.qty-input{
+    width: 90px; padding: 6px 8px; font-family: 'IBM Plex Mono', monospace; font-size: 13px;
+    border: 1px solid var(--line); border-radius: var(--radius); text-align: right;
+  }
+  select.currency-select{
+    padding: 6px 6px; font-family: 'IBM Plex Mono', monospace; font-size: 12px;
+    border: 1px solid var(--line); border-radius: var(--radius);
+  }
+
+  .table-scroll{ overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+  .add-row{
+    display: flex; gap: 8px; margin: 20px 0; flex-wrap: wrap;
+  }
+  .add-row select{
+    flex: 1; min-width: 200px; padding: 8px 10px; font-family: 'IBM Plex Mono', monospace; font-size: 13px;
+    border: 1px solid var(--line); border-radius: var(--radius);
+  }
+  .add-row button{
+    padding: 8px 16px; background: var(--panel); border: 1px solid var(--line); color: var(--text);
+    border-radius: var(--radius); font-family: 'IBM Plex Mono', monospace; font-size: 12px; cursor: pointer;
+  }
+
+  .save-bar{
+    position: sticky; bottom: 0; background: var(--bg); border-top: 1px solid var(--line);
+    padding: 16px 0; margin-top: 24px; display: flex; align-items: center; gap: 12px; justify-content: space-between;
+  }
+  .save-btn{
+    padding: 12px 24px; background: var(--accent); color: #fff; border: none;
+    border-radius: var(--radius); font-family: 'IBM Plex Mono', monospace; font-size: 13px; font-weight: 600; cursor: pointer;
+  }
+  .save-btn:disabled{ background: var(--muted); cursor: not-allowed; }
+  .save-status{ font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--muted); }
+  .save-status.ok{ color: var(--gain); }
+  .save-status.err{ color: var(--loss); }
+
+  .empty, .error{ padding: 30px 10px; text-align: center; color: var(--muted); font-family: 'IBM Plex Mono', monospace; font-size: 13px; }
+  .error{ color: var(--loss); }
+</style>
+</head>
+<body>
+
+<div class="gate" id="gate">
+  <h1>BESTÄNDE BEARBEITEN</h1>
+  <input type="password" id="pwInput" placeholder="Passwort" autocomplete="off">
+  <button type="button" id="pwSubmit">Entsperren</button>
+  <div class="err hidden" id="pwErr">Falsches Passwort.</div>
+</div>
+
+<div class="wrap hidden" id="app">
+  <div class="eyebrow">
+    <div class="brand">
+      <h1>Bestände</h1>
+      <span class="sub">/ bearbeiten</span>
+    </div>
+    <a href="portfoliodashboard.html" style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted);">← zum Dashboard</a>
+  </div>
+
+  <div class="token-box" id="tokenBox">
+    <div id="tokenStatus">Kein GitHub-Token hinterlegt. Zum Speichern wird ein Fine-grained Personal Access Token mit <b>Contents: Read and write</b> auf <code>financialdatacollector-public</code> benötigt.</div>
+    <input type="password" id="tokenInput" placeholder="github_pat_..." autocomplete="off">
+    <button type="button" id="tokenSave">Token speichern (nur in diesem Browser)</button>
+  </div>
+
+  <div class="table-scroll">
+    <table id="holdingsTable">
+      <thead>
+        <tr>
+          <th>Security</th>
+          <th class="num">Price LC</th>
+          <th class="num">Quantity</th>
+          <th>Currency</th>
+        </tr>
+      </thead>
+      <tbody id="holdingsBody">
+        <tr><td colspan="4" class="empty">Lädt…</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="add-row">
+    <select id="addSecuritySelect"><option>Lädt…</option></select>
+    <button type="button" id="addSecurityBtn">+ Position hinzufügen</button>
+  </div>
+
+  <div class="save-bar">
+    <span class="save-status" id="saveStatus"></span>
+    <button type="button" class="save-btn" id="saveBtn">Speichern</button>
+  </div>
+</div>
+
+<script>
+  const DATA_URL = "https://raw.githubusercontent.com/Munotstadt/financialdatacollector-public/main/all_data.csv";
+  const HOLDINGS_URL = "https://raw.githubusercontent.com/Munotstadt/financialdatacollector-public/main/portfolio_holdings.csv";
+  const REPO = "Munotstadt/financialdatacollector-public";
+  const FILE_PATH = "portfolio_holdings.csv";
+
+  const PW_HASH = "4e51b921248735423b6b3b7f2f33e59e7026e9ae029ce2c1d68c895b4b3ec857";
+
+  async function sha256(text) {
+    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text));
+    return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+  }
+
+  async function tryUnlock() {
+    const val = document.getElementById('pwInput').value;
+    const hash = await sha256(val);
+    if (hash === PW_HASH) {
+      document.getElementById('gate').classList.add('hidden');
+      document.getElementById('app').classList.remove('hidden');
+      sessionStorage.setItem('pf_unlocked', '1');
+      init();
+    } else {
+      document.getElementById('pwErr').classList.remove('hidden');
+    }
+  }
+  document.getElementById('pwSubmit').addEventListener('click', tryUnlock);
+  document.getElementById('pwInput').addEventListener('keydown', e => { if (e.key === 'Enter') tryUnlock(); });
+  if (sessionStorage.getItem('pf_unlocked') === '1') {
+    document.getElementById('gate').classList.add('hidden');
+    document.getElementById('app').classList.remove('hidden');
+    init();
+  }
+
+  // ---- Token handling ----
+  function getToken() { return localStorage.getItem('pf_gh_token') || ''; }
+  function refreshTokenBox() {
+    const box = document.getElementById('tokenBox');
+    const status = document.getElementById('tokenStatus');
+    if (getToken()) {
+      box.classList.add('ok');
+      status.innerHTML = 'Token hinterlegt. <a href="#" id="tokenClear">Token entfernen</a>';
+      document.getElementById('tokenClear').addEventListener('click', (e) => {
+        e.preventDefault();
+        localStorage.removeItem('pf_gh_token');
+        refreshTokenBox();
+      });
+    } else {
+      box.classList.remove('ok');
+      status.innerHTML = 'Kein GitHub-Token hinterlegt. Zum Speichern wird ein Fine-grained Personal Access Token mit <b>Contents: Read and write</b> auf <code>financialdatacollector-public</code> benötigt.';
+    }
+  }
+  document.getElementById('tokenSave').addEventListener('click', () => {
+    const val = document.getElementById('tokenInput').value.trim();
+    if (val) { localStorage.setItem('pf_gh_token', val); document.getElementById('tokenInput').value = ''; refreshTokenBox(); }
+  });
+
+  // ---- CSV helpers ----
+  function parseCSV(text) {
+    const rows = [];
+    let row = [], field = "", inQuotes = false;
+    for (let i = 0; i < text.length; i++) {
+      const c = text[i];
+      if (inQuotes) {
+        if (c === '"') { if (text[i + 1] === '"') { field += '"'; i++; } else inQuotes = false; }
+        else field += c;
+      } else {
+        if (c === '"') inQuotes = true;
+        else if (c === ',') { row.push(field); field = ""; }
+        else if (c === '\n') { row.push(field); field = ""; if (row.length > 1 || row[0] !== "") rows.push(row); row = []; }
+        else if (c === '\r') { /* skip */ }
+        else field += c;
+      }
+    }
+    if (field.length || row.length) { row.push(field); rows.push(row); }
+    return rows;
+  }
+  function parseValueDate(s) {
+    const m = s.trim().match(/^(\d{2})\.(\d{2})\.(\d{4})\s+(\d{2}):(\d{2}):(\d{2})$/);
+    if (!m) return null;
+    const [, d, mo, y, h, mi, se] = m;
+    return new Date(`${y}-${mo}-${d}T${h}:${mi}:${se}`);
+  }
+  function fmtPrice(n) { return n.toLocaleString('de-CH', { minimumFractionDigits: 2, maximumFractionDigits: 4 }); }
+  function csvEscape(v) { return /[",\n]/.test(v) ? `"${v.replace(/"/g, '""')}"` : v; }
+
+  const CURRENCIES = ['CHF', 'USD', 'EUR', 'GBp', 'GBP', 'JPY'];
+
+  // ---- Main ----
+  let allNames = [];      // every MainNameLocal available in all_data.csv, with its latest price
+  let latestPriceByName = new Map();
+
+  async function init() {
+    try {
+      const [dataRes, holdRes] = await Promise.all([
+        fetch(DATA_URL, { cache: 'no-store' }),
+        fetch(HOLDINGS_URL, { cache: 'no-store' }),
+      ]);
+      if (!dataRes.ok) throw new Error(`HTTP ${dataRes.status} (all_data.csv)`);
+      if (!holdRes.ok) throw new Error(`HTTP ${holdRes.status} (portfolio_holdings.csv)`);
+
+      // Latest price per security
+      const rows = parseCSV(await dataRes.text());
+      const header = rows[0].map(h => h.trim());
+      const idx = { valueDate: header.indexOf('ValueDate'), amount: header.indexOf('AmountLC'), mainNameLocal: header.indexOf('MainNameLocal'), mainId: header.indexOf('MainID') };
+      for (let r = 1; r < rows.length; r++) {
+        const row = rows[r];
+        if (row.length < header.length) continue;
+        const name = (idx.mainNameLocal >= 0 && row[idx.mainNameLocal]) || row[idx.mainId];
+        const amount = parseFloat(row[idx.amount]);
+        const dt = parseValueDate(row[idx.valueDate]);
+        if (!name || isNaN(amount) || !dt) continue;
+        const existing = latestPriceByName.get(name);
+        if (!existing || dt > existing.dt) latestPriceByName.set(name, { amount, dt });
+      }
+      allNames = [...latestPriceByName.keys()].sort();
+
+      // Existing holdings
+      const hRows = parseCSV(await holdRes.text());
+      const hHeader = hRows[0].map(h => h.trim());
+      const ni = hHeader.indexOf('MainNameLocal'), qi = hHeader.indexOf('Quantity'), ci = hHeader.indexOf('Currency');
+      const holdings = [];
+      for (let r = 1; r < hRows.length; r++) {
+        const row = hRows[r];
+        if (row.length <= Math.max(ni, qi, ci)) continue;
+        holdings.push({ name: row[ni].trim(), qty: row[qi].trim(), currency: (row[ci] || 'CHF').trim() });
+      }
+
+      renderTable(holdings);
+      renderAddSelect(holdings.map(h => h.name));
+      refreshTokenBox();
+    } catch (err) {
+      document.getElementById('holdingsBody').innerHTML = `<tr><td colspan="4" class="error">Fehler: ${err.message}</td></tr>`;
+    }
+  }
+
+  function rowHtml(h) {
+    const priceInfo = latestPriceByName.get(h.name);
+    const priceText = priceInfo ? fmtPrice(priceInfo.amount) : '—';
+    const options = CURRENCIES.map(c => `<option value="${c}" ${c === h.currency ? 'selected' : ''}>${c}</option>`).join('');
+    return `
+      <tr data-name="${h.name.replace(/"/g, '&quot;')}">
+        <td class="name-cell">${h.name}</td>
+        <td class="price-cell">${priceText}</td>
+        <td><input type="number" step="any" class="qty-input" value="${h.qty}"></td>
+        <td><select class="currency-select">${options}</select></td>
+      </tr>`;
+  }
+
+  function renderTable(holdings) {
+    if (holdings.length === 0) {
+      document.getElementById('holdingsBody').innerHTML = '<tr><td colspan="4" class="empty">Keine Positionen. Unten hinzufügen.</td></tr>';
+      return;
+    }
+    document.getElementById('holdingsBody').innerHTML = holdings.map(rowHtml).join('');
+  }
+
+  function renderAddSelect(existingNames) {
+    const remaining = allNames.filter(n => !existingNames.includes(n));
+    const select = document.getElementById('addSecuritySelect');
+    select.innerHTML = remaining.length
+      ? remaining.map(n => `<option value="${n.replace(/"/g, '&quot;')}">${n}</option>`).join('')
+      : '<option>Alle Securities bereits erfasst</option>';
+  }
+
+  document.getElementById('addSecurityBtn').addEventListener('click', () => {
+    const select = document.getElementById('addSecuritySelect');
+    const name = select.value;
+    if (!name || !allNames.includes(name)) return;
+    const body = document.getElementById('holdingsBody');
+    if (body.querySelector('.empty')) body.innerHTML = '';
+    body.insertAdjacentHTML('beforeend', rowHtml({ name, qty: 0, currency: 'CHF' }));
+    const currentNames = [...body.querySelectorAll('tr')].map(tr => tr.dataset.name);
+    renderAddSelect(currentNames);
+  });
+
+  // ---- Save to GitHub ----
+  function buildCSV() {
+    const rows = [['MainNameLocal', 'Quantity', 'Currency']];
+    document.querySelectorAll('#holdingsBody tr[data-name]').forEach(tr => {
+      const name = tr.dataset.name;
+      const qty = tr.querySelector('.qty-input').value || '0';
+      const currency = tr.querySelector('.currency-select').value;
+      rows.push([name, qty, currency]);
+    });
+    return rows.map(r => r.map(csvEscape).join(',')).join('\n') + '\n';
+  }
+
+  function b64EncodeUtf8(str) {
+    return btoa(unescape(encodeURIComponent(str)));
+  }
+
+  document.getElementById('saveBtn').addEventListener('click', async () => {
+    const status = document.getElementById('saveStatus');
+    const btn = document.getElementById('saveBtn');
+    const token = getToken();
+    if (!token) {
+      status.textContent = 'Bitte zuerst GitHub-Token hinterlegen.';
+      status.className = 'save-status err';
+      return;
+    }
+
+    btn.disabled = true;
+    status.textContent = 'Speichere…';
+    status.className = 'save-status';
+
+    try {
+      const apiUrl = `https://api.github.com/repos/${REPO}/contents/${FILE_PATH}`;
+      const getRes = await fetch(apiUrl, { headers: { Authorization: `Bearer ${token}`, Accept: 'application/vnd.github+json' } });
+      if (!getRes.ok) throw new Error(`Konnte aktuelle Datei nicht lesen (HTTP ${getRes.status}) - Token korrekt und mit Contents:Write-Recht?`);
+      const getData = await getRes.json();
+      const sha = getData.sha;
+
+      const newContent = buildCSV();
+      const putRes = await fetch(apiUrl, {
+        method: 'PUT',
+        headers: { Authorization: `Bearer ${token}`, Accept: 'application/vnd.github+json', 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          message: `Update portfolio holdings via edit page (${new Date().toISOString()})`,
+          content: b64EncodeUtf8(newContent),
+          sha: sha,
+        }),
+      });
+      if (!putRes.ok) {
+        const errBody = await putRes.json().catch(() => ({}));
+        throw new Error(`Speichern fehlgeschlagen (HTTP ${putRes.status}): ${errBody.message || 'unbekannter Fehler'}`);
+      }
+
+      status.textContent = `Gespeichert um ${new Date().toLocaleTimeString('de-CH')}. Das Dashboard zeigt die Änderung nach dem nächsten Laden.`;
+      status.className = 'save-status ok';
+    } catch (err) {
+      status.textContent = err.message;
+      status.className = 'save-status err';
+    } finally {
+      btn.disabled = false;
+    }
+  });
+</script>
+
+</body>
+</html>
