@@ -3,14 +3,14 @@ Vanguard S&P 500 UCITS ETF (VUAA),0,USD
 SMI Total Return,0,CHF
 UBS ETF (CH) SMIM (SMMCHA),0,CHF
 iShares Core MSCI EM IMI UCITS ETF (EIMI),0,USD
-iShares Swiss Dividend ETF (CHDVD),0,CHF
+iShares Swiss Dividend ETF (CHDVD),70,CHF
 S&P 500 Total Return,0,USD
 Microsoft,0,USD
 Apple,0,USD
 Amazon,0,USD
-Nvidia,0,USD
+Nvidia,2,USD
 Alphabet (Google Class C),0,USD
-SpaceX,0,USD
+SpaceX,2,USD
 Xtrackers S&P 500 Equal Weight UCITS ETF (XDEW),0,USD
 UBS Gold ETF (AUUSI),0,USD
 iShares MSCI EMU Small Cap ETF (CSEMUS),0,EUR
@@ -35,6 +35,6 @@ Silver (USD/oz),0,USD
 Sunrise Communications AG,0,CHF
 SPDR S&P Euro Dividend Aristocrats ETF,0,CHF
 iShares Core MSCI EMU UCITS ETF,0,EUR
-SOL - Solana,0,USD
+SOL - Solana,5,USD
 ETH - Ethereum,0,USD
 BTC - Bitcoin,0,USD
