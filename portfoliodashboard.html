@@ -678,6 +678,9 @@
   }
 
   function renderFxTable(computed, rangeKey) {
+    const fmtCell = (v) => v === null || v === undefined ? '—' : `${v >= 0 ? '+' : ''}${fmtChf(v)}`;
+    const cellClass = (v) => v === null || v === undefined ? 'flat' : v > 0 ? 'up' : v < 0 ? 'down' : 'flat';
+
     const rows = computed
       .filter(h => h.currency !== 'CHF')
       .map(h => {
@@ -688,8 +691,8 @@
             <td class="name-cell">${h.name}</td>
             <td class="num">${h.currency}</td>
             <td class="num">${p.deltaLC >= 0 ? '+' : ''}${fmtPrice(p.deltaLC, 2)}</td>
-            <td class="num ${p.fxEffectCHF > 0 ? 'up' : p.fxEffectCHF < 0 ? 'down' : 'flat'}">${p.fxEffectCHF >= 0 ? '+' : ''}${fmtChf(p.fxEffectCHF)}</td>
-            <td class="num ${p.deltaCHF > 0 ? 'up' : p.deltaCHF < 0 ? 'down' : 'flat'}">${p.deltaCHF >= 0 ? '+' : ''}${fmtChf(p.deltaCHF)}</td>
+            <td class="num ${cellClass(p.fxEffectCHF)}">${fmtCell(p.fxEffectCHF)}</td>
+            <td class="num ${cellClass(p.deltaCHF)}">${fmtCell(p.deltaCHF)}</td>
           </tr>`;
       })
       .filter(Boolean);
