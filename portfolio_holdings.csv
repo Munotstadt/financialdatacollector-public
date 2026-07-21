@@ -1,32 +1,38 @@
 MainNameLocal,Quantity,Currency,Group,Subgroup1,Subgroup2
-UBS Group AG,125,CHF,Aktien,Schweiz,Growth
-Nestlé SA,75,CHF,Aktien,Schweiz,Growth
-Helvetia Baloise Holding AG,25,CHF,Aktien,Schweiz,Growth
-Sunrise Communications AG,120,CHF,Aktien,Schweiz,Growth
+UBS Group AG,125,CHF,Aktien,Schweiz,Core
+Nestlé SA,75,CHF,Aktien,Schweiz,Core
+Helvetia Baloise Holding AG,25,CHF,Aktien,Schweiz,Core
+Sunrise Communications AG,120,CHF,Aktien,Schweiz,Core
 iShares Swiss Dividend ETF (CHDVD),461,CHF,Aktien,Schweiz,Core
 Lonza Group AG,10,CHF,Aktien,Schweiz,Growth
 Partners Group Holding AG,6,CHF,Aktien,Schweiz,Growth
 Richemont SA,35,CHF,Aktien,Schweiz,Growth
 Sika Ltd,30,CHF,Aktien,Schweiz,Growth
 Alcon AG,85,CHF,Aktien,Schweiz,Growth
-UBS ETF (CH) SMIM (SMMCHA),112,CHF,Aktien,Schweiz,Core
+UBS ETF (CH) SMIM (SMMCHA),112,CHF,Aktien,Schweiz,Growth
+SMI Total Return,0,CHF,Aktien,Schweiz,Core
+Swiss Performance Index (SPI),0,CHF,Aktien,Schweiz,Core
 Vanguard S&P 500 UCITS ETF (VUAA),376,USD,Aktien,USA,Core
 Xtrackers S&P 500 Equal Weight UCITS ETF (XDEW),411,USD,Aktien,USA,Core
+S&P 500 Total Return,0,USD,Aktien,USA,Core
+Nasdaq Composite,0,USD,Aktien,USA,Core
 Microsoft,10,USD,Aktien,USA,Growth
 Apple,10,USD,Aktien,USA,Growth
 Amazon,20,USD,Aktien,USA,Growth
 Nvidia,2,USD,Aktien,USA,Growth
 Alphabet (Google Class C),13,USD,Aktien,USA,Growth
 SpaceX,2,USD,Aktien,USA,Growth
-iShares MSCI EMU Small Cap ETF (CSEMUS),50,EUR,Aktien,Europa,Core
+iShares MSCI EMU Small Cap ETF (CSEMUS),50,EUR,Aktien,Europa,Growth
 iShares Core MSCI EMU UCITS ETF,170,EUR,Aktien,Europa,Core
 iShares Core MSCI Europe UCITS ETF EUR Dist,1040,EUR,Aktien,Europa,Core
 SPDR S&P Euro Dividend Aristocrats ETF,206,CHF,Aktien,Europa,Core
 iShares Core FTSE 100 (GBp),50,GBp,Aktien,Europa,Core
+STOXX Europe 600 EUR NR,0,EUR,Aktien,Europa,Core
 iShares Core MSCI Japan IMI UCITS ETF (SJPA/IJPA),150,USD,Aktien,Asia/Pacific,Core
 iShares Core MSCI Pacific ex Japan,49,USD,Aktien,Asia/Pacific,Core
 iShares Core MSCI EM IMI UCITS ETF (EIMI),983,USD,Aktien,World,Growth
-VanEck S&P Global Mining UCITS ETF (GDIG),100,USD,Alternative,World,Growth
+MSCI ACWI - Emerging Markets (USD),0,USD,Aktien,World,Core
+VanEck S&P Global Mining UCITS ETF (GDIG),100,USD,Aktien,World,Growth
 Vonovia,203,EUR,Alternative,Real Estate,Growth
 SWC (CH) REF Rsp Swiss Commercial FA CHF,231,CHF,Alternative,Real Estate,Core
 SOL - Solana,20,USD,Alternative,Krypto,Growth
