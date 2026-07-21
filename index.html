@@ -446,6 +446,33 @@
     margin-bottom: 14px;
   }
 
+  .date-filter{
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+  }
+
+  .date-filter label{
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  .date-filter input[type="date"]{
+    padding: 6px 8px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    color: var(--text);
+    background: var(--bg);
+  }
+
   @media (max-width: 700px){
     #boardTable thead th:nth-child(4), #boardTable tbody td:nth-child(4),
     #boardTable thead th:nth-child(5), #boardTable tbody td:nth-child(5) { display: none; } /* hide Week/Month deltas on narrow screens, keep Δ prev./YtD/Time */
@@ -534,11 +561,10 @@
 
   <div class="history-title">Full price history</div>
   <div class="history-count" id="historyCount"></div>
-  <div class="range-selector" id="historyRangeSelector">
-    <button type="button" class="range-btn" data-range="30D">30 Tage</button>
-    <button type="button" class="range-btn" data-range="YTD">YtD</button>
-    <button type="button" class="range-btn" data-range="12M">12 Monate</button>
-    <button type="button" class="range-btn active" data-range="ALL">Alle</button>
+  <div class="date-filter" id="historyDateFilter">
+    <label>Von <input type="date" id="historyFrom"></label>
+    <label>Bis <input type="date" id="historyTo"></label>
+    <button type="button" class="range-btn" id="historyReset">Zurücksetzen</button>
   </div>
   <table id="historyTable">
     <thead>
@@ -1014,16 +1040,24 @@
 
       renderChart();
 
-      // Full price history table, with its own independent range filter
+      // Full price history table, filtered by an optional custom date range
       const historyBody = document.getElementById('historyBody');
       const historyCount = document.getElementById('historyCount');
-      const historyRangeButtons = document.querySelectorAll('#historyRangeSelector .range-btn');
-      let currentHistoryRange = 'ALL';
+      const fromInput = document.getElementById('historyFrom');
+      const toInput = document.getElementById('historyTo');
+      const resetBtn = document.getElementById('historyReset');
 
       const renderHistory = () => {
-        const filteredDaily = filterByRange(daily, currentHistoryRange);
-        const filteredDates = new Set(filteredDaily.map(p => p.dt.toISOString().slice(0, 10)));
-        const filteredRows = rows.filter(r => filteredDates.has(r.dt.toISOString().slice(0, 10)));
+        const fromVal = fromInput.value;
+        const toVal = toInput.value;
+        const fromDate = fromVal ? new Date(fromVal + 'T00:00:00') : null;
+        const toDate = toVal ? new Date(toVal + 'T23:59:59') : null;
+
+        const filteredRows = rows.filter(r => {
+          if (fromDate && r.dt < fromDate) return false;
+          if (toDate && r.dt > toDate) return false;
+          return true;
+        });
         const sortedDesc = [...filteredRows].sort((a, b) => b.dt - a.dt);
 
         historyCount.textContent = `${sortedDesc.length} data point(s)`;
@@ -1037,12 +1071,12 @@
           : '<tr><td colspan="3" class="empty">Keine Daten für diesen Zeitraum.</td></tr>';
       };
 
-      historyRangeButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
-          currentHistoryRange = btn.dataset.range;
-          historyRangeButtons.forEach(b => b.classList.toggle('active', b === btn));
-          renderHistory();
-        });
+      fromInput.addEventListener('change', renderHistory);
+      toInput.addEventListener('change', renderHistory);
+      resetBtn.addEventListener('click', () => {
+        fromInput.value = '';
+        toInput.value = '';
+        renderHistory();
       });
 
       renderHistory();
