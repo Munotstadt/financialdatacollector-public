@@ -157,6 +157,58 @@
     font-family: 'IBM Plex Mono', monospace;
     font-size: 18px;
     font-weight: 600;
+    display: block;
+  }
+  .summary-subvalue{
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    display: block;
+    margin-top: 2px;
+    color: var(--muted);
+  }
+  .summary-subvalue.up{ color: var(--gain); }
+  .summary-subvalue.down{ color: var(--loss); }
+
+  .movers-row{
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 28px;
+  }
+  .movers-col{
+    flex: 1;
+    min-width: 260px;
+  }
+  .movers-title{
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 0 0 10px;
+    font-weight: 500;
+  }
+  .mover-row{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 10px;
+    border-bottom: 1px solid var(--line);
+    font-size: 13px;
+  }
+  .mover-name{ font-weight: 500; }
+  .mover-value{
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    white-space: nowrap;
+  }
+  .mover-value.up{ color: var(--gain); }
+  .mover-value.down{ color: var(--loss); }
+  .movers-empty{
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: var(--muted);
+    padding: 6px 10px;
   }
   .summary-value.up{ color: var(--gain); }
   .summary-value.down{ color: var(--loss); }
@@ -220,7 +272,14 @@
   .indent-2{ padding-left: 36px !important; }
   .indent-3{ padding-left: 52px !important; }
 
-  tr.subtotal-row{ background: var(--panel); }
+  tr.subtotal-row{ background: var(--panel); cursor: pointer; }
+  tr.subtotal-row:hover{ background: rgba(227,6,19,0.05); }
+  .toggle-arrow{
+    display: inline-block;
+    width: 14px;
+    font-size: 10px;
+    color: var(--muted);
+  }
   tr.subtotal-row td{ font-weight: 600; font-family: 'IBM Plex Mono', monospace; font-size: 12px; }
   tr.subtotal-row.indent-0 td{ font-size: 13px; letter-spacing: 0.03em; text-transform: uppercase; border-top: 2px solid var(--accent); }
   tr.subtotal-row.indent-1{ background: rgba(0,0,0,0.02); }
@@ -329,6 +388,17 @@
 
   <div class="summary-row" id="summaryRow"></div>
 
+  <div class="movers-row">
+    <div class="movers-col">
+      <h3 class="movers-title">Top 5 / Bottom 5 — Veränderung Tag</h3>
+      <div id="moversDay"></div>
+    </div>
+    <div class="movers-col">
+      <h3 class="movers-title">Top 5 / Bottom 5 — Veränderung Woche</h3>
+      <div id="moversWeek"></div>
+    </div>
+  </div>
+
   <h2 class="section-title">Positionen</h2>
   <input type="text" id="holdingsSearch" class="search-input" placeholder="Wertschrift suchen…">
   <div class="table-scroll">
@@ -344,12 +414,10 @@
           <th class="num">Δ Vortag</th>
           <th class="num">Δ Woche</th>
           <th class="num">Δ Monat</th>
-          <th class="num">Δ YtD</th>
-          <th class="num">Δ 12M</th>
         </tr>
       </thead>
       <tbody id="holdingsBody">
-        <tr><td colspan="11" class="empty">Lädt…</td></tr>
+        <tr><td colspan="9" class="empty">Lädt…</td></tr>
       </tbody>
     </table>
   </div>
@@ -629,7 +697,7 @@
 
       if (activeHoldings.length === 0) {
         document.getElementById('holdingsBody').innerHTML =
-          '<tr><td colspan="11" class="empty">Keine Positionen mit Quantity &gt; 0 in portfolio_holdings.csv gefunden.</td></tr>';
+          '<tr><td colspan="9" class="empty">Keine Positionen mit Quantity &gt; 0 in portfolio_holdings.csv gefunden.</td></tr>';
         statusText.textContent = 'keine Daten';
         return;
       }
@@ -668,6 +736,8 @@
 
       allComputedCache = computed;
       renderSummary(computed);
+      renderMovers(computed, 'prev', 'moversDay');
+      renderMovers(computed, 'week', 'moversWeek');
       applyHoldingsFilter();
       renderHeatmap(computed, 'prev');
       renderFxTable(computed, 'prev');
@@ -683,14 +753,15 @@
       statusText.textContent = `live · ${new Date().toLocaleTimeString('de-CH')}`;
     } catch (err) {
       statusText.textContent = 'Fehler';
-      document.getElementById('holdingsBody').innerHTML = `<tr><td colspan="11" class="error">Fehler: ${err.message}</td></tr>`;
+      document.getElementById('holdingsBody').innerHTML = `<tr><td colspan="9" class="error">Fehler: ${err.message}</td></tr>`;
     }
   }
 
   let allComputedCache = [];
 
   const GROUP_ORDER = ['Aktien', 'Obligationen', 'Alternative', 'Unklassifiziert'];
-  const PERIOD_KEYS = ['prev', 'week', 'month', 'ytd', '12m'];
+  const ALL_PERIOD_KEYS = ['prev', 'week', 'month', 'ytd', '12m'];
+  const TABLE_KEYS = ['prev', 'week', 'month'];
 
   function applyHoldingsFilter() {
     const query = document.getElementById('holdingsSearch').value.trim().toLowerCase();
@@ -710,30 +781,68 @@
     return { text: `${v > 0 ? '+' : ''}${fmtChf(v)}`, dir: v > 0 ? 'up' : v < 0 ? 'down' : 'flat' };
   }
 
+  function renderMovers(computed, key, containerId) {
+    const withData = computed
+      .filter(h => h.periods[key] && h.periods[key].deltaCHF !== null)
+      .map(h => ({ name: h.name, deltaCHF: h.periods[key].deltaCHF }));
+
+    const container = document.getElementById(containerId);
+    if (withData.length === 0) {
+      container.innerHTML = '<div class="movers-empty">Keine Daten für diesen Zeitraum.</div>';
+      return;
+    }
+
+    const sorted = [...withData].sort((a, b) => b.deltaCHF - a.deltaCHF);
+    const top5 = sorted.slice(0, 5);
+    const bottom5 = sorted.slice(-5).reverse();
+
+    const rowHtml = (m) => {
+      const dir = m.deltaCHF > 0 ? 'up' : m.deltaCHF < 0 ? 'down' : 'flat';
+      return `
+        <div class="mover-row">
+          <span class="mover-name">${m.name}</span>
+          <span class="mover-value ${dir}">${m.deltaCHF >= 0 ? '+' : ''}${fmtChf(m.deltaCHF)}</span>
+        </div>`;
+    };
+
+    container.innerHTML = top5.map(rowHtml).join('') +
+      '<div style="height:10px"></div>' +
+      bottom5.map(rowHtml).join('');
+  }
+
   function renderSummary(computed) {
     const totalCHF = computed.reduce((s, h) => s + (h.valueCHF || 0), 0);
-    const totalPrevCHF = computed.reduce((s, h) => {
-      const p = h.periods.prev;
-      const ref = p ? (h.valueCHF - p.deltaCHF) : h.valueCHF;
-      return s + (ref || 0);
-    }, 0);
-    const deltaPrevCHF = totalCHF - totalPrevCHF;
-    const deltaPrevPct = totalPrevCHF ? (deltaPrevCHF / totalPrevCHF) * 100 : null;
-    const dir = deltaPrevPct === null ? 'flat' : deltaPrevPct > 0 ? 'up' : deltaPrevPct < 0 ? 'down' : 'flat';
+
+    const periodSummary = (key) => {
+      const withData = computed.filter(h => h.periods[key] && h.periods[key].deltaCHF !== null);
+      if (withData.length === 0) return { deltaCHF: null, pct: null, dir: 'flat' };
+      const deltaCHF = withData.reduce((s, h) => s + h.periods[key].deltaCHF, 0);
+      const refTotal = withData.reduce((s, h) => s + (h.valueCHF - h.periods[key].deltaCHF), 0);
+      const pct = refTotal ? (deltaCHF / refTotal) * 100 : null;
+      const dir = deltaCHF > 0 ? 'up' : deltaCHF < 0 ? 'down' : 'flat';
+      return { deltaCHF, pct, dir };
+    };
+
+    const tileHtml = (label, key) => {
+      const s = periodSummary(key);
+      const chfText = s.deltaCHF === null ? '—' : `${s.deltaCHF >= 0 ? '+' : ''}${fmtChf(s.deltaCHF)}`;
+      const pctText = s.pct === null ? '' : `${s.pct >= 0 ? '+' : ''}${s.pct.toFixed(2)}%`;
+      return `
+        <div class="summary-box">
+          <span class="summary-label">${label}</span>
+          <span class="summary-value ${s.dir}">${chfText}</span>
+          <span class="summary-subvalue ${s.dir}">${pctText}</span>
+        </div>`;
+    };
 
     document.getElementById('summaryRow').innerHTML = `
       <div class="summary-box">
         <span class="summary-label">Portfoliowert</span>
         <span class="summary-value">CHF ${fmtChf(totalCHF)}</span>
       </div>
-      <div class="summary-box">
-        <span class="summary-label">Δ Vortag</span>
-        <span class="summary-value ${dir}">${deltaPrevPct === null ? '—' : (deltaPrevPct > 0 ? '+' : '') + deltaPrevPct.toFixed(2) + '%'}</span>
-      </div>
-      <div class="summary-box">
-        <span class="summary-label">Δ Vortag (CHF)</span>
-        <span class="summary-value ${dir}">${deltaPrevCHF >= 0 ? '+' : ''}${fmtChf(deltaPrevCHF)}</span>
-      </div>
+      ${tileHtml('Δ Vortag', 'prev')}
+      ${tileHtml('Δ Woche', 'week')}
+      ${tileHtml('Δ Monat', 'month')}
       <div class="summary-box">
         <span class="summary-label">Positionen</span>
         <span class="summary-value">${computed.length}</span>
@@ -747,7 +856,7 @@
   function sumGroup(list) {
     const valueCHF = list.reduce((s, h) => s + (h.valueCHF || 0), 0);
     const periods = {};
-    for (const key of PERIOD_KEYS) {
+    for (const key of ALL_PERIOD_KEYS) {
       const withData = list.filter(h => h.periods[key] && h.periods[key].deltaCHF !== null);
       periods[key] = withData.length ? withData.reduce((s, h) => s + h.periods[key].deltaCHF, 0) : null;
     }
@@ -755,7 +864,7 @@
   }
 
   function periodCellsHtml(periods, totalForPct) {
-    return PERIOD_KEYS.map(key => {
+    return TABLE_KEYS.map(key => {
       const f = fmtDeltaChf(periods[key]);
       return `<td class="num ${f.dir}">${f.text}</td>`;
     }).join('');
@@ -763,7 +872,7 @@
 
   function securityRowHtml(h, grandTotalCHF) {
     const p = h.periods;
-    const cells = PERIOD_KEYS.map(key => {
+    const cells = TABLE_KEYS.map(key => {
       const f = fmtDeltaChf(p[key] ? p[key].deltaCHF : null);
       return `<td class="num ${f.dir}">${f.text}</td>`;
     }).join('');
@@ -782,12 +891,16 @@
       </tr>`;
   }
 
-  function subtotalRowHtml(label, indentClass, list, grandTotalCHF) {
+  let collapsedKeys = new Set();
+
+  function subtotalRowHtml(label, indentClass, list, grandTotalCHF, groupKey) {
     const sum = sumGroup(list);
     const pctPf = grandTotalCHF ? (sum.valueCHF / grandTotalCHF) * 100 : null;
+    const isCollapsed = collapsedKeys.has(groupKey);
+    const arrow = isCollapsed ? '▶' : '▼';
     return `
-      <tr class="subtotal-row ${indentClass}">
-        <td class="name-cell ${indentClass}">${label}</td>
+      <tr class="subtotal-row ${indentClass}" data-group-key="${groupKey.replace(/"/g, '&quot;')}">
+        <td class="name-cell ${indentClass} toggle-cell"><span class="toggle-arrow">${arrow}</span>${label}</td>
         <td class="num">—</td>
         <td class="num">—</td>
         <td class="num">—</td>
@@ -797,9 +910,18 @@
       </tr>`;
   }
 
+  document.getElementById('holdingsBody').addEventListener('click', (e) => {
+    const row = e.target.closest('tr.subtotal-row');
+    if (!row) return;
+    const key = row.dataset.groupKey;
+    if (collapsedKeys.has(key)) collapsedKeys.delete(key);
+    else collapsedKeys.add(key);
+    applyHoldingsFilter();
+  });
+
   function renderHoldingsTable(filtered) {
     if (filtered.length === 0) {
-      document.getElementById('holdingsBody').innerHTML = '<tr><td colspan="11" class="empty">Keine Treffer.</td></tr>';
+      document.getElementById('holdingsBody').innerHTML = '<tr><td colspan="9" class="empty">Keine Treffer.</td></tr>';
       return;
     }
 
@@ -825,7 +947,9 @@
     for (const groupName of presentGroups) {
       const s1map = tree.get(groupName);
       const groupList = [...s1map.values()].flatMap(s2map => [...s2map.values()].flat());
-      html += subtotalRowHtml(groupName.toUpperCase(), 'indent-0', groupList, grandTotalCHF);
+      const groupKey = groupName;
+      html += subtotalRowHtml(groupName.toUpperCase(), 'indent-0', groupList, grandTotalCHF, groupKey);
+      if (collapsedKeys.has(groupKey)) continue;
 
       const sub1Names = [...s1map.keys()].sort((a, b) => {
         const totalA = sumGroup([...s1map.get(a).values()].flat()).valueCHF;
@@ -836,13 +960,17 @@
       for (const sub1Name of sub1Names) {
         const s2map = s1map.get(sub1Name);
         const sub1List = [...s2map.values()].flat();
-        html += subtotalRowHtml(sub1Name, 'indent-1', sub1List, grandTotalCHF);
+        const sub1Key = `${groupName}::${sub1Name}`;
+        html += subtotalRowHtml(sub1Name, 'indent-1', sub1List, grandTotalCHF, sub1Key);
+        if (collapsedKeys.has(sub1Key)) continue;
 
         const sub2Names = [...s2map.keys()].sort((a, b) => sumGroup(s2map.get(b)).valueCHF - sumGroup(s2map.get(a)).valueCHF);
 
         for (const sub2Name of sub2Names) {
           const securities = s2map.get(sub2Name);
-          html += subtotalRowHtml(sub2Name, 'indent-2', securities, grandTotalCHF);
+          const sub2Key = `${groupName}::${sub1Name}::${sub2Name}`;
+          html += subtotalRowHtml(sub2Name, 'indent-2', securities, grandTotalCHF, sub2Key);
+          if (collapsedKeys.has(sub2Key)) continue;
 
           const sortedSecurities = [...securities].sort((a, b) => (b.valueCHF || 0) - (a.valueCHF || 0));
           for (const h of sortedSecurities) html += securityRowHtml(h, grandTotalCHF);
