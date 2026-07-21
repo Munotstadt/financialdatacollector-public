@@ -582,3 +582,16 @@ ValueDate,ValueDefinitionID,AmountLC,ValueComment,SourceComments,MainID,MainName
 20.07.2026 12:57:07,Prices,1029.000000,High,Yahoo Finance,iShares Core FTSE 100 (GBp),iShares Core FTSE 100 (GBp),20.07.2026 13:12:48
 20.07.2026 17:07:34,Prices,1024.800000,Low,Yahoo Finance,iShares Core FTSE 100 (GBp),iShares Core FTSE 100 (GBp),20.07.2026 17:22:38
 20.07.2026 17:35:18,Prices,1025.400000,Last,Yahoo Finance,iShares Core FTSE 100 (GBp),iShares Core FTSE 100 (GBp),20.07.2026 20:18:58
+20.07.2026 17:40:00,Prices,20033.110000,,Yahoo Finance,Swiss Performance Index (SPI),Swiss Performance Index (SPI),21.07.2026 08:41:02
+20.07.2026 23:15:59,Prices,25508.072000,,Yahoo Finance,Nasdaq Composite,Nasdaq Composite,21.07.2026 08:41:02
+21.07.2026 08:40:57,Prices,0.925000,,Yahoo Finance,897789,EUR/CHF,21.07.2026 08:41:02
+21.07.2026 08:40:56,Prices,0.810000,,Yahoo Finance,275000,USD/CHF,21.07.2026 08:41:02
+21.07.2026 08:40:58,Prices,1.089200,,Yahoo Finance,GBP/CHF,GBP/CHF,21.07.2026 08:41:02
+21.07.2026 08:40:56,Prices,0.005000,,Yahoo Finance,JPY/CHF,JPY/CHF,21.07.2026 08:41:02
+21.07.2026 08:40:45,Prices,4802.030000,,Yahoo Finance,MSCI World,MSCI World,21.07.2026 08:41:02
+21.07.2026 08:41:00,Prices,1653.740000,,Yahoo Finance,MSCI ACWI - Emerging Markets (USD),MSCI ACWI - Emerging Markets (USD),21.07.2026 08:41:02
+21.07.2026 08:30:56,Prices,4077.000000,,Yahoo Finance,Gold (USD/oz),Gold (USD/oz),21.07.2026 08:41:02
+21.07.2026 08:30:53,Prices,58.875000,,Yahoo Finance,Silver (USD/oz),Silver (USD/oz),21.07.2026 08:41:02
+21.07.2026 08:40:57,Prices,78.710000,,Yahoo Finance,22000,SOL - Solana,21.07.2026 08:41:02
+21.07.2026 08:40:53,Prices,1937.250000,,Yahoo Finance,40149561,ETH - Ethereum,21.07.2026 08:41:02
+21.07.2026 08:40:56,Prices,65897.720000,,Yahoo Finance,18789194,BTC - Bitcoin,21.07.2026 08:41:02
