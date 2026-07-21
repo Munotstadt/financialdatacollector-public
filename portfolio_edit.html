@@ -95,6 +95,7 @@
   thead th.num{ text-align: right; }
   tbody td{ padding: 8px; border-bottom: 1px solid var(--line); }
   .name-cell{ font-weight: 500; }
+  .highlight-row{ background: rgba(227, 6, 19, 0.08); }
   .price-cell{ font-family: 'IBM Plex Mono', monospace; text-align: right; color: var(--muted); white-space: nowrap; }
 
   input.qty-input{
@@ -323,6 +324,7 @@
       renderTable(holdings);
       renderAddSelect(holdings.map(h => h.name));
       refreshTokenBox();
+      focusEditTarget();
     } catch (err) {
       document.getElementById('holdingsBody').innerHTML = `<tr><td colspan="4" class="error">Fehler: ${err.message}</td></tr>`;
     }
@@ -339,6 +341,18 @@
         <td><input type="number" step="any" class="qty-input" value="${h.qty}"></td>
         <td><select class="currency-select">${options}</select></td>
       </tr>`;
+  }
+
+  function focusEditTarget() {
+    const params = new URLSearchParams(window.location.search);
+    const target = params.get('edit');
+    if (!target) return;
+    const row = document.querySelector(`#holdingsBody tr[data-name="${CSS.escape(target)}"]`);
+    if (!row) return;
+    row.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    row.classList.add('highlight-row');
+    const qtyInput = row.querySelector('.qty-input');
+    if (qtyInput) qtyInput.focus();
   }
 
   function renderTable(holdings) {
