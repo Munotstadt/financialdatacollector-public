@@ -33,6 +33,7 @@
   }
   .wrap{ width: 100%; max-width: 760px; }
   .hidden{ display: none !important; }
+  .hidden-row{ display: none !important; }
 
   .gate{ max-width: 340px; margin: 120px auto; text-align: center; }
   .gate h1{ font-family: 'Space Grotesk', sans-serif; font-size: 18px; margin-bottom: 16px; }
@@ -72,6 +73,19 @@
   .brand h1{ font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 20px; margin: 0; text-transform: uppercase; }
   .brand span.sub{ font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--muted); }
 
+  .search-input{
+    width: 100%;
+    padding: 10px 14px;
+    margin-bottom: 14px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    color: var(--text);
+    background: var(--bg);
+  }
+  .search-input:focus{ outline: none; border-color: var(--accent); }
+
   .token-box{
     background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius);
     padding: 14px 16px; margin-bottom: 20px; font-family: 'IBM Plex Mono', monospace; font-size: 12px;
@@ -97,6 +111,19 @@
   .name-cell{ font-weight: 500; }
   .highlight-row{ background: rgba(227, 6, 19, 0.08); }
   .price-cell{ font-family: 'IBM Plex Mono', monospace; text-align: right; color: var(--muted); white-space: nowrap; }
+
+  .remove-btn{
+    background: none;
+    border: 1px solid var(--line);
+    color: var(--loss);
+    width: 26px;
+    height: 26px;
+    border-radius: var(--radius);
+    cursor: pointer;
+    font-size: 13px;
+    line-height: 1;
+  }
+  .remove-btn:hover{ background: var(--loss); border-color: var(--loss); color: #fff; }
 
   input.qty-input{
     width: 90px; padding: 6px 8px; font-family: 'IBM Plex Mono', monospace; font-size: 13px;
@@ -164,6 +191,8 @@
     <button type="button" id="tokenSave">Token speichern (nur in diesem Browser)</button>
   </div>
 
+  <input type="text" id="holdingsSearch" class="search-input" placeholder="Wertschrift suchen…">
+
   <div class="table-scroll">
     <table id="holdingsTable">
       <thead>
@@ -172,10 +201,11 @@
           <th class="num">Price LC</th>
           <th class="num">Quantity</th>
           <th>Currency</th>
+          <th></th>
         </tr>
       </thead>
       <tbody id="holdingsBody">
-        <tr><td colspan="4" class="empty">Lädt…</td></tr>
+        <tr><td colspan="5" class="empty">Lädt…</td></tr>
       </tbody>
     </table>
   </div>
@@ -326,7 +356,7 @@
       refreshTokenBox();
       focusEditTarget();
     } catch (err) {
-      document.getElementById('holdingsBody').innerHTML = `<tr><td colspan="4" class="error">Fehler: ${err.message}</td></tr>`;
+      document.getElementById('holdingsBody').innerHTML = `<tr><td colspan="5" class="error">Fehler: ${err.message}</td></tr>`;
     }
   }
 
@@ -340,8 +370,41 @@
         <td class="price-cell">${priceText}</td>
         <td><input type="number" step="any" class="qty-input" value="${h.qty}"></td>
         <td><select class="currency-select">${options}</select></td>
+        <td><button type="button" class="remove-btn" title="Position entfernen">✕</button></td>
       </tr>`;
   }
+
+  document.getElementById('holdingsBody').addEventListener('click', (e) => {
+    if (!e.target.classList.contains('remove-btn')) return;
+    const row = e.target.closest('tr[data-name]');
+    if (!row) return;
+    const name = row.dataset.name;
+    if (!confirm(`Position "${name}" wirklich entfernen? (Wird erst mit "Speichern" endgültig.)`)) return;
+    row.remove();
+    const body = document.getElementById('holdingsBody');
+    if (body.querySelectorAll('tr[data-name]').length === 0) {
+      body.innerHTML = '<tr><td colspan="5" class="empty">Keine Positionen. Unten hinzufügen.</td></tr>';
+    }
+    const currentNames = [...body.querySelectorAll('tr[data-name]')].map(tr => tr.dataset.name);
+    renderAddSelect(currentNames);
+  });
+
+  function applyHoldingsSearchFilter() {
+    const query = document.getElementById('holdingsSearch').value.trim().toLowerCase();
+    let visibleCount = 0;
+    document.querySelectorAll('#holdingsBody tr[data-name]').forEach(tr => {
+      const match = !query || tr.dataset.name.toLowerCase().includes(query);
+      tr.classList.toggle('hidden-row', !match);
+      if (match) visibleCount++;
+    });
+    const emptyRow = document.getElementById('noSearchResults');
+    if (emptyRow) emptyRow.remove();
+    if (visibleCount === 0 && query) {
+      document.getElementById('holdingsBody').insertAdjacentHTML('beforeend',
+        '<tr id="noSearchResults"><td colspan="5" class="empty">Keine Treffer.</td></tr>');
+    }
+  }
+  document.getElementById('holdingsSearch').addEventListener('input', applyHoldingsSearchFilter);
 
   function focusEditTarget() {
     const params = new URLSearchParams(window.location.search);
@@ -357,7 +420,7 @@
 
   function renderTable(holdings) {
     if (holdings.length === 0) {
-      document.getElementById('holdingsBody').innerHTML = '<tr><td colspan="4" class="empty">Keine Positionen. Unten hinzufügen.</td></tr>';
+      document.getElementById('holdingsBody').innerHTML = '<tr><td colspan="5" class="empty">Keine Positionen. Unten hinzufügen.</td></tr>';
       return;
     }
     document.getElementById('holdingsBody').innerHTML = holdings.map(rowHtml).join('');
@@ -380,6 +443,7 @@
     body.insertAdjacentHTML('beforeend', rowHtml({ name, qty: 0, currency: 'CHF' }));
     const currentNames = [...body.querySelectorAll('tr')].map(tr => tr.dataset.name);
     renderAddSelect(currentNames);
+    applyHoldingsSearchFilter();
   });
 
   // ---- Save to GitHub ----
