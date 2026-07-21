@@ -45,6 +45,25 @@
     border-radius: var(--radius); font-family: 'IBM Plex Mono', monospace; font-size: 13px; cursor: pointer;
   }
   .gate .err{ color: var(--loss); font-size: 12px; margin-top: 8px; font-family: 'IBM Plex Mono', monospace; }
+  .gate-link{ margin-top: 20px; }
+  .gate-link a{
+    font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--muted); text-decoration: none;
+    border-bottom: 1px dotted var(--muted);
+  }
+  .gate-link a:hover{ color: var(--text); border-bottom-color: var(--text); }
+
+  .dashboard-link{
+    display: inline-block;
+    padding: 6px 14px;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: var(--text);
+    text-decoration: none;
+  }
+  .dashboard-link:hover{ border-color: var(--text); }
 
   .eyebrow{
     display: flex; align-items: center; justify-content: space-between;
@@ -122,9 +141,11 @@
 
 <div class="gate" id="gate">
   <h1>BESTÄNDE BEARBEITEN</h1>
+  <input type="email" id="userInput" placeholder="E-Mail" autocomplete="off">
   <input type="password" id="pwInput" placeholder="Passwort" autocomplete="off">
   <button type="button" id="pwSubmit">Entsperren</button>
-  <div class="err hidden" id="pwErr">Falsches Passwort.</div>
+  <div class="err hidden" id="pwErr">Benutzername oder Passwort falsch.</div>
+  <div class="gate-link"><a href="portfoliodashboard.html">→ zum Portfolio Dashboard</a></div>
 </div>
 
 <div class="wrap hidden" id="app">
@@ -133,7 +154,7 @@
       <h1>Bestände</h1>
       <span class="sub">/ bearbeiten</span>
     </div>
-    <a href="portfoliodashboard.html" style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted);">← zum Dashboard</a>
+    <a href="portfoliodashboard.html" class="dashboard-link">→ zum Dashboard</a>
   </div>
 
   <div class="token-box" id="tokenBox">
@@ -175,7 +196,8 @@
   const REPO = "Munotstadt/financialdatacollector-public";
   const FILE_PATH = "portfolio_holdings.csv";
 
-  const PW_HASH = "4e51b921248735423b6b3b7f2f33e59e7026e9ae029ce2c1d68c895b4b3ec857";
+  const VALID_USER = "ph.gnaedinger@gmail.com";
+  const PW_HASH = "daf277763ee554193976052c176a094b24fe09acf69e4ebcac6b4435110ea74a";
 
   async function sha256(text) {
     const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text));
@@ -183,9 +205,10 @@
   }
 
   async function tryUnlock() {
+    const user = document.getElementById('userInput').value.trim().toLowerCase();
     const val = document.getElementById('pwInput').value;
     const hash = await sha256(val);
-    if (hash === PW_HASH) {
+    if (user === VALID_USER && hash === PW_HASH) {
       document.getElementById('gate').classList.add('hidden');
       document.getElementById('app').classList.remove('hidden');
       sessionStorage.setItem('pf_unlocked', '1');
@@ -196,6 +219,7 @@
   }
   document.getElementById('pwSubmit').addEventListener('click', tryUnlock);
   document.getElementById('pwInput').addEventListener('keydown', e => { if (e.key === 'Enter') tryUnlock(); });
+  document.getElementById('userInput').addEventListener('keydown', e => { if (e.key === 'Enter') tryUnlock(); });
   if (sessionStorage.getItem('pf_unlocked') === '1') {
     document.getElementById('gate').classList.add('hidden');
     document.getElementById('app').classList.remove('hidden');
