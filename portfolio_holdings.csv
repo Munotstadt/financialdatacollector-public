@@ -9,7 +9,7 @@ Partners Group Holding AG,6,CHF,Aktien,Schweiz,Growth
 Richemont SA,35,CHF,Aktien,Schweiz,Growth
 Sika Ltd,30,CHF,Aktien,Schweiz,Growth
 Alcon AG,85,CHF,Aktien,Schweiz,Growth
-UBS ETF (CH) SMIM (SMMCHA),112,CHF,Aktien,Schweiz,Growth
+UBS ETF (CH) SMIM (SMMCHA),112,CHF,Aktien,Schweiz,Core
 SMI Total Return,0,CHF,Aktien,Schweiz,Core
 Swiss Performance Index (SPI),0,CHF,Aktien,Schweiz,Core
 Vanguard S&P 500 UCITS ETF (VUAA),376,USD,Aktien,USA,Core
@@ -38,4 +38,4 @@ SWC (CH) REF Rsp Swiss Commercial FA CHF,231,CHF,Alternative,Real Estate,Core
 SOL - Solana,20,USD,Alternative,Krypto,Growth
 ETH - Ethereum,0.86,USD,Alternative,Krypto,Growth
 BTC - Bitcoin,0.025,USD,Alternative,Krypto,Growth
-UBS Gold ETF (AUUSI),175,USD,Alternative,Commodities,Core
+UBS Gold ETF (AUUSI),175,USD,Alternative,Schweiz,Core
