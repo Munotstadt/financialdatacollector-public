@@ -1,7 +1,7 @@
 MainNameLocal,Quantity,Currency,Group,Subgroup1,Subgroup2
 UBS Group AG,125,CHF,Aktien,Schweiz,Growth
 Nestlé SA,75,CHF,Aktien,Schweiz,Growth
-Helvetia Baloise Holding AG,25,CHF,Aktien,Schweiz,Growth
+Helvetia Baloise Holding AG,25,CHF,Aktien,Schweiz,Core
 Sunrise Communications AG,120,CHF,Aktien,Schweiz,Core
 iShares Swiss Dividend ETF (CHDVD),461,CHF,Aktien,Schweiz,Core
 Lonza Group AG,10,CHF,Aktien,Schweiz,Growth
@@ -31,6 +31,7 @@ STOXX Europe 600 EUR NR,0,EUR,Aktien,Europa,Core
 iShares Core MSCI Japan IMI UCITS ETF (SJPA/IJPA),150,USD,Aktien,Asia/Pacific,Core
 iShares Core MSCI Pacific ex Japan,49,USD,Aktien,Asia/Pacific,Core
 iShares Core MSCI EM IMI UCITS ETF (EIMI),983,USD,Aktien,World,Growth
+MSCI ACWI - Emerging Markets (USD),0,USD,Aktien,World,Core
 VanEck S&P Global Mining UCITS ETF (GDIG),100,USD,Aktien,World,Growth
 Vonovia,203,EUR,Alternative,Real Estate,Growth
 SWC (CH) REF Rsp Swiss Commercial FA CHF,231,CHF,Alternative,Real Estate,Core
@@ -38,3 +39,4 @@ SOL - Solana,20,USD,Alternative,Krypto,Growth
 ETH - Ethereum,0.86,USD,Alternative,Krypto,Growth
 BTC - Bitcoin,0.025,USD,Alternative,Krypto,Growth
 UBS Gold ETF (AUUSI),175,USD,Alternative,Schweiz,Core
+JPY/CHF,0,CHF,Alternative,World,Core
