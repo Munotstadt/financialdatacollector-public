@@ -1,48 +1,42 @@
 MainNameLocal,Quantity,Currency,Group,Subgroup1,Subgroup2
-UBS Group AG,125,CHF,Aktien,Schweiz,Growth
-Lonza Group AG,10,CHF,Aktien,Schweiz,Growth
-Nestlé SA,75,CHF,Aktien,Einzelaktie,Schweiz
-Partners Group Holding AG,6,CHF,Aktien,Einzelaktie,Schweiz
-Richemont SA,35,CHF,Aktien,Einzelaktie,Schweiz
-Sika Ltd,30,CHF,Aktien,Einzelaktie,Schweiz
-Alcon AG,85,CHF,Aktien,Einzelaktie,Schweiz
-Helvetia Baloise Holding AG,25,CHF,Aktien,Einzelaktie,Schweiz
-Sunrise Communications AG,120,CHF,Aktien,Einzelaktie,Schweiz
-Microsoft,10,USD,Aktien,Einzelaktie,USA
-Apple,10,USD,Aktien,Einzelaktie,USA
-Amazon,20,USD,Aktien,Einzelaktie,USA
-Nvidia,2,USD,Aktien,Einzelaktie,USA
-Alphabet (Google Class C),13,USD,Aktien,Einzelaktie,USA
-SpaceX,2,USD,Aktien,Einzelaktie,USA
-Vonovia,203,EUR,Aktien,Einzelaktie,Europa
+UBS Group AG,125,CHF,Aktien,Schweiz,Core
+Nestlé SA,75,CHF,Aktien,Schweiz,Core
+Helvetia Baloise Holding AG,25,CHF,Aktien,Schweiz,Core
+Sunrise Communications AG,120,CHF,Aktien,Schweiz,Core
 iShares Swiss Dividend ETF (CHDVD),461,CHF,Aktien,Schweiz,Core
-UBS ETF (CH) SMIM (SMMCHA),112,CHF,Aktien,Schweiz,Core
-Vanguard S&P 500 UCITS ETF (VUAA),376,USD,Aktien,ETF,USA
-Xtrackers S&P 500 Equal Weight UCITS ETF (XDEW),411,USD,Aktien,ETF,USA
-iShares MSCI EMU Small Cap ETF (CSEMUS),50,EUR,Aktien,ETF,Europa
-iShares Core MSCI EMU UCITS ETF,170,EUR,Aktien,ETF,Europa
-iShares Core MSCI Europe UCITS ETF EUR Dist,1040,EUR,Aktien,ETF,Europa
-SPDR S&P Euro Dividend Aristocrats ETF,206,CHF,Aktien,ETF,Europa
-iShares Core FTSE 100 (GBp),50,GBp,Aktien,ETF,UK
-iShares Core MSCI EM IMI UCITS ETF (EIMI),983,USD,Aktien,ETF,Emerging Markets
-MSCI ACWI - Emerging Markets (USD),0,USD,Aktien,Index,Emerging Markets
-iShares Core MSCI Japan IMI UCITS ETF (SJPA/IJPA),150,USD,Aktien,ETF,Japan
-iShares Core MSCI Pacific ex Japan,49,USD,Aktien,ETF,Asien-Pazifik
-MSCI World,0,USD,Aktien,Index,Global
-S&P 500 Total Return,0,USD,Aktien,Index,USA
-SMI Total Return,0,CHF,Aktien,Index,Schweiz
-STOXX Europe 600 EUR NR,0,EUR,Aktien,Index,Europa
-Swiss Performance Index (SPI),0,CHF,Aktien,Index,Schweiz
-Nasdaq Composite,0,USD,Aktien,Index,USA
-VanEck S&P Global Mining UCITS ETF (GDIG),100,USD,Aktien,ETF,Global
-Gold (USD/oz),0,USD,Alternative,Edelmetall,Rohstoffe
-Silver (USD/oz),0,USD,Alternative,Edelmetall,Rohstoffe
-UBS Gold ETF (AUUSI),175,USD,Alternative,Edelmetall-ETF,Rohstoffe
-SWC (CH) REF Rsp Swiss Commercial FA CHF,231,CHF,Alternative,Immobilienfonds,Real Estate
-SOL - Solana,20,USD,Alternative,Kryptowährung,Crypto
-ETH - Ethereum,0.86,USD,Alternative,Kryptowährung,Crypto
-BTC - Bitcoin,0.025,USD,Alternative,Kryptowährung,Crypto
-EUR/CHF,0,CHF,Alternative,FX,Devisen
-USD/CHF,0,CHF,Alternative,FX,Devisen
-GBP/CHF,0,CHF,Alternative,FX,Devisen
-JPY/CHF,0,CHF,Alternative,FX,Devisen
+Lonza Group AG,10,CHF,Aktien,Schweiz,Growth
+Partners Group Holding AG,6,CHF,Aktien,Schweiz,Growth
+Richemont SA,35,CHF,Aktien,Schweiz,Growth
+Sika Ltd,30,CHF,Aktien,Schweiz,Growth
+Alcon AG,85,CHF,Aktien,Schweiz,Growth
+UBS ETF (CH) SMIM (SMMCHA),112,CHF,Aktien,Schweiz,Growth
+SMI Total Return,0,CHF,Aktien,Schweiz,Core
+Swiss Performance Index (SPI),0,CHF,Aktien,Schweiz,Core
+Vanguard S&P 500 UCITS ETF (VUAA),376,USD,Aktien,USA,Core
+Xtrackers S&P 500 Equal Weight UCITS ETF (XDEW),411,USD,Aktien,USA,Core
+S&P 500 Total Return,0,USD,Aktien,USA,Core
+Nasdaq Composite,0,USD,Aktien,USA,Core
+Microsoft,10,USD,Aktien,USA,Growth
+Apple,10,USD,Aktien,USA,Growth
+Amazon,20,USD,Aktien,USA,Growth
+Nvidia,2,USD,Aktien,USA,Growth
+Alphabet (Google Class C),13,USD,Aktien,USA,Growth
+SpaceX,2,USD,Aktien,USA,Growth
+iShares MSCI EMU Small Cap ETF (CSEMUS),50,EUR,Aktien,Europa,Growth
+iShares Core MSCI EMU UCITS ETF,170,EUR,Aktien,Europa,Core
+iShares Core MSCI Europe UCITS ETF EUR Dist,1040,EUR,Aktien,Europa,Core
+SPDR S&P Euro Dividend Aristocrats ETF,206,CHF,Aktien,Europa,Core
+iShares Core FTSE 100 (GBp),50,GBp,Aktien,Europa,Core
+STOXX Europe 600 EUR NR,0,EUR,Aktien,Europa,Core
+iShares Core MSCI Japan IMI UCITS ETF (SJPA/IJPA),150,USD,Aktien,Asia/Pacific,Core
+iShares Core MSCI Pacific ex Japan,49,USD,Aktien,Asia/Pacific,Core
+iShares Core MSCI EM IMI UCITS ETF (EIMI),983,USD,Aktien,World,Growth
+MSCI ACWI - Emerging Markets (USD),0,USD,Aktien,World,Growt
+VanEck S&P Global Mining UCITS ETF (GDIG),100,USD,Aktien,World,Growth
+Vonovia,203,EUR,Alternative,Real Estate,Growth
+SWC (CH) REF Rsp Swiss Commercial FA CHF,231,CHF,Alternative,Real Estate,Core
+SOL - Solana,20,USD,Alternative,Krypto,Growth
+ETH - Ethereum,0.86,USD,Alternative,Krypto,Growth
+BTC - Bitcoin,0.025,USD,Alternative,Krypto,Growth
+UBS Gold ETF (AUUSI),175,USD,Alternative,Commodities,Core
+JPY/CHF,0,CHF,Alternative,World,Core
