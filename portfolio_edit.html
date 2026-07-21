@@ -201,11 +201,14 @@
           <th class="num">Price LC</th>
           <th class="num">Quantity</th>
           <th>Currency</th>
+          <th>Group</th>
+          <th>Subgroup1</th>
+          <th>Subgroup2</th>
           <th></th>
         </tr>
       </thead>
       <tbody id="holdingsBody">
-        <tr><td colspan="5" class="empty">Lädt…</td></tr>
+        <tr><td colspan="8" class="empty">Lädt…</td></tr>
       </tbody>
     </table>
   </div>
@@ -310,6 +313,9 @@
   function csvEscape(v) { return /[",\n]/.test(v) ? `"${v.replace(/"/g, '""')}"` : v; }
 
   const CURRENCIES = ['CHF', 'USD', 'EUR', 'GBp', 'GBP', 'JPY'];
+  const GROUPS = ['Aktien', 'Obligationen', 'Alternative'];
+  const SUBGROUP1S = ['Schweiz', 'USA', 'Europa', 'Asia/Pacific', 'World', 'Real Estate', 'Krypto'];
+  const SUBGROUP2S = ['Core', 'Growth'];
 
   // ---- Main ----
   let allNames = [];      // every MainNameLocal available in all_data.csv, with its latest price
@@ -344,11 +350,17 @@
       const hRows = parseCSV(await holdRes.text());
       const hHeader = hRows[0].map(h => h.trim());
       const ni = hHeader.indexOf('MainNameLocal'), qi = hHeader.indexOf('Quantity'), ci = hHeader.indexOf('Currency');
+      const gi = hHeader.indexOf('Group'), s1i = hHeader.indexOf('Subgroup1'), s2i = hHeader.indexOf('Subgroup2');
       const holdings = [];
       for (let r = 1; r < hRows.length; r++) {
         const row = hRows[r];
         if (row.length <= Math.max(ni, qi, ci)) continue;
-        holdings.push({ name: row[ni].trim(), qty: row[qi].trim(), currency: (row[ci] || 'CHF').trim() });
+        holdings.push({
+          name: row[ni].trim(), qty: row[qi].trim(), currency: (row[ci] || 'CHF').trim(),
+          group: (gi >= 0 && row[gi]) ? row[gi].trim() : 'Aktien',
+          subgroup1: (s1i >= 0 && row[s1i]) ? row[s1i].trim() : 'World',
+          subgroup2: (s2i >= 0 && row[s2i]) ? row[s2i].trim() : 'Core',
+        });
       }
 
       renderTable(holdings);
@@ -356,7 +368,7 @@
       refreshTokenBox();
       focusEditTarget();
     } catch (err) {
-      document.getElementById('holdingsBody').innerHTML = `<tr><td colspan="5" class="error">Fehler: ${err.message}</td></tr>`;
+      document.getElementById('holdingsBody').innerHTML = `<tr><td colspan="8" class="error">Fehler: ${err.message}</td></tr>`;
     }
   }
 
@@ -364,12 +376,18 @@
     const priceInfo = latestPriceByName.get(h.name);
     const priceText = priceInfo ? fmtPrice(priceInfo.amount) : '—';
     const options = CURRENCIES.map(c => `<option value="${c}" ${c === h.currency ? 'selected' : ''}>${c}</option>`).join('');
+    const groupOptions = GROUPS.map(g => `<option value="${g}" ${g === h.group ? 'selected' : ''}>${g}</option>`).join('');
+    const sub1Options = SUBGROUP1S.map(s => `<option value="${s}" ${s === h.subgroup1 ? 'selected' : ''}>${s}</option>`).join('');
+    const sub2Options = SUBGROUP2S.map(s => `<option value="${s}" ${s === h.subgroup2 ? 'selected' : ''}>${s}</option>`).join('');
     return `
       <tr data-name="${h.name.replace(/"/g, '&quot;')}">
         <td class="name-cell">${h.name}</td>
         <td class="price-cell">${priceText}</td>
         <td><input type="number" step="any" class="qty-input" value="${h.qty}"></td>
         <td><select class="currency-select">${options}</select></td>
+        <td><select class="group-select">${groupOptions}</select></td>
+        <td><select class="sub1-select">${sub1Options}</select></td>
+        <td><select class="sub2-select">${sub2Options}</select></td>
         <td><button type="button" class="remove-btn" title="Position entfernen">✕</button></td>
       </tr>`;
   }
@@ -383,7 +401,7 @@
     row.remove();
     const body = document.getElementById('holdingsBody');
     if (body.querySelectorAll('tr[data-name]').length === 0) {
-      body.innerHTML = '<tr><td colspan="5" class="empty">Keine Positionen. Unten hinzufügen.</td></tr>';
+      body.innerHTML = '<tr><td colspan="8" class="empty">Keine Positionen. Unten hinzufügen.</td></tr>';
     }
     const currentNames = [...body.querySelectorAll('tr[data-name]')].map(tr => tr.dataset.name);
     renderAddSelect(currentNames);
@@ -401,7 +419,7 @@
     if (emptyRow) emptyRow.remove();
     if (visibleCount === 0 && query) {
       document.getElementById('holdingsBody').insertAdjacentHTML('beforeend',
-        '<tr id="noSearchResults"><td colspan="5" class="empty">Keine Treffer.</td></tr>');
+        '<tr id="noSearchResults"><td colspan="8" class="empty">Keine Treffer.</td></tr>');
     }
   }
   document.getElementById('holdingsSearch').addEventListener('input', applyHoldingsSearchFilter);
@@ -420,7 +438,7 @@
 
   function renderTable(holdings) {
     if (holdings.length === 0) {
-      document.getElementById('holdingsBody').innerHTML = '<tr><td colspan="5" class="empty">Keine Positionen. Unten hinzufügen.</td></tr>';
+      document.getElementById('holdingsBody').innerHTML = '<tr><td colspan="8" class="empty">Keine Positionen. Unten hinzufügen.</td></tr>';
       return;
     }
     document.getElementById('holdingsBody').innerHTML = holdings.map(rowHtml).join('');
@@ -440,7 +458,7 @@
     if (!name || !allNames.includes(name)) return;
     const body = document.getElementById('holdingsBody');
     if (body.querySelector('.empty')) body.innerHTML = '';
-    body.insertAdjacentHTML('beforeend', rowHtml({ name, qty: 0, currency: 'CHF' }));
+    body.insertAdjacentHTML('beforeend', rowHtml({ name, qty: 0, currency: 'CHF', group: 'Aktien', subgroup1: 'World', subgroup2: 'Core' }));
     const currentNames = [...body.querySelectorAll('tr')].map(tr => tr.dataset.name);
     renderAddSelect(currentNames);
     applyHoldingsSearchFilter();
@@ -448,12 +466,15 @@
 
   // ---- Save to GitHub ----
   function buildCSV() {
-    const rows = [['MainNameLocal', 'Quantity', 'Currency']];
+    const rows = [['MainNameLocal', 'Quantity', 'Currency', 'Group', 'Subgroup1', 'Subgroup2']];
     document.querySelectorAll('#holdingsBody tr[data-name]').forEach(tr => {
       const name = tr.dataset.name;
       const qty = tr.querySelector('.qty-input').value || '0';
       const currency = tr.querySelector('.currency-select').value;
-      rows.push([name, qty, currency]);
+      const group = tr.querySelector('.group-select').value;
+      const subgroup1 = tr.querySelector('.sub1-select').value;
+      const subgroup2 = tr.querySelector('.sub2-select').value;
+      rows.push([name, qty, currency, group, subgroup1, subgroup2]);
     });
     return rows.map(r => r.map(csvEscape).join(',')).join('\n') + '\n';
   }
