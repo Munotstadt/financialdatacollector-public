@@ -80,6 +80,30 @@
     color: var(--muted);
   }
 
+  .last-pull{
+    font-size: 11px;
+    color: var(--muted);
+    padding-left: 4px;
+    border-left: 1px solid var(--line);
+  }
+
+  .search-input{
+    width: 100%;
+    padding: 10px 14px;
+    margin: 18px 0 4px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    color: var(--text);
+    background: var(--bg);
+  }
+
+  .search-input:focus{
+    outline: none;
+    border-color: var(--accent);
+  }
+
   .dot{
     width: 7px;
     height: 7px;
@@ -346,7 +370,7 @@
     color: var(--muted);
   }
 
-  .detail-meta{
+  .detail-price-meta{
     font-family: 'IBM Plex Mono', monospace;
     font-size: 12px;
     color: var(--muted);
@@ -406,12 +430,20 @@
   }
 
   .history-title{
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text);
+    margin: 36px 0 4px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--accent);
+  }
+
+  .history-count{
     font-family: 'IBM Plex Mono', monospace;
     font-size: 11px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
     color: var(--muted);
-    margin: 32px 0 6px;
+    margin-bottom: 14px;
   }
 
   @media (max-width: 700px){
@@ -437,8 +469,11 @@
     <div class="status">
       <span class="dot" id="statusDot"></span>
       <span id="statusText">connecting…</span>
+      <span id="lastPullText" class="last-pull"></span>
     </div>
   </div>
+
+  <input type="text" id="securitySearch" class="search-input" placeholder="Wertschrift suchen…">
 
   <table id="boardTable">
     <thead>
@@ -461,6 +496,7 @@
     <span class="footer-left">
       <span id="lastSynced">—</span>
       <span class="footer-brand"> · FINANCIALDATACOLLECTOR</span>
+      <span class="footer-brand" id="footerCadence"></span>
     </span>
     <button id="refreshBtn" type="button">Refresh</button>
   </div>
@@ -474,6 +510,7 @@
     <h2 id="detailName">—</h2>
     <div class="detail-stats">
       <span class="detail-price" id="detailPrice">—</span>
+      <span class="detail-price-meta" id="detailPriceMeta"></span>
     </div>
     <div class="detail-returns" id="detailReturns">
       <div class="return-box"><span class="return-label">Vortag</span><span class="return-value" id="retDay">—</span><span class="return-abs" id="retDayAbs"></span></div>
@@ -482,7 +519,6 @@
       <div class="return-box"><span class="return-label">YtD</span><span class="return-value" id="retYtd">—</span><span class="return-abs" id="retYtdAbs"></span></div>
       <div class="return-box"><span class="return-label">12 Monate</span><span class="return-value" id="ret1y">—</span><span class="return-abs" id="ret1yAbs"></span></div>
     </div>
-    <div class="detail-meta" id="detailMeta">—</div>
   </div>
 
   <div class="range-selector" id="rangeSelector">
@@ -497,6 +533,13 @@
   </div>
 
   <div class="history-title">Full price history</div>
+  <div class="history-count" id="historyCount"></div>
+  <div class="range-selector" id="historyRangeSelector">
+    <button type="button" class="range-btn" data-range="30D">30 Tage</button>
+    <button type="button" class="range-btn" data-range="YTD">YtD</button>
+    <button type="button" class="range-btn" data-range="12M">12 Monate</button>
+    <button type="button" class="range-btn active" data-range="ALL">Alle</button>
+  </div>
   <table id="historyTable">
     <thead>
       <tr>
@@ -677,7 +720,8 @@
     // Use \b word-boundary checks for short tokens like "tr"/"nr" so they
     // don't false-positive-match inside unrelated words (e.g. "Sunrise").
     if (id.includes('total return') || /\btr\b/.test(id) || /\bnr\b/.test(id)
-        || id.includes('msci world') || id.includes('msci acwi')) return 'Indizes';
+        || id.includes('msci world') || id.includes('msci acwi')
+        || id.includes(' index') || id.includes('composite') || id.includes(' spi')) return 'Indizes';
     if (id.includes('gold') || id.includes('silver')) return 'Rohstoffe';
     if (/^[a-z]{3}\/[a-z]{3}$/i.test(mainId.trim())) return 'FX';
     if (id.includes('hypothek') || id.includes('rendite') || id.includes('zinssatz')) return 'Zinssätze';
@@ -687,11 +731,87 @@
 
   // ---------------- BOARD VIEW ----------------
 
+  let allSecuritiesCache = [];
+
+  function renderBoardRows(securitiesList) {
+    const body = document.getElementById('boardBody');
+
+    // group into categories, in the fixed CATEGORY_ORDER
+    const groups = new Map();
+    for (const s of securitiesList) {
+      const cat = categorize(s.mainNameLocal);
+      if (!groups.has(cat)) groups.set(cat, []);
+      groups.get(cat).push(s);
+    }
+
+    if (securitiesList.length === 0) {
+      body.innerHTML = '<tr><td colspan="7" class="empty">Keine Treffer.</td></tr>';
+      return;
+    }
+
+    const now = new Date();
+    const refWeek = lastFriday(now);
+    const refMonth = lastDayOfPreviousMonth(now);
+    const refYtd = lastDayOfPreviousYear(now);
+
+    let html = '';
+    let rowIndex = 0;
+    for (const cat of CATEGORY_ORDER) {
+      const items = groups.get(cat);
+      if (!items || items.length === 0) continue;
+      html += `<tr class="section-row"><td colspan="7">${cat}</td></tr>`;
+      html += items.map((s) => {
+        const dir = s.change === null ? 'flat' : s.change > 0 ? 'up' : s.change < 0 ? 'down' : 'flat';
+        const changeText = s.change === null ? '—' : `${s.change > 0 ? '+' : ''}${s.change.toFixed(2)}%`;
+        const href = `?security=${encodeURIComponent(s.mainId)}`;
+        rowIndex++;
+
+        const weekRef = findOnOrBefore(s.daily, refWeek);
+        const monthRef = findOnOrBefore(s.daily, refMonth);
+        const ytdRef = findOnOrBefore(s.daily, refYtd);
+        const weekChg = pctChange(s.last.amount, weekRef);
+        const monthChg = pctChange(s.last.amount, monthRef);
+        const ytdChg = pctChange(s.last.amount, ytdRef);
+
+        const fmtChg = (v) => {
+          if (v === null) return { text: '—', dir: 'flat' };
+          return {
+            text: `${v > 0 ? '+' : ''}${v.toFixed(2)}%`,
+            dir: v > 0 ? 'up' : v < 0 ? 'down' : 'flat',
+          };
+        };
+        const week = fmtChg(weekChg);
+        const month = fmtChg(monthChg);
+        const ytd = fmtChg(ytdChg);
+
+        return `
+          <tr class="${dir}" style="animation-delay:${rowIndex * 25}ms">
+            <td class="name"><a href="${href}">${s.mainNameLocal}</a></td>
+            <td class="price">${fmtPrice(s.last.amount)}</td>
+            <td class="chg ${dir}">${changeText}</td>
+            <td class="chg ${week.dir}">${week.text}</td>
+            <td class="chg ${month.dir}">${month.text}</td>
+            <td class="chg ${ytd.dir}">${ytd.text}</td>
+            <td class="time">${fmtTime(s.last.dt)}</td>
+          </tr>`;
+      }).join('');
+    }
+    body.innerHTML = html;
+  }
+
+  function applySearchFilter() {
+    const query = document.getElementById('securitySearch').value.trim().toLowerCase();
+    const filtered = query
+      ? allSecuritiesCache.filter(s => s.mainNameLocal.toLowerCase().includes(query))
+      : allSecuritiesCache;
+    renderBoardRows(filtered);
+  }
+
   async function loadBoard() {
     const dot = document.getElementById('statusDot');
     const statusText = document.getElementById('statusText');
-    const body = document.getElementById('boardBody');
     const lastSynced = document.getElementById('lastSynced');
+    const lastPullText = document.getElementById('lastPullText');
 
     dot.classList.remove('stale');
     statusText.textContent = 'syncing…';
@@ -712,66 +832,14 @@
       }
 
       securities.sort((a, b) => a.mainNameLocal.localeCompare(b.mainNameLocal));
+      allSecuritiesCache = securities;
+      applySearchFilter();
 
-      // group into categories, in the fixed CATEGORY_ORDER
-      const groups = new Map();
-      for (const s of securities) {
-        const cat = categorize(s.mainNameLocal);
-        if (!groups.has(cat)) groups.set(cat, []);
-        groups.get(cat).push(s);
-      }
-
-      if (securities.length === 0) {
-        body.innerHTML = '<tr><td colspan="7" class="empty">No data found.</td></tr>';
-      } else {
-        const now = new Date();
-        const refWeek = lastFriday(now);
-        const refMonth = lastDayOfPreviousMonth(now);
-        const refYtd = lastDayOfPreviousYear(now);
-
-        let html = '';
-        let rowIndex = 0;
-        for (const cat of CATEGORY_ORDER) {
-          const items = groups.get(cat);
-          if (!items || items.length === 0) continue;
-          html += `<tr class="section-row"><td colspan="7">${cat}</td></tr>`;
-          html += items.map((s) => {
-            const dir = s.change === null ? 'flat' : s.change > 0 ? 'up' : s.change < 0 ? 'down' : 'flat';
-            const changeText = s.change === null ? '—' : `${s.change > 0 ? '+' : ''}${s.change.toFixed(2)}%`;
-            const href = `?security=${encodeURIComponent(s.mainId)}`;
-            rowIndex++;
-
-            const weekRef = findOnOrBefore(s.daily, refWeek);
-            const monthRef = findOnOrBefore(s.daily, refMonth);
-            const ytdRef = findOnOrBefore(s.daily, refYtd);
-            const weekChg = pctChange(s.last.amount, weekRef);
-            const monthChg = pctChange(s.last.amount, monthRef);
-            const ytdChg = pctChange(s.last.amount, ytdRef);
-
-            const fmtChg = (v) => {
-              if (v === null) return { text: '—', dir: 'flat' };
-              return {
-                text: `${v > 0 ? '+' : ''}${v.toFixed(2)}%`,
-                dir: v > 0 ? 'up' : v < 0 ? 'down' : 'flat',
-              };
-            };
-            const week = fmtChg(weekChg);
-            const month = fmtChg(monthChg);
-            const ytd = fmtChg(ytdChg);
-
-            return `
-              <tr class="${dir}" style="animation-delay:${rowIndex * 25}ms">
-                <td class="name"><a href="${href}">${s.mainNameLocal}</a></td>
-                <td class="price">${fmtPrice(s.last.amount)}</td>
-                <td class="chg ${dir}">${changeText}</td>
-                <td class="chg ${week.dir}">${week.text}</td>
-                <td class="chg ${month.dir}">${month.text}</td>
-                <td class="chg ${ytd.dir}">${ytd.text}</td>
-                <td class="time">${fmtTime(s.last.dt)}</td>
-              </tr>`;
-          }).join('');
-        }
-        body.innerHTML = html;
+      // Last pull = most recent data point across all securities (i.e. when
+      // the underlying collector script last actually wrote new data)
+      if (securities.length > 0) {
+        const latestDt = securities.reduce((max, s) => s.last.dt > max ? s.last.dt : max, securities[0].last.dt);
+        lastPullText.textContent = `letzter Lauf: ${fmtFullDateTime(latestDt)}`;
       }
 
       dot.classList.remove('stale');
@@ -781,7 +849,7 @@
     } catch (err) {
       dot.classList.add('stale');
       statusText.textContent = 'connection failed';
-      body.innerHTML = `<tr><td colspan="7" class="error">Could not load data: ${err.message}</td></tr>`;
+      document.getElementById('boardBody').innerHTML = `<tr><td colspan="7" class="error">Could not load data: ${err.message}</td></tr>`;
     }
   }
 
@@ -894,6 +962,8 @@
       const last = daily[daily.length - 1];
 
       document.getElementById('detailPrice').textContent = fmtPrice(last.amount);
+      document.getElementById('detailPriceMeta').textContent =
+        `Last updated ${fmtFullDateTime(last.dt)} · Source: ${last.source || '—'}`;
 
       const now = new Date();
       const prev = daily.length >= 2 ? daily[daily.length - 2] : null;
@@ -924,9 +994,6 @@
       setReturn('retYtd', refYtd);
       setReturn('ret1y', ref1y);
 
-      document.getElementById('detailMeta').textContent =
-        `Last updated ${fmtFullDateTime(last.dt)} · Source: ${last.source || '—'} · ${rows.length} data point(s)`;
-
       // Chart with range selector (30D / YTD / 12M / All)
       let currentRange = '12M';
       const chartWrap = document.getElementById('chartWrap');
@@ -947,14 +1014,38 @@
 
       renderChart();
 
+      // Full price history table, with its own independent range filter
       const historyBody = document.getElementById('historyBody');
-      const sortedDesc = [...rows].sort((a, b) => b.dt - a.dt);
-      historyBody.innerHTML = sortedDesc.map(r => `
-        <tr>
-          <td class="time">${fmtFullDateTime(r.dt)}</td>
-          <td class="time">${r.source || '—'}</td>
-          <td class="price">${fmtPrice(r.amount)}</td>
-        </tr>`).join('');
+      const historyCount = document.getElementById('historyCount');
+      const historyRangeButtons = document.querySelectorAll('#historyRangeSelector .range-btn');
+      let currentHistoryRange = 'ALL';
+
+      const renderHistory = () => {
+        const filteredDaily = filterByRange(daily, currentHistoryRange);
+        const filteredDates = new Set(filteredDaily.map(p => p.dt.toISOString().slice(0, 10)));
+        const filteredRows = rows.filter(r => filteredDates.has(r.dt.toISOString().slice(0, 10)));
+        const sortedDesc = [...filteredRows].sort((a, b) => b.dt - a.dt);
+
+        historyCount.textContent = `${sortedDesc.length} data point(s)`;
+        historyBody.innerHTML = sortedDesc.length
+          ? sortedDesc.map(r => `
+              <tr>
+                <td class="time">${fmtFullDateTime(r.dt)}</td>
+                <td class="time">${r.source || '—'}</td>
+                <td class="price">${fmtPrice(r.amount)}</td>
+              </tr>`).join('')
+          : '<tr><td colspan="3" class="empty">Keine Daten für diesen Zeitraum.</td></tr>';
+      };
+
+      historyRangeButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          currentHistoryRange = btn.dataset.range;
+          historyRangeButtons.forEach(b => b.classList.toggle('active', b === btn));
+          renderHistory();
+        });
+      });
+
+      renderHistory();
 
     } catch (err) {
       document.getElementById('chartWrap').innerHTML = `<div class="chart-empty">Could not load data: ${err.message}</div>`;
@@ -975,6 +1066,8 @@
     } else {
       document.getElementById('boardView').classList.remove('hidden');
       document.getElementById('detailView').classList.add('hidden');
+      document.getElementById('footerCadence').textContent = ' · Daten werden stündlich aktualisiert';
+      document.getElementById('securitySearch').addEventListener('input', applySearchFilter);
       loadBoard();
       setInterval(loadBoard, REFRESH_MS);
       document.getElementById('refreshBtn').addEventListener('click', loadBoard);
