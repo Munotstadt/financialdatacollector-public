@@ -110,6 +110,26 @@
   }
   .search-input:focus{ outline: none; border-color: var(--accent); }
 
+  .nav-row{
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    margin-bottom: 20px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+  }
+  .nav-row .nav-current{
+    color: var(--text);
+    font-weight: 600;
+    padding-bottom: 3px;
+    border-bottom: 2px solid var(--accent);
+  }
+  .nav-row a{
+    color: var(--muted);
+    text-decoration: none;
+  }
+  .nav-row a:hover{ color: var(--text); }
+
   .summary-row{
     display: flex;
     gap: 12px;
@@ -166,6 +186,10 @@
     white-space: nowrap;
   }
   thead th.num{ text-align: right; }
+  thead th.sortable{ cursor: pointer; user-select: none; }
+  thead th.sortable:hover{ color: var(--text); }
+  thead th.sort-active{ color: var(--text); }
+  thead th.sort-active::after{ content: " " attr(data-arrow); }
   tbody td{
     padding: 10px 8px;
     border-bottom: 1px solid var(--line);
@@ -284,6 +308,12 @@
     <div class="status" id="statusText">lädt…</div>
   </div>
 
+  <div class="nav-row">
+    <span class="nav-current">Portfolio Dashboard</span>
+    <a href="index.html" target="_blank">Security Performance</a>
+    <a href="portfolio_edit.html">Portfolio Edit</a>
+  </div>
+
   <div class="summary-row" id="summaryRow"></div>
 
   <h2 class="section-title">Positionen</h2>
@@ -292,17 +322,17 @@
     <table id="holdingsTable">
       <thead>
         <tr>
-          <th>Security</th>
-          <th class="num">Qty</th>
-          <th class="num">Kurs</th>
-          <th class="num">Wert LC</th>
-          <th class="num">Wert CHF</th>
-          <th class="num">% PF</th>
-          <th class="num">Δ Vortag</th>
-          <th class="num">Δ Woche</th>
-          <th class="num">Δ Monat</th>
-          <th class="num">Δ YtD</th>
-          <th class="num">Δ 12M</th>
+          <th class="sortable" data-sort="name">Security</th>
+          <th class="num sortable" data-sort="qty">Qty</th>
+          <th class="num sortable" data-sort="price">Kurs</th>
+          <th class="num sortable" data-sort="valueLC">Wert LC</th>
+          <th class="num sortable" data-sort="valueCHF">Wert CHF</th>
+          <th class="num sortable" data-sort="pctPf">% PF</th>
+          <th class="num sortable" data-sort="prev">Δ Vortag</th>
+          <th class="num sortable" data-sort="week">Δ Woche</th>
+          <th class="num sortable" data-sort="month">Δ Monat</th>
+          <th class="num sortable" data-sort="ytd">Δ YtD</th>
+          <th class="num sortable" data-sort="12m">Δ 12M</th>
         </tr>
       </thead>
       <tbody id="holdingsBody">
@@ -635,13 +665,59 @@
   }
 
   let allComputedCache = [];
+  let sortState = { key: 'valueCHF', dir: 'desc' };
+
+  function sortValue(h, key) {
+    if (key === 'name') return h.name.toLowerCase();
+    if (key === 'qty') return h.qty;
+    if (key === 'price') return h.last.amount;
+    if (key === 'valueLC') return h.valueLC;
+    if (key === 'valueCHF') return h.valueCHF ?? -Infinity;
+    if (key === 'pctPf') return h.valueCHF ?? -Infinity; // % PF is proportional to valueCHF within the filtered set
+    // delta columns
+    const p = h.periods[key];
+    return p && p.deltaCHF !== null ? p.deltaCHF : -Infinity;
+  }
+
+  function sortComputed(list) {
+    const { key, dir } = sortState;
+    const sorted = [...list].sort((a, b) => {
+      const va = sortValue(a, key), vb = sortValue(b, key);
+      if (typeof va === 'string') return dir === 'asc' ? va.localeCompare(vb) : vb.localeCompare(va);
+      return dir === 'asc' ? va - vb : vb - va;
+    });
+    return sorted;
+  }
+
+  function updateSortHeaders() {
+    document.querySelectorAll('#holdingsTable thead th.sortable').forEach(th => {
+      const isActive = th.dataset.sort === sortState.key;
+      th.classList.toggle('sort-active', isActive);
+      th.dataset.arrow = isActive ? (sortState.dir === 'asc' ? '▲' : '▼') : '';
+    });
+  }
+
   function applyHoldingsFilter() {
     const query = document.getElementById('holdingsSearch').value.trim().toLowerCase();
     const filtered = query
       ? allComputedCache.filter(h => h.name.toLowerCase().includes(query))
       : allComputedCache;
-    renderHoldingsTable(filtered);
+    renderHoldingsTable(sortComputed(filtered));
+    updateSortHeaders();
   }
+
+  document.querySelectorAll('#holdingsTable thead th.sortable').forEach(th => {
+    th.addEventListener('click', () => {
+      const key = th.dataset.sort;
+      if (sortState.key === key) {
+        sortState.dir = sortState.dir === 'asc' ? 'desc' : 'asc';
+      } else {
+        sortState.key = key;
+        sortState.dir = key === 'name' ? 'asc' : 'desc';
+      }
+      applyHoldingsFilter();
+    });
+  });
 
   function fmtPct(v) {
     if (v === null || v === undefined) return { text: '—', dir: 'flat' };
@@ -683,8 +759,7 @@
       </div>`;
   }
 
-  function renderHoldingsTable(computed) {
-    const sorted = [...computed].sort((a, b) => (b.valueCHF || 0) - (a.valueCHF || 0));
+  function renderHoldingsTable(sorted) {
     const filteredTotalCHF = sorted.reduce((s, h) => s + (h.valueCHF || 0), 0);
 
     if (sorted.length === 0) {
@@ -704,7 +779,7 @@
       const editHref = `portfolio_edit.html?edit=${encodeURIComponent(h.name)}`;
       return `
         <tr>
-          <td class="name-cell"><a href="${detailHref}">${h.name}</a><span class="currency-tag">${h.currency}</span></td>
+          <td class="name-cell"><a href="${detailHref}" target="_blank" rel="noopener">${h.name}</a><span class="currency-tag">${h.currency}</span></td>
           <td class="num">${h.qty} <a class="edit-link" href="${editHref}" title="Quantity bearbeiten">✎</a></td>
           <td class="num">${fmtPrice(h.last.amount, 4)}</td>
           <td class="num">${fmtPrice(h.valueLC, 0)}</td>
