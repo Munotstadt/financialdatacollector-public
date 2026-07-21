@@ -82,7 +82,7 @@ ValueDate,ValueDefinitionID,AmountLC,ValueComment,SourceComments,MainID,MainName
 20.07.2026 17:22:34,Prices,250.810000,High,Yahoo Finance,10152,Amazon,20.07.2026 17:22:38
 20.07.2026 22:00:01,Prices,249.990000,"Last, Low",Yahoo Finance,10152,Amazon,20.07.2026 22:40:30
 21.07.2026 16:20:40,Prices,247.380000,Low,Yahoo Finance,10152,Amazon,21.07.2026 16:20:47
-21.07.2026 18:40:54,Prices,247.430000,"Last, High",Yahoo Finance,10152,Amazon,21.07.2026 18:41:03
+21.07.2026 20:39:41,Prices,247.540000,"Last, High",Yahoo Finance,10152,Amazon,21.07.2026 20:39:50
 14.07.2026 16:46:54,Prices,363.900000,,Yahoo Finance,10192176,iShares MSCI EMU Small Cap ETF (CSEMUS),15.07.2026 09:23:59
 15.07.2026 09:43:09,Prices,362.200000,Low,Yahoo Finance,10192176,iShares MSCI EMU Small Cap ETF (CSEMUS),15.07.2026 10:16:45
 15.07.2026 17:35:21,Prices,364.450000,"Last, High",Yahoo Finance,10192176,iShares MSCI EMU Small Cap ETF (CSEMUS),15.07.2026 17:56:34
@@ -168,7 +168,8 @@ ValueDate,ValueDefinitionID,AmountLC,ValueComment,SourceComments,MainID,MainName
 20.07.2026 22:20:02,Prices,16655.910000,"Last, Low",Yahoo Finance,12007,S&P 500 Total Return,20.07.2026 22:40:30
 20.07.2026 23:08:18,Prices,16655.910000,,Yahoo Finance,12007,S&P 500 Total Return,21.07.2026 00:12:37
 21.07.2026 16:20:37,Prices,16749.750000,Low,Yahoo Finance,12007,S&P 500 Total Return,21.07.2026 16:20:47
-21.07.2026 18:40:52,Prices,16810.230000,"Last, High",Yahoo Finance,12007,S&P 500 Total Return,21.07.2026 18:41:03
+21.07.2026 18:40:52,Prices,16810.230000,High,Yahoo Finance,12007,S&P 500 Total Return,21.07.2026 18:41:03
+21.07.2026 20:39:42,Prices,16798.480000,Last,Yahoo Finance,12007,S&P 500 Total Return,21.07.2026 20:39:50
 15.07.2026 15:33:15,Prices,577.600000,Low,Yahoo Finance,1384101,Lonza Group AG,15.07.2026 15:48:20
 15.07.2026 17:31:23,Prices,581.400000,"Last, High",Yahoo Finance,1384101,Lonza Group AG,15.07.2026 17:56:34
 16.07.2026 12:55:24,Prices,570.600000,Low,Yahoo Finance,1384101,Lonza Group AG,16.07.2026 13:11:42
@@ -199,8 +200,8 @@ ValueDate,ValueDefinitionID,AmountLC,ValueComment,SourceComments,MainID,MainName
 17.07.2026 22:00:01,Prices,123.990000,Last,Yahoo Finance,156888148,SpaceX,17.07.2026 23:07:27
 20.07.2026 20:18:53,Prices,123.225000,High,Yahoo Finance,156888148,SpaceX,20.07.2026 20:18:58
 20.07.2026 22:00:00,Prices,119.850000,"Last, Low",Yahoo Finance,156888148,SpaceX,20.07.2026 22:40:30
-21.07.2026 16:20:39,Prices,126.750000,Low,Yahoo Finance,156888148,SpaceX,21.07.2026 16:20:47
-21.07.2026 18:40:55,Prices,127.955000,"Last, High",Yahoo Finance,156888148,SpaceX,21.07.2026 18:41:03
+21.07.2026 18:40:55,Prices,127.955000,High,Yahoo Finance,156888148,SpaceX,21.07.2026 18:41:03
+21.07.2026 20:39:46,Prices,126.610000,"Last, Low",Yahoo Finance,156888148,SpaceX,21.07.2026 20:39:50
 10.07.2026 19:40:36,Prices,145.920000,,Yahoo Finance,18575508,Vanguard S&P 500 UCITS ETF (VUAA),11.07.2026 12:10:36
 13.07.2026 11:17:16,Prices,145.840000,,Yahoo Finance,18575508,Vanguard S&P 500 UCITS ETF (VUAA),13.07.2026 11:32:18
 14.07.2026 09:55:26,Prices,145.120000,,Yahoo Finance,18575508,Vanguard S&P 500 UCITS ETF (VUAA),14.07.2026 10:10:35
@@ -218,7 +219,8 @@ ValueDate,ValueDefinitionID,AmountLC,ValueComment,SourceComments,MainID,MainName
 20.07.2026 15:01:56,Prices,144.580000,High,Yahoo Finance,18575508,Vanguard S&P 500 UCITS ETF (VUAA),20.07.2026 15:17:04
 20.07.2026 19:33:06,Prices,144.520000,Last,Yahoo Finance,18575508,Vanguard S&P 500 UCITS ETF (VUAA),20.07.2026 20:18:58
 21.07.2026 13:43:11,Prices,144.440000,Low,Yahoo Finance,18575508,Vanguard S&P 500 UCITS ETF (VUAA),21.07.2026 13:59:31
-21.07.2026 17:52:08,Prices,144.900000,"Last, High",Yahoo Finance,18575508,Vanguard S&P 500 UCITS ETF (VUAA),21.07.2026 18:41:03
+21.07.2026 17:52:08,Prices,144.900000,High,Yahoo Finance,18575508,Vanguard S&P 500 UCITS ETF (VUAA),21.07.2026 18:41:03
+21.07.2026 19:07:39,Prices,144.900000,Last,Yahoo Finance,18575508,Vanguard S&P 500 UCITS ETF (VUAA),21.07.2026 20:39:50
 15.07.2026 10:16:46,Prices,64538.000000,Low,CoinGecko,18789194,BTC - Bitcoin,15.07.2026 10:16:46
 15.07.2026 17:56:36,Prices,65371.000000,High,CoinGecko,18789194,BTC - Bitcoin,15.07.2026 17:56:36
 15.07.2026 23:52:26,Prices,64767.000000,Last,CoinGecko,18789194,BTC - Bitcoin,15.07.2026 23:52:26
@@ -237,7 +239,7 @@ ValueDate,ValueDefinitionID,AmountLC,ValueComment,SourceComments,MainID,MainName
 20.07.2026 22:40:26,Prices,65312.760000,Last,Yahoo Finance,18789194,BTC - Bitcoin,20.07.2026 22:40:30
 21.07.2026 01:14:16,Prices,65108.590000,Low,Yahoo Finance,18789194,BTC - Bitcoin,21.07.2026 01:14:21
 21.07.2026 16:20:45,Prices,66823.490000,High,Yahoo Finance,18789194,BTC - Bitcoin,21.07.2026 16:20:47
-21.07.2026 18:40:56,Prices,66596.360000,Last,Yahoo Finance,18789194,BTC - Bitcoin,21.07.2026 18:41:03
+21.07.2026 20:39:43,Prices,66237.020000,Last,Yahoo Finance,18789194,BTC - Bitcoin,21.07.2026 20:39:50
 15.07.2026 17:31:23,Prices,195.600000,"Last, Low, High",Yahoo Finance,21048333,Richemont SA,15.07.2026 22:03:26
 16.07.2026 14:35:03,Prices,195.250000,Low,Yahoo Finance,21048333,Richemont SA,16.07.2026 14:51:08
 16.07.2026 17:31:59,Prices,197.400000,"Last, High",Yahoo Finance,21048333,Richemont SA,16.07.2026 18:41:26
@@ -281,7 +283,7 @@ ValueDate,ValueDefinitionID,AmountLC,ValueComment,SourceComments,MainID,MainName
 20.07.2026 22:40:23,Prices,77.900000,Last,Yahoo Finance,22000,SOL - Solana,20.07.2026 22:40:30
 21.07.2026 01:14:15,Prices,77.480000,Low,Yahoo Finance,22000,SOL - Solana,21.07.2026 01:14:21
 21.07.2026 08:40:57,Prices,78.710000,High,Yahoo Finance,22000,SOL - Solana,21.07.2026 08:41:02
-21.07.2026 18:40:58,Prices,78.120000,Last,Yahoo Finance,22000,SOL - Solana,21.07.2026 18:41:03
+21.07.2026 20:39:45,Prices,77.930000,Last,Yahoo Finance,22000,SOL - Solana,21.07.2026 20:39:50
 14.07.2026 17:31:48,Prices,37317.650000,,Yahoo Finance,222130,SMI Total Return,15.07.2026 07:16:12
 15.07.2026 09:08:55,Prices,37214.060000,Low,Yahoo Finance,222130,SMI Total Return,15.07.2026 09:23:59
 15.07.2026 17:31:23,Prices,37489.380000,"Last, High",Yahoo Finance,222130,SMI Total Return,15.07.2026 17:56:34
@@ -325,7 +327,8 @@ ValueDate,ValueDefinitionID,AmountLC,ValueComment,SourceComments,MainID,MainName
 20.07.2026 12:56:03,Prices,52.250000,High,Yahoo Finance,24209517,iShares Core MSCI EM IMI UCITS ETF (EIMI),20.07.2026 13:12:48
 20.07.2026 19:15:51,Prices,52.240000,Last,Yahoo Finance,24209517,iShares Core MSCI EM IMI UCITS ETF (EIMI),20.07.2026 20:18:58
 21.07.2026 16:05:19,Prices,53.050000,Low,Yahoo Finance,24209517,iShares Core MSCI EM IMI UCITS ETF (EIMI),21.07.2026 16:20:47
-21.07.2026 18:06:22,Prices,53.370000,"Last, High",Yahoo Finance,24209517,iShares Core MSCI EM IMI UCITS ETF (EIMI),21.07.2026 18:41:03
+21.07.2026 18:06:22,Prices,53.370000,High,Yahoo Finance,24209517,iShares Core MSCI EM IMI UCITS ETF (EIMI),21.07.2026 18:41:03
+21.07.2026 18:44:23,Prices,53.370000,Last,Yahoo Finance,24209517,iShares Core MSCI EM IMI UCITS ETF (EIMI),21.07.2026 20:39:50
 15.07.2026 10:01:32,Prices,43.480000,Low,Yahoo Finance,24476758,UBS Group AG,15.07.2026 10:16:45
 15.07.2026 17:31:23,Prices,44.280000,"Last, High",Yahoo Finance,24476758,UBS Group AG,15.07.2026 17:56:34
 16.07.2026 12:56:01,Prices,43.740000,High,Yahoo Finance,24476758,UBS Group AG,16.07.2026 13:11:42
@@ -400,7 +403,7 @@ ValueDate,ValueDefinitionID,AmountLC,ValueComment,SourceComments,MainID,MainName
 20.07.2026 17:22:35,Prices,0.810300,High,Yahoo Finance,275000,USD/CHF,20.07.2026 17:22:38
 20.07.2026 22:40:26,Prices,0.810300,Last,Yahoo Finance,275000,USD/CHF,20.07.2026 22:40:30
 21.07.2026 09:27:05,Prices,0.809400,Low,Yahoo Finance,275000,USD/CHF,21.07.2026 09:27:08
-21.07.2026 18:40:58,Prices,0.812100,"Last, High",Yahoo Finance,275000,USD/CHF,21.07.2026 18:41:03
+21.07.2026 20:39:47,Prices,0.813000,"Last, High",Yahoo Finance,275000,USD/CHF,21.07.2026 20:39:50
 14.07.2026 22:00:01,Prices,357.330000,,Yahoo Finance,29798540,Alphabet (Google Class C),15.07.2026 08:24:34
 15.07.2026 15:48:16,Prices,362.195000,Low,Yahoo Finance,29798540,Alphabet (Google Class C),15.07.2026 15:48:20
 15.07.2026 22:00:01,Prices,370.210000,"Last, High",Yahoo Finance,29798540,Alphabet (Google Class C),15.07.2026 22:03:26
@@ -411,8 +414,8 @@ ValueDate,ValueDefinitionID,AmountLC,ValueComment,SourceComments,MainID,MainName
 17.07.2026 22:00:01,Prices,346.120000,Last,Yahoo Finance,29798540,Alphabet (Google Class C),17.07.2026 23:07:27
 20.07.2026 17:22:35,Prices,356.170000,High,Yahoo Finance,29798540,Alphabet (Google Class C),20.07.2026 17:22:38
 20.07.2026 22:00:00,Prices,351.370000,"Last, Low",Yahoo Finance,29798540,Alphabet (Google Class C),20.07.2026 22:40:30
-21.07.2026 16:20:39,Prices,348.750000,Low,Yahoo Finance,29798540,Alphabet (Google Class C),21.07.2026 16:20:47
-21.07.2026 18:40:55,Prices,348.990000,"Last, High",Yahoo Finance,29798540,Alphabet (Google Class C),21.07.2026 18:41:03
+21.07.2026 18:40:55,Prices,348.990000,High,Yahoo Finance,29798540,Alphabet (Google Class C),21.07.2026 18:41:03
+21.07.2026 20:39:45,Prices,348.000000,"Last, Low",Yahoo Finance,29798540,Alphabet (Google Class C),21.07.2026 20:39:50
 15.07.2026 17:35:02,Prices,40.235000,,Yahoo Finance,3246398,iShares Core MSCI Europe UCITS ETF EUR Dist,16.07.2026 08:20:26
 16.07.2026 14:27:35,Prices,39.935000,Low,Yahoo Finance,3246398,iShares Core MSCI Europe UCITS ETF EUR Dist,16.07.2026 14:51:08
 16.07.2026 17:35:19,Prices,40.305000,"Last, High",Yahoo Finance,3246398,iShares Core MSCI Europe UCITS ETF EUR Dist,16.07.2026 18:41:26
@@ -452,7 +455,7 @@ ValueDate,ValueDefinitionID,AmountLC,ValueComment,SourceComments,MainID,MainName
 20.07.2026 22:40:24,Prices,1904.300000,Last,Yahoo Finance,40149561,ETH - Ethereum,20.07.2026 22:40:30
 21.07.2026 01:14:12,Prices,1897.940000,Low,Yahoo Finance,40149561,ETH - Ethereum,21.07.2026 01:14:21
 21.07.2026 11:38:54,Prices,1939.970000,High,Yahoo Finance,40149561,ETH - Ethereum,21.07.2026 11:39:07
-21.07.2026 18:40:58,Prices,1926.000000,Last,Yahoo Finance,40149561,ETH - Ethereum,21.07.2026 18:41:03
+21.07.2026 20:39:42,Prices,1920.680000,Last,Yahoo Finance,40149561,ETH - Ethereum,21.07.2026 20:39:50
 15.07.2026 09:28:03,Prices,57.260000,Low,Yahoo Finance,41125207,VanEck S&P Global Mining UCITS ETF (GDIG),15.07.2026 10:16:45
 15.07.2026 14:54:13,Prices,58.060000,High,Yahoo Finance,41125207,VanEck S&P Global Mining UCITS ETF (GDIG),15.07.2026 15:48:20
 15.07.2026 19:21:53,Prices,57.440000,Last,Yahoo Finance,41125207,VanEck S&P Global Mining UCITS ETF (GDIG),15.07.2026 22:03:26
@@ -520,7 +523,7 @@ ValueDate,ValueDefinitionID,AmountLC,ValueComment,SourceComments,MainID,MainName
 20.07.2026 09:28:14,Prices,0.923500,Low,Yahoo Finance,897789,EUR/CHF,20.07.2026 09:28:18
 20.07.2026 22:40:26,Prices,0.924800,"Last, High",Yahoo Finance,897789,EUR/CHF,20.07.2026 22:40:30
 21.07.2026 00:12:32,Prices,0.924700,Low,Yahoo Finance,897789,EUR/CHF,21.07.2026 00:12:37
-21.07.2026 18:40:58,Prices,0.926600,"Last, High",Yahoo Finance,897789,EUR/CHF,21.07.2026 18:41:03
+21.07.2026 20:39:47,Prices,0.926800,"Last, High",Yahoo Finance,897789,EUR/CHF,21.07.2026 20:39:50
 14.07.2026 22:00:01,Prices,314.860000,,Yahoo Finance,908440,Apple,15.07.2026 08:24:34
 15.07.2026 15:48:16,Prices,320.560000,Low,Yahoo Finance,908440,Apple,15.07.2026 15:48:20
 15.07.2026 22:00:00,Prices,327.500000,"Last, High",Yahoo Finance,908440,Apple,15.07.2026 22:03:26
@@ -532,7 +535,8 @@ ValueDate,ValueDefinitionID,AmountLC,ValueComment,SourceComments,MainID,MainName
 20.07.2026 17:22:34,Prices,324.580000,Low,Yahoo Finance,908440,Apple,20.07.2026 17:22:38
 20.07.2026 22:00:00,Prices,326.590000,"Last, High",Yahoo Finance,908440,Apple,20.07.2026 22:40:30
 21.07.2026 16:20:32,Prices,325.880000,Low,Yahoo Finance,908440,Apple,21.07.2026 16:20:47
-21.07.2026 18:40:54,Prices,328.050000,"Last, High",Yahoo Finance,908440,Apple,21.07.2026 18:41:03
+21.07.2026 18:40:54,Prices,328.050000,High,Yahoo Finance,908440,Apple,21.07.2026 18:41:03
+21.07.2026 20:39:46,Prices,327.720000,Last,Yahoo Finance,908440,Apple,21.07.2026 20:39:50
 14.07.2026 22:00:01,Prices,384.930000,,Yahoo Finance,951692,Microsoft,15.07.2026 08:24:34
 15.07.2026 15:48:17,Prices,388.635000,Low,Yahoo Finance,951692,Microsoft,15.07.2026 15:48:20
 15.07.2026 17:56:30,Prices,397.625000,High,Yahoo Finance,951692,Microsoft,15.07.2026 17:56:34
@@ -546,7 +550,7 @@ ValueDate,ValueDefinitionID,AmountLC,ValueComment,SourceComments,MainID,MainName
 20.07.2026 17:22:35,Prices,397.710000,Low,Yahoo Finance,951692,Microsoft,20.07.2026 17:22:38
 20.07.2026 22:00:01,Prices,402.290000,"Last, High",Yahoo Finance,951692,Microsoft,20.07.2026 22:40:30
 21.07.2026 16:20:37,Prices,399.990000,High,Yahoo Finance,951692,Microsoft,21.07.2026 16:20:47
-21.07.2026 18:40:54,Prices,398.470000,"Last, Low",Yahoo Finance,951692,Microsoft,21.07.2026 18:41:03
+21.07.2026 20:39:45,Prices,398.110000,"Last, Low",Yahoo Finance,951692,Microsoft,21.07.2026 20:39:50
 14.07.2026 22:00:00,Prices,211.800000,,Yahoo Finance,994529,Nvidia,15.07.2026 08:24:34
 15.07.2026 17:56:30,Prices,208.540000,Low,Yahoo Finance,994529,Nvidia,15.07.2026 17:56:34
 15.07.2026 22:00:00,Prices,212.500000,"Last, High",Yahoo Finance,994529,Nvidia,15.07.2026 22:03:26
@@ -559,7 +563,7 @@ ValueDate,ValueDefinitionID,AmountLC,ValueComment,SourceComments,MainID,MainName
 20.07.2026 17:22:28,Prices,206.110000,High,Yahoo Finance,994529,Nvidia,20.07.2026 17:22:38
 20.07.2026 22:00:01,Prices,203.280000,"Last, Low",Yahoo Finance,994529,Nvidia,20.07.2026 22:40:30
 21.07.2026 16:20:40,Prices,205.355000,Low,Yahoo Finance,994529,Nvidia,21.07.2026 16:20:47
-21.07.2026 18:40:55,Prices,205.390000,"Last, High",Yahoo Finance,994529,Nvidia,21.07.2026 18:41:03
+21.07.2026 20:39:46,Prices,206.840000,"Last, High",Yahoo Finance,994529,Nvidia,21.07.2026 20:39:50
 16.07.2026 08:20:24,Prices,1.090900,High,Yahoo Finance,GBP/CHF,GBP/CHF,16.07.2026 08:20:26
 16.07.2026 23:15:23,Prices,1.088600,"Last, Low",Yahoo Finance,GBP/CHF,GBP/CHF,16.07.2026 23:15:29
 17.07.2026 01:12:39,Prices,1.089500,High,Yahoo Finance,GBP/CHF,GBP/CHF,17.07.2026 01:12:45
@@ -574,7 +578,7 @@ ValueDate,ValueDefinitionID,AmountLC,ValueComment,SourceComments,MainID,MainName
 20.07.2026 22:40:26,Prices,1.088200,Last,Yahoo Finance,GBP/CHF,GBP/CHF,20.07.2026 22:40:30
 21.07.2026 08:40:58,Prices,1.089200,High,Yahoo Finance,GBP/CHF,GBP/CHF,21.07.2026 08:41:02
 21.07.2026 16:20:45,Prices,1.086400,Low,Yahoo Finance,GBP/CHF,GBP/CHF,21.07.2026 16:20:47
-21.07.2026 18:41:00,Prices,1.086500,Last,Yahoo Finance,GBP/CHF,GBP/CHF,21.07.2026 18:41:03
+21.07.2026 20:39:47,Prices,1.087500,Last,Yahoo Finance,GBP/CHF,GBP/CHF,21.07.2026 20:39:50
 16.07.2026 08:10:17,Prices,4038.400000,High,Yahoo Finance,Gold (USD/oz),Gold (USD/oz),16.07.2026 08:20:26
 16.07.2026 22:33:41,Prices,3978.400000,Low,Yahoo Finance,Gold (USD/oz),Gold (USD/oz),16.07.2026 22:44:21
 16.07.2026 22:59:57,Prices,3979.900000,Last,Yahoo Finance,Gold (USD/oz),Gold (USD/oz),16.07.2026 23:15:29
@@ -585,7 +589,7 @@ ValueDate,ValueDefinitionID,AmountLC,ValueComment,SourceComments,MainID,MainName
 20.07.2026 05:53:20,Prices,4030.300000,High,Yahoo Finance,Gold (USD/oz),Gold (USD/oz),20.07.2026 06:03:30
 20.07.2026 22:29:48,Prices,4012.100000,Last,Yahoo Finance,Gold (USD/oz),Gold (USD/oz),20.07.2026 22:40:30
 21.07.2026 01:04:17,Prices,4008.200000,Low,Yahoo Finance,Gold (USD/oz),Gold (USD/oz),21.07.2026 01:14:21
-21.07.2026 18:30:57,Prices,4080.000000,"Last, High",Yahoo Finance,Gold (USD/oz),Gold (USD/oz),21.07.2026 18:41:03
+21.07.2026 20:29:47,Prices,4088.900000,"Last, High",Yahoo Finance,Gold (USD/oz),Gold (USD/oz),21.07.2026 20:39:50
 16.07.2026 08:19:49,Prices,0.005000,"Low, High",Yahoo Finance,JPY/CHF,JPY/CHF,16.07.2026 08:20:26
 16.07.2026 23:15:24,Prices,0.005000,Last,Yahoo Finance,JPY/CHF,JPY/CHF,16.07.2026 23:15:29
 17.07.2026 00:15:56,Prices,0.005000,"Low, High",Yahoo Finance,JPY/CHF,JPY/CHF,17.07.2026 00:16:14
@@ -597,7 +601,7 @@ ValueDate,ValueDefinitionID,AmountLC,ValueComment,SourceComments,MainID,MainName
 20.07.2026 00:08:17,Prices,0.005000,"Low, High",Yahoo Finance,JPY/CHF,JPY/CHF,20.07.2026 00:08:19
 20.07.2026 22:40:24,Prices,0.005000,Last,Yahoo Finance,JPY/CHF,JPY/CHF,20.07.2026 22:40:30
 21.07.2026 00:12:23,Prices,0.005000,"Low, High",Yahoo Finance,JPY/CHF,JPY/CHF,21.07.2026 00:12:37
-21.07.2026 18:40:37,Prices,0.005000,Last,Yahoo Finance,JPY/CHF,JPY/CHF,21.07.2026 18:41:03
+21.07.2026 20:39:38,Prices,0.005000,Last,Yahoo Finance,JPY/CHF,JPY/CHF,21.07.2026 20:39:50
 16.07.2026 13:11:30,Prices,1667.780000,High,Yahoo Finance,MSCI ACWI - Emerging Markets (USD),MSCI ACWI - Emerging Markets (USD),16.07.2026 13:11:42
 16.07.2026 22:37:53,Prices,1664.010000,Low,Yahoo Finance,MSCI ACWI - Emerging Markets (USD),MSCI ACWI - Emerging Markets (USD),16.07.2026 22:44:21
 16.07.2026 23:07:53,Prices,1664.010000,Last,Yahoo Finance,MSCI ACWI - Emerging Markets (USD),MSCI ACWI - Emerging Markets (USD),16.07.2026 23:15:29
@@ -615,7 +619,7 @@ ValueDate,ValueDefinitionID,AmountLC,ValueComment,SourceComments,MainID,MainName
 20.07.2026 22:37:58,Prices,1616.900000,Last,Yahoo Finance,MSCI ACWI - Emerging Markets (USD),MSCI ACWI - Emerging Markets (USD),20.07.2026 22:40:30
 21.07.2026 02:09:45,Prices,1614.500000,Low,Yahoo Finance,MSCI ACWI - Emerging Markets (USD),MSCI ACWI - Emerging Markets (USD),21.07.2026 02:09:48
 21.07.2026 09:27:00,Prices,1654.090000,High,Yahoo Finance,MSCI ACWI - Emerging Markets (USD),MSCI ACWI - Emerging Markets (USD),21.07.2026 09:27:08
-21.07.2026 18:41:00,Prices,1652.540000,Last,Yahoo Finance,MSCI ACWI - Emerging Markets (USD),MSCI ACWI - Emerging Markets (USD),21.07.2026 18:41:03
+21.07.2026 20:39:45,Prices,1652.250000,Last,Yahoo Finance,MSCI ACWI - Emerging Markets (USD),MSCI ACWI - Emerging Markets (USD),21.07.2026 20:39:50
 16.07.2026 08:20:00,Prices,4873.980000,High,Yahoo Finance,MSCI World,MSCI World,16.07.2026 08:20:26
 16.07.2026 22:18:00,Prices,4853.880000,Low,Yahoo Finance,MSCI World,MSCI World,16.07.2026 22:18:16
 16.07.2026 23:08:10,Prices,4854.420000,Last,Yahoo Finance,MSCI World,MSCI World,16.07.2026 23:15:29
@@ -631,10 +635,12 @@ ValueDate,ValueDefinitionID,AmountLC,ValueComment,SourceComments,MainID,MainName
 20.07.2026 17:22:30,Prices,4813.050000,High,Yahoo Finance,MSCI World,MSCI World,20.07.2026 17:22:38
 20.07.2026 22:38:15,Prices,4793.310000,"Last, Low",Yahoo Finance,MSCI World,MSCI World,20.07.2026 22:40:30
 21.07.2026 00:08:15,Prices,4793.310000,Low,Yahoo Finance,MSCI World,MSCI World,21.07.2026 00:12:37
-21.07.2026 18:41:00,Prices,4837.760000,"Last, High",Yahoo Finance,MSCI World,MSCI World,21.07.2026 18:41:03
+21.07.2026 18:41:00,Prices,4837.760000,High,Yahoo Finance,MSCI World,MSCI World,21.07.2026 18:41:03
+21.07.2026 20:39:45,Prices,4834.310000,Last,Yahoo Finance,MSCI World,MSCI World,21.07.2026 20:39:50
 20.07.2026 23:15:59,Prices,25508.072000,,Yahoo Finance,Nasdaq Composite,Nasdaq Composite,21.07.2026 08:41:02
 21.07.2026 16:20:35,Prices,25744.506000,Low,Yahoo Finance,Nasdaq Composite,Nasdaq Composite,21.07.2026 16:20:47
-21.07.2026 18:40:50,Prices,25849.680000,"Last, High",Yahoo Finance,Nasdaq Composite,Nasdaq Composite,21.07.2026 18:41:03
+21.07.2026 18:40:50,Prices,25849.680000,High,Yahoo Finance,Nasdaq Composite,Nasdaq Composite,21.07.2026 18:41:03
+21.07.2026 20:39:42,Prices,25847.930000,Last,Yahoo Finance,Nasdaq Composite,Nasdaq Composite,21.07.2026 20:39:50
 16.07.2026 08:10:15,Prices,57.715000,High,Yahoo Finance,Silver (USD/oz),Silver (USD/oz),16.07.2026 08:20:26
 16.07.2026 22:34:07,Prices,55.765000,Low,Yahoo Finance,Silver (USD/oz),Silver (USD/oz),16.07.2026 22:44:21
 16.07.2026 22:59:55,Prices,55.765000,Last,Yahoo Finance,Silver (USD/oz),Silver (USD/oz),16.07.2026 23:15:29
@@ -647,7 +653,7 @@ ValueDate,ValueDefinitionID,AmountLC,ValueComment,SourceComments,MainID,MainName
 20.07.2026 22:30:11,Prices,56.655000,Last,Yahoo Finance,Silver (USD/oz),Silver (USD/oz),20.07.2026 22:40:30
 21.07.2026 01:04:15,Prices,56.505000,Low,Yahoo Finance,Silver (USD/oz),Silver (USD/oz),21.07.2026 01:14:21
 21.07.2026 11:28:58,Prices,59.450000,High,Yahoo Finance,Silver (USD/oz),Silver (USD/oz),21.07.2026 11:39:07
-21.07.2026 18:30:53,Prices,59.350000,Last,Yahoo Finance,Silver (USD/oz),Silver (USD/oz),21.07.2026 18:41:03
+21.07.2026 20:29:45,Prices,59.245000,Last,Yahoo Finance,Silver (USD/oz),Silver (USD/oz),21.07.2026 20:39:50
 15.07.2026 17:31:23,Prices,41.860000,,Yahoo Finance,Sunrise Communications AG,Sunrise Communications AG,16.07.2026 08:20:26
 16.07.2026 12:55:19,Prices,41.800000,Low,Yahoo Finance,Sunrise Communications AG,Sunrise Communications AG,16.07.2026 13:11:42
 16.07.2026 17:31:59,Prices,42.180000,"Last, High",Yahoo Finance,Sunrise Communications AG,Sunrise Communications AG,16.07.2026 18:41:26
