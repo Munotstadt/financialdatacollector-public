@@ -1,10 +1,8 @@
 MainNameLocal,Quantity,Currency
 Vanguard S&P 500 UCITS ETF (VUAA),376,USD
-SMI Total Return,0,CHF
 UBS ETF (CH) SMIM (SMMCHA),112,CHF
 iShares Core MSCI EM IMI UCITS ETF (EIMI),983,USD
 iShares Swiss Dividend ETF (CHDVD),461,CHF
-S&P 500 Total Return,0,USD
 Microsoft,10,USD
 Apple,10,USD
 Amazon,20,USD
@@ -28,9 +26,6 @@ Helvetia Baloise Holding AG,25,CHF
 SWC (CH) REF Rsp Swiss Commercial FA CHF,231,CHF
 iShares Core MSCI Europe UCITS ETF EUR Dist,1040,EUR
 iShares Core FTSE 100 (GBp),50,GBp
-MSCI World,0,USD
-MSCI ACWI - Emerging Markets (USD),0,USD
-Silver (USD/oz),0,USD
 Sunrise Communications AG,120,CHF
 SPDR S&P Euro Dividend Aristocrats ETF,206,CHF
 iShares Core MSCI EMU UCITS ETF,170,EUR
