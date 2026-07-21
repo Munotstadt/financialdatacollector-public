@@ -210,6 +210,38 @@
     color: var(--muted);
     padding: 6px 10px;
   }
+
+  .currency-chart{ display: flex; flex-direction: column; gap: 12px; }
+  .currency-row{
+    display: grid;
+    grid-template-columns: 50px 1fr 120px 55px;
+    align-items: center;
+    gap: 12px;
+  }
+  .currency-label{
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    font-weight: 600;
+  }
+  .currency-bar-track{
+    height: 14px;
+    background: var(--panel);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  .currency-bar-fill{ height: 100%; border-radius: var(--radius); }
+  .currency-value{
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    text-align: right;
+    white-space: nowrap;
+  }
+  .currency-pct{
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: var(--muted);
+    text-align: right;
+  }
   .summary-value.up{ color: var(--gain); }
   .summary-value.down{ color: var(--loss); }
 
@@ -422,35 +454,8 @@
     </table>
   </div>
 
-  <h2 class="section-title">Performance-Beitrag (Heatmap)</h2>
-  <div class="range-selector" id="heatmapRangeSelector">
-    <button type="button" class="range-btn active" data-range="prev">Vortag</button>
-    <button type="button" class="range-btn" data-range="week">Woche</button>
-    <button type="button" class="range-btn" data-range="month">Monat</button>
-    <button type="button" class="range-btn" data-range="ytd">YtD</button>
-    <button type="button" class="range-btn" data-range="12m">12 Monate</button>
-  </div>
-  <div class="heatmap" id="heatmap"></div>
-  <div class="note">Grösse und Farbintensität = Beitrag zur Portfolio-Wertveränderung in CHF (nicht Prozent). Grün = positiver, Rot = negativer Beitrag.</div>
-
-  <h2 class="section-title">FX-Effekt auf die Performance</h2>
-  <div class="table-scroll">
-    <table id="fxTable">
-      <thead>
-        <tr>
-          <th>Security</th>
-          <th>Währung</th>
-          <th class="num">Δ Kurs (LC)</th>
-          <th class="num">Δ FX-Effekt (CHF)</th>
-          <th class="num">Δ Total (CHF)</th>
-        </tr>
-      </thead>
-      <tbody id="fxBody">
-        <tr><td colspan="5" class="empty">Lädt…</td></tr>
-      </tbody>
-    </table>
-  </div>
-  <div class="note">FX-Effekt = Wertveränderung, die allein durch Wechselkursbewegung entsteht (aktuelle Menge/Kurs, alter vs. neuer FX-Kurs). Näherungsweise Zerlegung, keine exakte Attribution.</div>
+  <h2 class="section-title">Portfoliowert nach Währung</h2>
+  <div class="currency-chart" id="currencyChart"></div>
 </div>
 
 <script>
@@ -739,16 +744,7 @@
       renderMovers(computed, 'prev', 'moversDay');
       renderMovers(computed, 'week', 'moversWeek');
       applyHoldingsFilter();
-      renderHeatmap(computed, 'prev');
-      renderFxTable(computed, 'prev');
-
-      document.querySelectorAll('#heatmapRangeSelector .range-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-          document.querySelectorAll('#heatmapRangeSelector .range-btn').forEach(b => b.classList.toggle('active', b === btn));
-          renderHeatmap(computed, btn.dataset.range);
-          renderFxTable(computed, btn.dataset.range);
-        });
-      });
+      renderCurrencyChart(computed);
 
       statusText.textContent = `live · ${new Date().toLocaleTimeString('de-CH')}`;
     } catch (err) {
@@ -981,55 +977,39 @@
     document.getElementById('holdingsBody').innerHTML = html;
   }
 
-  function renderHeatmap(computed, rangeKey) {
-    const items = computed
-      .map(h => ({ name: h.name, deltaCHF: h.periods[rangeKey] ? h.periods[rangeKey].deltaCHF : null }))
-      .filter(i => i.deltaCHF !== null)
-      .sort((a, b) => Math.abs(b.deltaCHF) - Math.abs(a.deltaCHF));
+  function renderCurrencyChart(computed) {
+    const buckets = { CHF: 0, EUR: 0, USD: 0, Andere: 0 };
+    for (const h of computed) {
+      const cur = (h.currency || '').toUpperCase();
+      const key = (cur === 'CHF' || cur === 'EUR' || cur === 'USD') ? cur : 'Andere';
+      buckets[key] += (h.valueCHF || 0);
+    }
 
-    if (items.length === 0) {
-      document.getElementById('heatmap').innerHTML = '<div class="empty">Keine Daten für diesen Zeitraum.</div>';
+    const total = Object.values(buckets).reduce((s, v) => s + v, 0);
+    const order = ['CHF', 'EUR', 'USD', 'Andere'];
+    const colors = { CHF: '#1F8A6E', EUR: '#3B6FB5', USD: '#C0293D', Andere: '#767E8A' };
+    const maxVal = Math.max(...order.map(k => buckets[k]), 1);
+
+    const container = document.getElementById('currencyChart');
+    if (total === 0) {
+      container.innerHTML = '<div class="empty">Keine Daten.</div>';
       return;
     }
 
-    const maxAbs = Math.max(...items.map(i => Math.abs(i.deltaCHF)), 1);
-    document.getElementById('heatmap').innerHTML = items.map(i => {
-      const intensity = Math.min(Math.abs(i.deltaCHF) / maxAbs, 1);
-      const isGain = i.deltaCHF >= 0;
-      const base = isGain ? [31, 138, 110] : [192, 41, 61];
-      const bg = `rgba(${base[0]},${base[1]},${base[2]},${0.35 + intensity * 0.65})`;
+    container.innerHTML = order.map(key => {
+      const val = buckets[key];
+      const pct = total ? (val / total) * 100 : 0;
+      const barWidth = maxVal ? (val / maxVal) * 100 : 0;
       return `
-        <div class="heat-tile" style="background:${bg}">
-          <div class="heat-name">${i.name}</div>
-          <div class="heat-value">${i.deltaCHF >= 0 ? '+' : ''}${fmtChf(i.deltaCHF)}</div>
-          <div class="heat-sub">CHF</div>
+        <div class="currency-row">
+          <span class="currency-label">${key}</span>
+          <div class="currency-bar-track">
+            <div class="currency-bar-fill" style="width:${barWidth}%; background:${colors[key]}"></div>
+          </div>
+          <span class="currency-value">CHF ${fmtChf(val)}</span>
+          <span class="currency-pct">${pct.toFixed(1)}%</span>
         </div>`;
     }).join('');
-  }
-
-  function renderFxTable(computed, rangeKey) {
-    const fmtCell = (v) => v === null || v === undefined ? '—' : `${v >= 0 ? '+' : ''}${fmtChf(v)}`;
-    const cellClass = (v) => v === null || v === undefined ? 'flat' : v > 0 ? 'up' : v < 0 ? 'down' : 'flat';
-
-    const rows = computed
-      .filter(h => h.currency !== 'CHF')
-      .map(h => {
-        const p = h.periods[rangeKey];
-        if (!p) return null;
-        return `
-          <tr>
-            <td class="name-cell">${h.name}</td>
-            <td class="num">${h.currency}</td>
-            <td class="num">${p.deltaLC >= 0 ? '+' : ''}${fmtPrice(p.deltaLC, 2)}</td>
-            <td class="num ${cellClass(p.fxEffectCHF)}">${fmtCell(p.fxEffectCHF)}</td>
-            <td class="num ${cellClass(p.deltaCHF)}">${fmtCell(p.deltaCHF)}</td>
-          </tr>`;
-      })
-      .filter(Boolean);
-
-    document.getElementById('fxBody').innerHTML = rows.length
-      ? rows.join('')
-      : '<tr><td colspan="5" class="empty">Keine Fremdwährungspositionen.</td></tr>';
   }
 </script>
 
