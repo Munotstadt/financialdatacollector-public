@@ -97,6 +97,19 @@
     color: var(--muted);
   }
 
+  .search-input{
+    width: 100%;
+    padding: 10px 14px;
+    margin: 10px 0 14px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    color: var(--text);
+    background: var(--bg);
+  }
+  .search-input:focus{ outline: none; border-color: var(--accent); }
+
   .summary-row{
     display: flex;
     gap: 12px;
@@ -164,6 +177,20 @@
   .down{ color: var(--loss); }
   .flat{ color: var(--muted); }
   .name-cell{ font-weight: 500; }
+  .name-cell a{
+    color: var(--text);
+    text-decoration: none;
+    border-bottom: 1px dotted var(--muted);
+  }
+  .name-cell a:hover{ color: var(--accent); border-bottom-color: var(--accent); }
+
+  .edit-link{
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 12px;
+    margin-left: 2px;
+  }
+  .edit-link:hover{ color: var(--accent); }
   .currency-tag{
     font-family: 'IBM Plex Mono', monospace;
     font-size: 10px;
@@ -242,9 +269,10 @@
 
 <div class="gate" id="gate">
   <h1>PORTFOLIO DASHBOARD</h1>
+  <input type="email" id="userInput" placeholder="E-Mail" autocomplete="off">
   <input type="password" id="pwInput" placeholder="Passwort" autocomplete="off">
   <button type="button" id="pwSubmit">Entsperren</button>
-  <div class="err hidden" id="pwErr">Falsches Passwort.</div>
+  <div class="err hidden" id="pwErr">Benutzername oder Passwort falsch.</div>
 </div>
 
 <div class="wrap hidden" id="app">
@@ -259,6 +287,7 @@
   <div class="summary-row" id="summaryRow"></div>
 
   <h2 class="section-title">Positionen</h2>
+  <input type="text" id="holdingsSearch" class="search-input" placeholder="Wertschrift suchen…">
   <div class="table-scroll">
     <table id="holdingsTable">
       <thead>
@@ -268,6 +297,7 @@
           <th class="num">Kurs</th>
           <th class="num">Wert LC</th>
           <th class="num">Wert CHF</th>
+          <th class="num">% PF</th>
           <th class="num">Δ Vortag</th>
           <th class="num">Δ Woche</th>
           <th class="num">Δ Monat</th>
@@ -276,7 +306,7 @@
         </tr>
       </thead>
       <tbody id="holdingsBody">
-        <tr><td colspan="10" class="empty">Lädt…</td></tr>
+        <tr><td colspan="11" class="empty">Lädt…</td></tr>
       </tbody>
     </table>
   </div>
@@ -320,7 +350,8 @@
   // SHA-256 hash of the access password. Change the password by hashing a
   // new string the same way and replacing this constant - ask Claude to
   // generate a fresh hash if needed.
-  const PW_HASH = "4e51b921248735423b6b3b7f2f33e59e7026e9ae029ce2c1d68c895b4b3ec857";
+  const VALID_USER = "ph.gnaedinger@gmail.com";
+  const PW_HASH = "daf277763ee554193976052c176a094b24fe09acf69e4ebcac6b4435110ea74a";
 
   const FX_NAMES = { CHF: null, USD: "USD/CHF", EUR: "EUR/CHF", GBp: "GBP/CHF", GBP: "GBP/CHF", JPY: "JPY/CHF" };
 
@@ -331,9 +362,10 @@
   }
 
   async function tryUnlock() {
+    const user = document.getElementById('userInput').value.trim().toLowerCase();
     const val = document.getElementById('pwInput').value;
     const hash = await sha256(val);
-    if (hash === PW_HASH) {
+    if (user === VALID_USER && hash === PW_HASH) {
       document.getElementById('gate').classList.add('hidden');
       document.getElementById('app').classList.remove('hidden');
       sessionStorage.setItem('pf_unlocked', '1');
@@ -345,12 +377,15 @@
 
   document.getElementById('pwSubmit').addEventListener('click', tryUnlock);
   document.getElementById('pwInput').addEventListener('keydown', e => { if (e.key === 'Enter') tryUnlock(); });
+  document.getElementById('userInput').addEventListener('keydown', e => { if (e.key === 'Enter') tryUnlock(); });
 
   if (sessionStorage.getItem('pf_unlocked') === '1') {
     document.getElementById('gate').classList.add('hidden');
     document.getElementById('app').classList.remove('hidden');
     init();
   }
+
+  document.getElementById('holdingsSearch').addEventListener('input', applyHoldingsFilter);
 
   // ===== CSV / date helpers (same conventions as index.html) =====
   function parseCSV(text) {
@@ -518,6 +553,9 @@
       ]);
 
       const seriesByName = groupByName(allRows);
+      const mainIdByName = new Map();
+      for (const r of allRows) if (!mainIdByName.has(r.mainNameLocal)) mainIdByName.set(r.mainNameLocal, r.mainId);
+
       const now = new Date();
       const refs = {
         prev: null, // handled specially (second-to-last daily point)
@@ -533,12 +571,12 @@
         if (!h.qty) continue;
         const daily = seriesByName.get(name);
         if (!daily || daily.length === 0) continue;
-        activeHoldings.push({ name, qty: h.qty, daily, currency: h.currency || 'CHF' });
+        activeHoldings.push({ name, mainId: mainIdByName.get(name) || '', qty: h.qty, daily, currency: h.currency || 'CHF' });
       }
 
       if (activeHoldings.length === 0) {
         document.getElementById('holdingsBody').innerHTML =
-          '<tr><td colspan="10" class="empty">Keine Positionen mit Quantity &gt; 0 in portfolio_holdings.csv gefunden.</td></tr>';
+          '<tr><td colspan="11" class="empty">Keine Positionen mit Quantity &gt; 0 in portfolio_holdings.csv gefunden.</td></tr>';
         statusText.textContent = 'keine Daten';
         return;
       }
@@ -575,8 +613,9 @@
         return { ...h, last, valueLC, valueCHF, fxNow, periods };
       });
 
+      allComputedCache = computed;
       renderSummary(computed);
-      renderHoldingsTable(computed);
+      applyHoldingsFilter();
       renderHeatmap(computed, 'prev');
       renderFxTable(computed, 'prev');
 
@@ -591,13 +630,27 @@
       statusText.textContent = `live · ${new Date().toLocaleTimeString('de-CH')}`;
     } catch (err) {
       statusText.textContent = 'Fehler';
-      document.getElementById('holdingsBody').innerHTML = `<tr><td colspan="10" class="error">Fehler: ${err.message}</td></tr>`;
+      document.getElementById('holdingsBody').innerHTML = `<tr><td colspan="11" class="error">Fehler: ${err.message}</td></tr>`;
     }
+  }
+
+  let allComputedCache = [];
+  function applyHoldingsFilter() {
+    const query = document.getElementById('holdingsSearch').value.trim().toLowerCase();
+    const filtered = query
+      ? allComputedCache.filter(h => h.name.toLowerCase().includes(query))
+      : allComputedCache;
+    renderHoldingsTable(filtered);
   }
 
   function fmtPct(v) {
     if (v === null || v === undefined) return { text: '—', dir: 'flat' };
     return { text: `${v > 0 ? '+' : ''}${v.toFixed(2)}%`, dir: v > 0 ? 'up' : v < 0 ? 'down' : 'flat' };
+  }
+
+  function fmtDeltaChf(v) {
+    if (v === null || v === undefined) return { text: '—', dir: 'flat' };
+    return { text: `${v > 0 ? '+' : ''}${fmtChf(v)}`, dir: v > 0 ? 'up' : v < 0 ? 'down' : 'flat' };
   }
 
   function renderSummary(computed) {
@@ -632,20 +685,31 @@
 
   function renderHoldingsTable(computed) {
     const sorted = [...computed].sort((a, b) => (b.valueCHF || 0) - (a.valueCHF || 0));
+    const filteredTotalCHF = sorted.reduce((s, h) => s + (h.valueCHF || 0), 0);
+
+    if (sorted.length === 0) {
+      document.getElementById('holdingsBody').innerHTML = '<tr><td colspan="11" class="empty">Keine Treffer.</td></tr>';
+      return;
+    }
+
     document.getElementById('holdingsBody').innerHTML = sorted.map(h => {
       const p = h.periods;
       const cell = (key) => {
         const period = p[key];
-        const f = fmtPct(period ? period.pctCHF : null);
+        const f = fmtDeltaChf(period ? period.deltaCHF : null);
         return `<td class="num ${f.dir}">${f.text}</td>`;
       };
+      const pctPf = filteredTotalCHF && h.valueCHF !== null ? (h.valueCHF / filteredTotalCHF) * 100 : null;
+      const detailHref = `index.html?security=${encodeURIComponent(h.mainId)}`;
+      const editHref = `portfolio_edit.html?edit=${encodeURIComponent(h.name)}`;
       return `
         <tr>
-          <td class="name-cell">${h.name}<span class="currency-tag">${h.currency}</span></td>
-          <td class="num">${h.qty}</td>
+          <td class="name-cell"><a href="${detailHref}">${h.name}</a><span class="currency-tag">${h.currency}</span></td>
+          <td class="num">${h.qty} <a class="edit-link" href="${editHref}" title="Quantity bearbeiten">✎</a></td>
           <td class="num">${fmtPrice(h.last.amount, 4)}</td>
           <td class="num">${fmtPrice(h.valueLC, 0)}</td>
           <td class="num">${h.valueCHF !== null ? fmtChf(h.valueCHF) : '—'}</td>
+          <td class="num">${pctPf !== null ? pctPf.toFixed(1) + '%' : '—'}</td>
           ${cell('prev')}${cell('week')}${cell('month')}${cell('ytd')}${cell('12m')}
         </tr>`;
     }).join('');
