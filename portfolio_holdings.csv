@@ -1,6 +1,6 @@
 MainNameLocal,Quantity,Currency,Group,Subgroup1,Subgroup2
-UBS Group AG,125,CHF,Aktien,Einzelaktie,Schweiz
-Lonza Group AG,10,CHF,Aktien,Einzelaktie,Schweiz
+UBS Group AG,125,CHF,Aktien,Schweiz,Growth
+Lonza Group AG,10,CHF,Aktien,Schweiz,Growth
 Nestlé SA,75,CHF,Aktien,Einzelaktie,Schweiz
 Partners Group Holding AG,6,CHF,Aktien,Einzelaktie,Schweiz
 Richemont SA,35,CHF,Aktien,Einzelaktie,Schweiz
@@ -15,8 +15,8 @@ Nvidia,2,USD,Aktien,Einzelaktie,USA
 Alphabet (Google Class C),13,USD,Aktien,Einzelaktie,USA
 SpaceX,2,USD,Aktien,Einzelaktie,USA
 Vonovia,203,EUR,Aktien,Einzelaktie,Europa
-iShares Swiss Dividend ETF (CHDVD),461,CHF,Aktien,ETF,Schweiz
-UBS ETF (CH) SMIM (SMMCHA),112,CHF,Aktien,ETF,Schweiz
+iShares Swiss Dividend ETF (CHDVD),461,CHF,Aktien,Schweiz,Core
+UBS ETF (CH) SMIM (SMMCHA),112,CHF,Aktien,Schweiz,Core
 Vanguard S&P 500 UCITS ETF (VUAA),376,USD,Aktien,ETF,USA
 Xtrackers S&P 500 Equal Weight UCITS ETF (XDEW),411,USD,Aktien,ETF,USA
 iShares MSCI EMU Small Cap ETF (CSEMUS),50,EUR,Aktien,ETF,Europa
