@@ -1,35 +1,48 @@
-MainNameLocal,Quantity,Currency
-Vanguard S&P 500 UCITS ETF (VUAA),376,USD
-UBS ETF (CH) SMIM (SMMCHA),112,CHF
-iShares Core MSCI EM IMI UCITS ETF (EIMI),983,USD
-iShares Swiss Dividend ETF (CHDVD),461,CHF
-Microsoft,10,USD
-Apple,10,USD
-Amazon,20,USD
-Nvidia,2,USD
-Alphabet (Google Class C),13,USD
-SpaceX,2,USD
-Xtrackers S&P 500 Equal Weight UCITS ETF (XDEW),411,USD
-UBS Gold ETF (AUUSI),175,USD
-iShares MSCI EMU Small Cap ETF (CSEMUS),50,EUR
-VanEck S&P Global Mining UCITS ETF (GDIG),100,USD
-Vonovia,203,EUR
-UBS Group AG,125,CHF
-Lonza Group AG,10,CHF
-Nestlé SA,75,CHF
-iShares Core MSCI Japan IMI UCITS ETF (SJPA/IJPA),150,USD
-Partners Group Holding AG,6,CHF
-Richemont SA,35,CHF
-Sika Ltd,30,CHF
-Alcon AG,85,CHF
-Helvetia Baloise Holding AG,25,CHF
-SWC (CH) REF Rsp Swiss Commercial FA CHF,231,CHF
-iShares Core MSCI Europe UCITS ETF EUR Dist,1040,EUR
-iShares Core FTSE 100 (GBp),50,GBp
-Sunrise Communications AG,120,CHF
-SPDR S&P Euro Dividend Aristocrats ETF,206,CHF
-iShares Core MSCI EMU UCITS ETF,170,EUR
-SOL - Solana,20,USD
-ETH - Ethereum,0.86,USD
-BTC - Bitcoin,0.025,USD
-iShares Core MSCI Pacific ex Japan,49,USD
+MainNameLocal,Quantity,Currency,Group,Subgroup1,Subgroup2
+UBS Group AG,0,CHF,Aktien,Einzelaktie,Schweiz
+Lonza Group AG,0,CHF,Aktien,Einzelaktie,Schweiz
+NestlÃ© SA,0,CHF,Aktien,Einzelaktie,Schweiz
+Partners Group Holding AG,0,CHF,Aktien,Einzelaktie,Schweiz
+Richemont SA,0,CHF,Aktien,Einzelaktie,Schweiz
+Sika Ltd,0,CHF,Aktien,Einzelaktie,Schweiz
+Alcon AG,0,CHF,Aktien,Einzelaktie,Schweiz
+Helvetia Baloise Holding AG,0,CHF,Aktien,Einzelaktie,Schweiz
+Sunrise Communications AG,0,CHF,Aktien,Einzelaktie,Schweiz
+Microsoft,0,USD,Aktien,Einzelaktie,USA
+Apple,0,USD,Aktien,Einzelaktie,USA
+Amazon,0,USD,Aktien,Einzelaktie,USA
+Nvidia,0,USD,Aktien,Einzelaktie,USA
+Alphabet (Google Class C),0,USD,Aktien,Einzelaktie,USA
+SpaceX,0,USD,Aktien,Einzelaktie,USA
+Vonovia,0,EUR,Aktien,Einzelaktie,Europa
+iShares Swiss Dividend ETF (CHDVD),0,CHF,Aktien,ETF,Schweiz
+UBS ETF (CH) SMIM (SMMCHA),0,CHF,Aktien,ETF,Schweiz
+Vanguard S&P 500 UCITS ETF (VUAA),0,USD,Aktien,ETF,USA
+Xtrackers S&P 500 Equal Weight UCITS ETF (XDEW),0,USD,Aktien,ETF,USA
+iShares MSCI EMU Small Cap ETF (CSEMUS),0,EUR,Aktien,ETF,Europa
+iShares Core MSCI EMU UCITS ETF,0,EUR,Aktien,ETF,Europa
+iShares Core MSCI Europe UCITS ETF EUR Dist,0,EUR,Aktien,ETF,Europa
+SPDR S&P Euro Dividend Aristocrats ETF,0,CHF,Aktien,ETF,Europa
+iShares Core FTSE 100 (GBp),0,GBp,Aktien,ETF,UK
+iShares Core MSCI EM IMI UCITS ETF (EIMI),0,USD,Aktien,ETF,Emerging Markets
+MSCI ACWI - Emerging Markets (USD),0,USD,Aktien,Index,Emerging Markets
+iShares Core MSCI Japan IMI UCITS ETF (SJPA/IJPA),0,USD,Aktien,ETF,Japan
+iShares Core MSCI Pacific ex Japan,0,USD,Aktien,ETF,Asien-Pazifik
+MSCI World,0,USD,Aktien,Index,Global
+S&P 500 Total Return,0,USD,Aktien,Index,USA
+SMI Total Return,0,CHF,Aktien,Index,Schweiz
+STOXX Europe 600 EUR NR,0,EUR,Aktien,Index,Europa
+Swiss Performance Index (SPI),0,CHF,Aktien,Index,Schweiz
+Nasdaq Composite,0,USD,Aktien,Index,USA
+VanEck S&P Global Mining UCITS ETF (GDIG),0,USD,Aktien,ETF,Global
+Gold (USD/oz),0,USD,Alternative,Edelmetall,Rohstoffe
+Silver (USD/oz),0,USD,Alternative,Edelmetall,Rohstoffe
+UBS Gold ETF (AUUSI),0,USD,Alternative,Edelmetall-ETF,Rohstoffe
+SWC (CH) REF Rsp Swiss Commercial FA CHF,0,CHF,Alternative,Immobilienfonds,Real Estate
+SOL - Solana,0,USD,Alternative,KryptowÃ¤hrung,Crypto
+ETH - Ethereum,0,USD,Alternative,KryptowÃ¤hrung,Crypto
+BTC - Bitcoin,0,USD,Alternative,KryptowÃ¤hrung,Crypto
+EUR/CHF,0,CHF,Alternative,FX,Devisen
+USD/CHF,0,CHF,Alternative,FX,Devisen
+GBP/CHF,0,CHF,Alternative,FX,Devisen
+JPY/CHF,0,CHF,Alternative,FX,Devisen
